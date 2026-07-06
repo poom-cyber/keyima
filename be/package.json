@@ -1,0 +1,12 @@
+{
+  "name": "keyima-be",
+  "private": true,
+  "version": "1.0.0",
+  "description": "KEYIMA backend — storefront-api (public) + admin-api (locked)",
+  "workspaces": ["storefront-api", "admin-api"],
+  "engines": { "node": ">=22.5" },
+  "scripts": {
+    "start:store": "npm --prefix storefront-api start",
+    "start:admin": "npm --prefix admin-api start"
+  }
+}

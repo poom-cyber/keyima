@@ -1,0 +1,37 @@
+# render.yaml — deploy KEYIMA backend (บริการรวม) บน Render (แผนฟรีได้ เพราะข้อมูลอยู่ Turso)
+services:
+  - type: web
+    name: keyima-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free               # ฟรีได้ เพราะ SQLite ไปเก็บถาวรบน Turso (ไม่ใช้ disk ของ Render)
+    region: singapore
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "8080"
+      - key: DB_PATH
+        value: /tmp/shop.db          # แคช local (ephemeral ได้ ข้อมูลจริงอยู่ Turso)
+      # --- Turso (ข้อมูลถาวร ไม่รีเซต) — ใส่จาก Turso dashboard ---
+      - key: TURSO_DATABASE_URL
+        sync: false                  # เช่น libsql://keyima-xxx.turso.io
+      - key: TURSO_AUTH_TOKEN
+        sync: false                  # token จาก: turso db tokens create keyima
+      # --- ความปลอดภัย ---
+      - key: STOREFRONT_JWT_SECRET
+        generateValue: true
+      - key: ADMIN_JWT_SECRET
+        generateValue: true
+      - key: STOREFRONT_ORIGINS
+        sync: false                  # เช่น https://keyima-shop.netlify.app
+      - key: ADMIN_ORIGINS
+        sync: false                  # เช่น https://keyima-admin.netlify.app
+      # --- แอดมินเริ่มต้น (ใช้ตอน seed ครั้งแรกเท่านั้น) ---
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASS
+        sync: false

@@ -1,0 +1,10 @@
+**/node_modules
+fe
+keyima-go
+*.db
+*.db-*
+.env
+**/.env
+.netlify_token
+.git
+*.log

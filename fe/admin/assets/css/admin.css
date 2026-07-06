@@ -1,0 +1,114 @@
+/* admin.css — มินิมอล สะอาดตา */
+:root{
+  --bg:#f6f6f8; --card:#fff; --ink:#1a1a1f; --soft:#6b6b76; --line:#e7e7ec;
+  --accent:#d8453f; --accent-dark:#b3382f; --blue:#2f7fb0; --ok:#1fa971; --warn:#e08a1e;
+  --radius:12px; --shadow:0 1px 3px rgba(20,20,30,.06),0 8px 24px rgba(20,20,30,.05);
+  --font:"Inter","Noto Sans Thai",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.55}
+h1{font-size:1.5rem;font-weight:800;margin:0}
+h3{margin:0}
+img{display:block;max-width:100%}
+.muted{color:var(--soft);font-size:.88rem}
+input,select,textarea{font:inherit}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid transparent;border-radius:999px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;transition:.15s}
+.btn--sm{padding:7px 14px;font-size:.88rem}
+.btn--primary{background:var(--accent);color:#fff}
+.btn--primary:hover{background:var(--accent-dark)}
+.btn--ghost{background:#fff;border-color:var(--line)}
+.btn--ghost:hover{border-color:var(--soft)}
+.btn--dark{background:var(--blue);color:#fff}
+.btn--block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* fields */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:.82rem;font-weight:600;color:var(--soft)}
+.input{padding:10px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;width:100%}
+.input:focus{outline:2px solid var(--accent)}
+
+/* ---------- Login ---------- */
+.login-page{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#fff,#fdf6e3 60%,#f6f6f8)}
+.login-card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:34px;width:360px;max-width:92vw}
+.login-brand{display:flex;align-items:center;justify-content:center;gap:8px;font-size:1.25rem;font-weight:500}
+.login-brand strong{font-weight:800}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;background:var(--accent);color:#fff;border-radius:9px;font-weight:700}
+.login-err{color:var(--accent-dark);font-size:.85rem;text-align:center;min-height:18px;margin:10px 0 0}
+.api-row{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+
+/* ---------- Shell ---------- */
+.admin-shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{padding:11px 14px;border-radius:10px;cursor:pointer;font-weight:600;color:var(--soft)}
+.side-nav a:hover{background:var(--bg)}
+.side-nav a.active{background:#fdf6e3;color:var(--accent)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid var(--line)}
+.side-foot a,.side-foot button{text-align:left;background:none;border:none;cursor:pointer;font:inherit;padding:0}
+.side-foot button:hover,.side-foot a:hover{color:var(--accent)}
+
+.admin-main{padding:32px 36px;max-width:1100px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+.toolbar{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.toolbar .input{max-width:280px}
+
+/* ---------- Table ---------- */
+.table-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:middle}
+.table th{background:#fafafb;font-size:.78rem;text-transform:uppercase;letter-spacing:.4px;color:var(--soft)}
+.table tr:last-child td{border-bottom:none}
+.table tbody tr:hover{background:#fafafb}
+.table .thumb{width:46px;height:46px;border-radius:8px;object-fit:cover;background:var(--bg)}
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.icon-act{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.82rem}
+.icon-act:hover{border-color:var(--soft)}
+.icon-act.del:hover{border-color:var(--accent);color:var(--accent)}
+
+/* pills */
+.tag{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tag--instock{background:#e6f6ef;color:var(--ok)}
+.tag--preorder{background:#eef0fd;color:#4a5bd0}
+.tag--soldout{background:#f1f1f4;color:var(--soft)}
+.tag--low{background:#fdf0e2;color:var(--warn)}
+.tag--paid{background:#e6f6ef;color:var(--ok)}
+.tag--pending{background:#fdf0e2;color:var(--warn)}
+.tag--shipped{background:#eef0fd;color:#4a5bd0}
+.tag--cancelled{background:#fde8ec;color:var(--accent-dark)}
+
+.card-box{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.form-2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.form-2 .full{grid-column:1/-1}
+
+/* ---------- Modal ---------- */
+.modal{position:fixed;inset:0;background:rgba(20,20,30,.5);display:grid;place-items:center;z-index:100;padding:20px}
+.modal-card{background:#fff;border-radius:16px;width:680px;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--line)}
+.modal-close{border:none;background:none;font-size:1.1rem;cursor:pointer;color:var(--soft)}
+.modal-body{padding:22px 24px;overflow:auto}
+.modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--line)}
+.img-row{display:flex;gap:14px;align-items:flex-start}
+.img-preview{width:90px;height:90px;border-radius:10px;object-fit:cover;background:var(--bg);border:1px solid var(--line);flex-shrink:0}
+.upload-row{display:flex;align-items:center;gap:12px;margin-top:8px}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120%);background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-size:.9rem;box-shadow:var(--shadow);z-index:200;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.toast.show{transform:translate(-50%,0)}
+.toast--err{background:var(--accent-dark)}
+
+@media(max-width:760px){
+  .admin-shell{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;flex-direction:row;align-items:center;gap:16px;overflow-x:auto}
+  .side-nav{flex-direction:row}
+  .side-foot{margin-top:0;flex-direction:row;border:none;padding:0}
+  .admin-main{padding:20px}
+  .form-2{grid-template-columns:1fr}
+}
+
+.brand-logo{width:40px;height:40px;border-radius:50%;overflow:hidden;display:inline-grid;place-items:center;flex-shrink:0;background:#fbf3cf}.brand-logo svg{width:100%;height:100%;display:block}
+
+/* fix: ให้ attribute hidden ปิด modal ได้จริง (เดิม display:grid ทับ) */
+.modal[hidden]{display:none!important}

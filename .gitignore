@@ -1,0 +1,19 @@
+# dependencies (ให้ Render/Netlify ติดตั้งเองตอน build)
+node_modules/
+**/node_modules/
+
+# ฐานข้อมูล/แคช local (ห้ามขึ้น repo — ข้อมูลจริงอยู่ Turso)
+*.db
+*.db-*
+*.sqlite
+
+# ความลับ — ห้าม commit เด็ดขาด
+.env
+**/.env
+.netlify_token
+*.token
+
+# เบ็ดเตล็ด
+*.log
+.DS_Store
+Thumbs.db

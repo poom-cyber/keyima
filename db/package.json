@@ -1,0 +1,19 @@
+{
+  "name": "@keyima/db",
+  "version": "1.0.0",
+  "private": true,
+  "description": "KEYIMA data layer (SQLite via node:sqlite) + seed + sync-catalog",
+  "main": "db.js",
+  "exports": {
+    ".": "./db.js",
+    "./mailer": "./mailer.js"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "libsql": "^0.5.29",
+    "nodemailer": "^6.9.14"
+  }
+}

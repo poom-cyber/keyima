@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบหลังบ้าน — KEYIMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <div class="login-brand"><span class="brand-logo"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="57" fill="#fbf3cf" stroke="#d8453f" stroke-width="4"/><text x="60" y="60" text-anchor="middle" font-family="'Noto Sans Thai',sans-serif" font-weight="700" font-size="34"><tspan fill="#d8453f">可</tspan><tspan fill="#2f7fb0">以</tspan><tspan fill="#d8453f">吗</tspan></text><text x="60" y="88" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="15" letter-spacing="1"><tspan fill="#2f7fb0">KE </tspan><tspan fill="#d8453f">YI </tspan><tspan fill="#2f7fb0">MA</tspan></text></svg></span> <strong>KEYIMA</strong> <span style="font-weight:400;color:var(--soft)">Admin</span></div>
+    <p class="muted" style="text-align:center;margin-bottom:22px;">ระบบจัดการร้านค้า</p>
+
+    <div class="field"><label>ชื่อผู้ใช้</label><input id="username" placeholder="admin" autocomplete="username"></div>
+    <div class="field"><label>รหัสผ่าน</label><input id="password" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="btn btn--primary btn--block" id="login-btn" style="margin-top:8px;">เข้าสู่ระบบ</button>
+    <p id="err" class="login-err"></p>
+
+    <div class="api-row">
+      <label class="muted" style="font-size:.78rem;">ที่อยู่เซิร์ฟเวอร์ (API)</label>
+      <input id="api-base" placeholder="http://localhost:4000">
+    </div>
+    <p class="muted" style="font-size:.78rem;text-align:center;margin-top:14px;">ค่าเริ่มต้น: admin / admin123 (เปลี่ยนได้ในเมนูตั้งค่า)</p>
+  </div>
+
+  <script src="assets/js/admin-api.js"></script>
+  <script src="assets/js/login.js"></script>
+</body>
+</html>
