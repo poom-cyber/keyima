@@ -3,6 +3,13 @@ FROM node:22-slim
 
 WORKDIR /app
 
+# root CA certificates — จำเป็นสำหรับ libsql/Turso ต่อ TLS ขึ้นคลาวด์
+# (node:22-slim ไม่มี ca-certificates ติดมา → ไม่งั้น error "TLS error: no valid native root CA certificates found")
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+ENV SSL_CERT_DIR=/etc/ssl/certs
+
 # ติดตั้ง dependencies ก่อน (cache layer)
 COPY db/package*.json ./db/
 COPY be/package*.json ./be/
