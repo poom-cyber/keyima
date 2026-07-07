@@ -81,11 +81,16 @@ CREATE TABLE IF NOT EXISTS audit_log ( id INTEGER PRIMARY KEY AUTOINCREMENT, who
 `);
 try { db.exec("ALTER TABLE orders ADD COLUMN slip TEXT"); } catch (e) { /* มีแล้ว */ }
 
+// libsql remote (Turso/Hrana) ผูก named param (@name) ไม่ได้ → ค่าเข้าเป็น NULL
+// จึงใช้ positional (?) เหมือน admin/customers/orders.update ที่ persist ได้จริง
+const pcols15 = p => [p.name, p.category, p.series||"", p.grade||"", p.price, p.priceMax||p.price, p.oldPrice??null, p.status||"instock", p.stock||0, p.badge||"", p.img||"", JSON.stringify(p.images||[]), p.short||"", p.desc||"", JSON.stringify(p.variations||[])];
+const prow = (p, addedAt) => { const c = pcols15(p); return [p.id, ...c.slice(0,10), addedAt, ...c.slice(10)]; };
+
 function seed() {
   if (db.prepare("SELECT COUNT(*) c FROM products").get().c === 0) {
-    const ins = db.prepare(`INSERT OR IGNORE INTO products (id,name,category,series,grade,price,priceMax,oldPrice,status,stock,badge,addedAt,img,images,short,"desc",variations) VALUES (@id,@name,@category,@series,@grade,@price,@priceMax,@oldPrice,@status,@stock,@badge,@addedAt,@img,@images,@short,@desc,@variations)`);
+    const ins = db.prepare(`INSERT OR IGNORE INTO products (id,name,category,series,grade,price,priceMax,oldPrice,status,stock,badge,addedAt,img,images,short,"desc",variations) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
     db.transaction(() => {
-      PRODUCTS.forEach(p => ins.run({ id:p.id, name:p.name, category:p.category, series:p.series||"", grade:p.grade||"", price:p.price, priceMax:p.priceMax||p.price, oldPrice:p.oldPrice??null, status:p.status, stock:p.stock, badge:p.badge||"", addedAt:p.addedAt, img:p.img, images:JSON.stringify(p.images||[]), short:p.short||"", desc:p.desc||"", variations:JSON.stringify(p.variations||[]) }));
+      PRODUCTS.forEach(p => ins.run(...prow(p, p.addedAt || new Date().toISOString().slice(0,10))));
     });
     console.log(`  • seed products: ${PRODUCTS.length}`);
   }
@@ -104,15 +109,15 @@ const Products = {
   get: id => parseP(db.prepare("SELECT * FROM products WHERE id=?").get(id)),
   // ระบุพารามิเตอร์เป๊ะทุกตัว (whitelist) — กัน node:sqlite error "Unknown named parameter" ถาวร ไม่ว่าจะส่ง object หน้าตาแบบไหนเข้ามา
   _cols(p) { return { name:p.name, category:p.category, series:p.series||"", grade:p.grade||"", price:p.price, priceMax:p.priceMax||p.price, oldPrice:p.oldPrice??null, status:p.status||"instock", stock:p.stock||0, badge:p.badge||"", img:p.img||"", images:JSON.stringify(p.images||[]), short:p.short||"", desc:p.desc||"", variations:JSON.stringify(p.variations||[]) }; },
-  create(p) { db.prepare(`INSERT INTO products (id,name,category,series,grade,price,priceMax,oldPrice,status,stock,badge,addedAt,img,images,short,"desc",variations) VALUES (@id,@name,@category,@series,@grade,@price,@priceMax,@oldPrice,@status,@stock,@badge,@addedAt,@img,@images,@short,@desc,@variations)`).run({ id:p.id, addedAt:p.addedAt || new Date().toISOString().slice(0,10), ...Products._cols(p) }); return Products.get(p.id); },
-  update(id, p) { db.prepare(`UPDATE products SET name=@name,category=@category,series=@series,grade=@grade,price=@price,priceMax=@priceMax,oldPrice=@oldPrice,status=@status,stock=@stock,badge=@badge,img=@img,images=@images,short=@short,"desc"=@desc,variations=@variations WHERE id=@id`).run({ id, ...Products._cols(p) }); return Products.get(id); },
+  create(p) { db.prepare(`INSERT INTO products (id,name,category,series,grade,price,priceMax,oldPrice,status,stock,badge,addedAt,img,images,short,"desc",variations) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(...prow(p, p.addedAt || new Date().toISOString().slice(0,10))); return Products.get(p.id); },
+  update(id, p) { db.prepare(`UPDATE products SET name=?,category=?,series=?,grade=?,price=?,priceMax=?,oldPrice=?,status=?,stock=?,badge=?,img=?,images=?,short=?,"desc"=?,variations=? WHERE id=?`).run(...pcols15(p), id); return Products.get(id); },
   remove: id => db.prepare("DELETE FROM products WHERE id=?").run(id)
 };
 const Orders = {
   all: () => db.prepare("SELECT * FROM orders ORDER BY id DESC").all().map(o => ({ ...o, items: JSON.parse(o.items||"[]"), history: JSON.parse(o.history||"[]") })),
   byEmail: e => Orders.all().filter(o => o.email === e),
   get: no => { const o = db.prepare("SELECT * FROM orders WHERE orderNo=?").get(no); return o && { ...o, items: JSON.parse(o.items||"[]"), history: JSON.parse(o.history||"[]") }; },
-  create(o) { db.prepare(`INSERT INTO orders (orderNo,email,name,phone,address,subdist,district,province,zip,note,items,subtotal,shipping,total,payment,status,tracking,history,isGuest,createdAt,slip) VALUES (@orderNo,@email,@name,@phone,@address,@subdist,@district,@province,@zip,@note,@items,@subtotal,@shipping,@total,@payment,@status,@tracking,@history,@isGuest,@createdAt,@slip)`).run({ ...o, slip: o.slip || "", items:JSON.stringify(o.items), history:JSON.stringify(o.history||[]) }); return Orders.get(o.orderNo); },
+  create(o) { db.prepare(`INSERT INTO orders (orderNo,email,name,phone,address,subdist,district,province,zip,note,items,subtotal,shipping,total,payment,status,tracking,history,isGuest,createdAt,slip) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(o.orderNo, o.email||"", o.name||"", o.phone||"", o.address||"", o.subdist||"", o.district||"", o.province||"", o.zip||"", o.note||"", JSON.stringify(o.items||[]), o.subtotal||0, o.shipping||0, o.total||0, o.payment||"", o.status||"paid", o.tracking||"", JSON.stringify(o.history||[]), o.isGuest??1, o.createdAt||new Date().toISOString(), o.slip||""); return Orders.get(o.orderNo); },
   update(no, patch) { const o = Orders.get(no); if (!o) return null; const h = o.history||[]; if (patch.status && patch.status !== o.status) h.push({ s:patch.status, at:new Date().toISOString() }); db.prepare("UPDATE orders SET status=?, tracking=?, history=? WHERE orderNo=?").run(patch.status||o.status, patch.tracking??o.tracking, JSON.stringify(h), no); return Orders.get(no); },
   editFull(no, f) { const o = Orders.get(no); if (!o) return null; const h = o.history||[]; if (f.status && f.status !== o.status) h.push({ s:f.status, at:new Date().toISOString() }); db.prepare("UPDATE orders SET name=?,phone=?,email=?,address=?,subdist=?,district=?,province=?,zip=?,note=?,status=?,tracking=?,history=? WHERE orderNo=?").run(f.name??o.name, f.phone??o.phone, (f.email||o.email||"").toLowerCase(), f.address??o.address, f.subdist??o.subdist, f.district??o.district, f.province??o.province, f.zip??o.zip, f.note??o.note, f.status??o.status, f.tracking??o.tracking, JSON.stringify(h), no); return Orders.get(no); },
   remove(no) { return db.prepare("DELETE FROM orders WHERE orderNo=?").run(no); }
