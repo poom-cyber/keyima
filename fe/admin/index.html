@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>หลังบ้าน — KEYIMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="login-brand" style="margin-bottom:28px;"><span class="brand-logo"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="57" fill="#fbf3cf" stroke="#d8453f" stroke-width="4"/><text x="60" y="60" text-anchor="middle" font-family="'Noto Sans Thai',sans-serif" font-weight="700" font-size="34"><tspan fill="#d8453f">可</tspan><tspan fill="#2f7fb0">以</tspan><tspan fill="#d8453f">吗</tspan></text><text x="60" y="88" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="15" letter-spacing="1"><tspan fill="#2f7fb0">KE </tspan><tspan fill="#d8453f">YI </tspan><tspan fill="#2f7fb0">MA</tspan></text></svg></span> <strong>KEYIMA</strong></div>
+      <nav class="side-nav">
+        <a data-tab="products" class="active">📦 สินค้า</a>
+        <a data-tab="orders">🧾 ออเดอร์</a>
+        <a data-tab="settings">⚙️ ตั้งค่าร้าน</a>
+      </nav>
+      <div class="side-foot">
+        <a href="../index.html" target="_blank" class="muted">↗ เปิดหน้าร้าน</a>
+        <button id="logout" class="muted">ออกจากระบบ</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+      <!-- สินค้า -->
+      <section data-panel="products">
+        <div class="panel-head">
+          <div><h1>จัดการสินค้า</h1><p class="muted" id="prod-count"></p></div>
+          <button class="btn btn--primary" id="add-product">+ เพิ่มสินค้า</button>
+        </div>
+        <div class="toolbar">
+          <input id="prod-search" class="input" placeholder="ค้นหาสินค้า…">
+          <select id="prod-filter" class="input">
+            <option value="all">ทุกหมวด</option>
+            <option value="kuji">Ichiban Kuji</option>
+            <option value="pokemon">การ์ดโปเกม่อน</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="prod-table">
+            <thead><tr><th>รูป</th><th>ชื่อ</th><th>หมวด</th><th>ราคา</th><th>สต็อก</th><th>สถานะ</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ออเดอร์ -->
+      <section data-panel="orders" hidden>
+        <div class="panel-head"><div><h1>รายการออเดอร์</h1><p class="muted" id="order-count"></p></div></div>
+        <div class="table-wrap">
+          <table class="table" id="order-table">
+            <thead><tr><th>เลขที่</th><th>ลูกค้า</th><th>ยอด</th><th>ช่องทาง</th><th>วันที่</th><th>สถานะ</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ตั้งค่า -->
+      <section data-panel="settings" hidden>
+        <div class="panel-head"><h1>ตั้งค่าร้าน</h1></div>
+        <div class="card-box" style="max-width:560px;">
+          <div class="field"><label>ชื่อร้าน</label><input id="s-shopName" class="input"></div>
+          <div class="field"><label>ข้อความโปรโมชัน (แสดงบนเว็บ)</label><textarea id="s-promoText" class="input" rows="2"></textarea></div>
+          <div class="form-2">
+            <div class="field"><label>ค่าส่งแบบเหมา (บาท)</label><input id="s-shippingFlat" class="input" inputmode="numeric"></div>
+            <div class="field"><label>ส่งฟรีเมื่อซื้อครบ (บาท)</label><input id="s-freeShipMin" class="input" inputmode="numeric"></div>
+          </div>
+          <button class="btn btn--primary" id="save-settings">บันทึกการตั้งค่า</button>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line)">
+            <label style="font-weight:700;display:block;margin-bottom:4px">ราคา — เชื่อมระบบเช็คราคา (Mercari)</label>
+            <p class="muted" style="font-size:.8rem;margin-bottom:8px">ดึง "ราคาขายเอง" ล่าสุดเข้าสินค้าทั้งหมด (คงสต็อก/สถานะที่ตั้งไว้)</p>
+            <button class="btn btn--primary" id="sync-prices">🔄 ดึงราคาล่าสุด</button>
+            <span class="muted" id="sync-status" style="margin-left:8px"></span>
+          </div>
+        </div>
+
+        <div class="card-box" style="max-width:560px;margin-top:20px;">
+          <h3 style="margin-bottom:14px;">เปลี่ยนรหัสผ่าน admin</h3>
+          <div class="field"><label>รหัสผ่านใหม่ (อย่างน้อย 6 ตัว)</label><input id="s-newpass" type="password" class="input"></div>
+          <button class="btn btn--dark" id="change-pass">เปลี่ยนรหัสผ่าน</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal แก้ไข/เพิ่มสินค้า -->
+  <div class="modal" id="product-modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><h3 id="modal-title">เพิ่มสินค้า</h3><button class="modal-close" id="modal-close">✕</button></div>
+      <div class="modal-body">
+        <div class="form-2">
+          <div class="field full"><label>ชื่อสินค้า *</label><input id="m-name" class="input"></div>
+          <div class="field"><label>หมวด *</label>
+            <select id="m-category" class="input"><option value="kuji">Ichiban Kuji</option><option value="pokemon">การ์ดโปเกม่อน</option></select>
+          </div>
+          <div class="field"><label>ซีรีส์</label><input id="m-series" class="input" placeholder="เช่น One Piece"></div>
+          <div class="field"><label>ประเภท/เกรด</label><input id="m-grade" class="input" placeholder="เช่น Prize A, SAR, PSA 10"></div>
+          <div class="field"><label>สถานะ *</label>
+            <select id="m-status" class="input"><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">สินค้าหมด</option></select>
+          </div>
+          <div class="field"><label>ราคา (บาท) *</label><input id="m-price" class="input" inputmode="numeric"></div>
+          <div class="field"><label>ราคาเดิม (ถ้าลดราคา)</label><input id="m-oldPrice" class="input" inputmode="numeric"></div>
+          <div class="field"><label>จำนวนสต็อก</label><input id="m-stock" class="input" inputmode="numeric"></div>
+          <div class="field"><label>ป้ายมุมรูป</label>
+            <select id="m-badge" class="input"><option value="">— ไม่มี —</option><option value="new">ใหม่</option><option value="hot">ฮอต</option></select>
+          </div>
+          <div class="field full"><label>คำโปรย (สั้น)</label><input id="m-short" class="input"></div>
+          <div class="field full"><label>รายละเอียดสินค้า</label><textarea id="m-desc" class="input" rows="3"></textarea></div>
+
+          <div class="field full"><label>รางวัลย่อย (A / B / C / Last One) — ราคาแยกตามรางวัล</label>
+            <div class="muted" style="display:grid;grid-template-columns:56px 96px 78px 60px 1fr 26px;gap:6px;font-size:.7rem;margin-bottom:4px"><span>รางวัล</span><span>รอบส่ง</span><span>ราคา</span><span>สต็อก</span><span>URL รูป</span><span></span></div>
+            <div id="m-variations"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="m-add-var" style="margin-top:8px">+ เพิ่มรางวัล</button>
+            <p class="muted" style="font-size:.72rem;margin-top:4px">เว้นว่างทั้งหมด = สินค้ารางวัลเดียว (ใช้ราคาหลัก) · ราคาถูกทับเมื่อกด "ดึงราคาล่าสุด"</p>
+          </div>
+
+          <div class="field full"><label>รูปสินค้า</label>
+            <div class="img-row">
+              <img id="m-preview" class="img-preview" src="" alt="">
+              <div style="flex:1;">
+                <input id="m-img" class="input" placeholder="วาง URL รูป หรืออัปโหลดด้านล่าง">
+                <div class="upload-row">
+                  <label class="btn btn--ghost btn--sm">⬆ อัปโหลดรูป<input type="file" id="m-file" accept="image/*" hidden></label>
+                  <span class="muted" id="upload-status"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn--ghost" id="modal-cancel">ยกเลิก</button>
+        <button class="btn btn--primary" id="modal-save">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="assets/js/admin-api.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

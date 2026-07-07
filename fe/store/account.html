@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บัญชีของฉัน — KEYIMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .auth-card{max-width:420px;margin:30px auto;border:1px solid var(--line);border-radius:14px;padding:30px;background:#fff}
+    .tabsw{display:flex;gap:6px;background:var(--bg-soft);padding:5px;border-radius:12px;margin-bottom:18px}
+    .tabsw button{flex:1;padding:9px;border:none;background:none;border-radius:9px;font-weight:700;color:var(--soft);cursor:pointer}
+    .tabsw button.on{background:#fff;color:var(--ink)}
+    .ord{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;background:#fff}
+    .ord .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+    .steps{display:flex;margin:12px 0}
+    .step{flex:1;text-align:center;font-size:.72rem;color:var(--soft);position:relative}
+    .step::before{content:"";position:absolute;top:9px;left:-50%;width:100%;height:2px;background:var(--line)}
+    .step:first-child::before{display:none}
+    .step .b{width:20px;height:20px;border-radius:50%;background:var(--line);color:#fff;display:grid;place-items:center;margin:0 auto 5px;position:relative;z-index:1;font-size:.65rem}
+    .step.done{color:var(--ink)}.step.done .b{background:var(--ok)}.step.done::before{background:var(--ok)}
+    .stag{font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px;background:#eef0fd;color:#4a5bd0}
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <div class="container" id="acct-root" style="min-height:50vh;padding-bottom:60px"></div>
+  <div id="site-footer"></div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/account.js"></script>
+</body>
+</html>
