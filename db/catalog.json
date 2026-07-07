@@ -1,7 +1,7 @@
 {
  "meta": {
-  "updated": "2026-07-05",
-  "rate": 0.2043,
+  "updated": "2026-07-07",
+  "rate": 0.2055,
   "markup": 30,
   "vat": 7,
   "ship": 200,
@@ -212,7 +212,7 @@
    "category": "kuji",
    "series": "Jujutsu Kaisen",
    "price": 1490,
-   "priceMax": 5590,
+   "priceMax": 5690,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-mngrww3sn4skd4",
@@ -251,7 +251,7 @@
     {
      "label": "G",
      "opt": "",
-     "price": 5590,
+     "price": 5690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-mngrww42qxvo8f"
     },
@@ -368,7 +368,7 @@
    "category": "kuji",
    "series": "Bleach",
    "price": 2490,
-   "priceMax": 8790,
+   "priceMax": 8890,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-mlff2uy6xt6qbb",
@@ -399,7 +399,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 8790,
+     "price": 8890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-mlff2uxcxmgy5a"
     },
@@ -544,7 +544,7 @@
    "category": "kuji",
    "series": "One Piece",
    "price": 1090,
-   "priceMax": 2990,
+   "priceMax": 3090,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zth-ml63lmd5p5a8d8",
@@ -576,7 +576,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 2990,
+     "price": 3090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-ml63lmcw0sgf3e"
     },
@@ -768,7 +768,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztg-ml4o5oir3w20c0"
     },
@@ -1116,7 +1116,7 @@
    "category": "kuji",
    "series": "อื่นๆ",
    "price": 2290,
-   "priceMax": 2590,
+   "priceMax": 2690,
    "status": "preorder",
    "stock": 10,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-mlc33hpvt1j503",
@@ -1138,7 +1138,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 2590,
+     "price": 2690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztk-mlc37idrru2pcb"
     }
@@ -1200,7 +1200,7 @@
    "category": "kuji",
    "series": "Slime",
    "price": 890,
-   "priceMax": 3490,
+   "priceMax": 3590,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zte-mla7mmnfl1xd33",
@@ -1217,7 +1217,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 3490,
+     "price": 3590,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-mla7nq5c5hj719"
     },
@@ -1439,7 +1439,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1690,
+     "price": 1790,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztg-ml61it6h07pgf6"
     }
@@ -1665,7 +1665,7 @@
    "name": "[พรีออเดอร์🇯🇵] Ichiban Kuji CYBERPUNK: EDGERUNNERS คุจิ ไซเบอร์พังก์ เอดเจอร์รันเนอร์ส คุจิไซเบอร์พังก์ ลูซี่ เดวิด",
    "category": "kuji",
    "series": "อื่นๆ",
-   "price": 1990,
+   "price": 2090,
    "priceMax": 3190,
    "status": "preorder",
    "stock": 15,
@@ -1689,7 +1689,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mla82n6y9n9d0c"
     },
@@ -1826,7 +1826,7 @@
    "category": "kuji",
    "series": "My Hero Academia",
    "price": 790,
-   "priceMax": 5290,
+   "priceMax": 5390,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-ml4rl4uzlhqle0",
@@ -1858,7 +1858,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 5290,
+     "price": 5390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-ml4rkdnjsufi01"
     },
@@ -2057,7 +2057,7 @@
    "name": "🛒 [พรีออเดอร์🇯🇵]: Ichiban Kuji Demon Slayer: Upper Moon Three ดาบพิฆาตอสูร ฟิกเกอร์ อาคาสะ",
    "category": "kuji",
    "series": "Demon Slayer",
-   "price": 1990,
+   "price": 2090,
    "priceMax": 2390,
    "status": "preorder",
    "stock": 20,
@@ -2075,7 +2075,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-ml8tss3y5l3j78"
     },
@@ -2089,7 +2089,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-ml8tt0c2jfns34"
     },
@@ -2316,7 +2316,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1290,
+     "price": 1390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-mlci4a0wh7gld8"
     },
@@ -2369,7 +2369,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 2390,
+     "price": 2490,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mn6w1awqsh6obb"
     },
@@ -2474,7 +2474,7 @@
    "category": "kuji",
    "series": "Fate",
    "price": 2690,
-   "priceMax": 10590,
+   "priceMax": 10690,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-ml6jv28fsw04d3",
@@ -2497,14 +2497,14 @@
     {
      "label": "Last One",
      "opt": "",
-     "price": 10590,
+     "price": 10690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-ml6k5sz3oumaa8"
     },
     {
      "label": "A",
      "opt": "",
-     "price": 4790,
+     "price": 4890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-ml6k27fibgu9de"
     }
@@ -2537,7 +2537,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 2990,
+     "price": 3090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-ml0ds3ij632bea"
     },
@@ -2586,7 +2586,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 2390,
+     "price": 2490,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-ml0ds3em2tj76e"
     }
@@ -2629,7 +2629,7 @@
    "name": "🛒 [พรีออเดอร์🇯🇵] Ichiban Kuji Dragon Ball Fantastic Adventure 2 ดราก้อนบอล แฟนแทสติก แอดเวนเจอร์ 2",
    "category": "kuji",
    "series": "Dragon Ball",
-   "price": 1790,
+   "price": 1890,
    "priceMax": 5890,
    "status": "preorder",
    "stock": 15,
@@ -2646,7 +2646,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 1790,
+     "price": 1890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztk-ml91s5iklxc4a3"
     },
@@ -2671,7 +2671,7 @@
    "name": "[พรีออเดอร์] Ichiban kuji DEMON SLAYER: KIMETSU NO YAIBA: Pillar Training // ดาบพิฆาตอสูร เดม่อน",
    "category": "kuji",
    "series": "Demon Slayer",
-   "price": 1590,
+   "price": 1690,
    "priceMax": 3190,
    "status": "preorder",
    "stock": 20,
@@ -2703,7 +2703,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 1590,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-mleqi9qjslq9ab"
     },
@@ -3094,14 +3094,14 @@
     {
      "label": "A",
      "opt": "",
-     "price": 4090,
+     "price": 4190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mlfet7ea9wqs55"
     },
     {
      "label": "B",
      "opt": "",
-     "price": 5590,
+     "price": 5690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mlfet9kb21oi5e"
     }
@@ -3113,7 +3113,7 @@
    "category": "kuji",
    "series": "Hunter x Hunter",
    "price": 1490,
-   "priceMax": 4290,
+   "priceMax": 4390,
    "status": "preorder",
    "stock": 35,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztl-mojaiqi4b1fx0b",
@@ -3175,7 +3175,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 4290,
+     "price": 4390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-mojauclimfwred"
     }
@@ -3288,7 +3288,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 2190,
+     "price": 2290,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zte-ml8tgd80pez3fb"
     },
@@ -3527,7 +3527,7 @@
    "category": "kuji",
    "series": "NIKKE",
    "price": 1890,
-   "priceMax": 3990,
+   "priceMax": 4090,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-mnpd2ffidkoz3c",
@@ -3543,7 +3543,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 3990,
+     "price": 4090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mnpd4qqokjk115"
     },
@@ -3854,14 +3854,14 @@
     {
      "label": "A อาลูกะ",
      "opt": "",
-     "price": 4090,
+     "price": 4190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-ml4hfk05i3nm1c"
     },
     {
      "label": "A นานิกะ",
      "opt": "",
-     "price": 2790,
+     "price": 2890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-ml4hfk05i3nm1c"
     }
@@ -3991,7 +3991,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 1890,
+     "price": 1990,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztg-mlfgeqg1e1hdbb"
     },
@@ -4288,7 +4288,7 @@
    "name": "[พรีออเดอร์] Ichiban Kuji Anime \"Bocchi the Rock!\" VOLUME 4 // อิจิบัง คุจิ งานรางวัล",
    "category": "kuji",
    "series": "อื่นๆ",
-   "price": 1990,
+   "price": 2090,
    "priceMax": 2890,
    "status": "preorder",
    "stock": 25,
@@ -4321,7 +4321,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mlhdvzrzt72b35"
     },
@@ -4346,7 +4346,7 @@
    "name": "[พรีออเดอร์] Ichiban Kuji Idolmaster Shiny Colors Lolita Collection // ไอดอลมาสเตอร์ อิจิบัง คุจิ",
    "category": "kuji",
    "series": "iDOLM@STER",
-   "price": 2990,
+   "price": 3090,
    "priceMax": 4090,
    "status": "preorder",
    "stock": 10,
@@ -4362,7 +4362,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 2990,
+     "price": 3090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mlhl5yp7mt4z7a"
     },
@@ -4439,7 +4439,7 @@
    "category": "kuji",
    "series": "iDOLM@STER",
    "price": 790,
-   "priceMax": 1990,
+   "priceMax": 2090,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mlhhl6lp4hsfce",
@@ -4463,7 +4463,7 @@
     {
      "label": "LO",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-mlhhoybgoydkcd"
     },
@@ -4581,7 +4581,7 @@
    "category": "kuji",
    "series": "Kamen Rider",
    "price": 790,
-   "priceMax": 1990,
+   "priceMax": 2090,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mlhgv6olwrgjd8",
@@ -4614,7 +4614,7 @@
     {
      "label": "LO",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mlhgv6fprhtv18"
     },
@@ -4646,8 +4646,8 @@
    "name": "[พรีออเดอร์] Ichiban Kuji \"That Dress-Up Doll Falls in Love\" Season 2 // หนุ่มเย็บผ้ากับสาวนักคอสเ",
    "category": "kuji",
    "series": "อื่นๆ",
-   "price": 4290,
-   "priceMax": 8290,
+   "price": 4390,
+   "priceMax": 8390,
    "status": "preorder",
    "stock": 10,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-mlbybbmkyyo2b4",
@@ -4662,14 +4662,14 @@
     {
      "label": "A",
      "opt": "",
-     "price": 4290,
+     "price": 4390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztl-mlbyj7ggomiw8c"
     },
     {
      "label": "LO",
      "opt": "",
-     "price": 8290,
+     "price": 8390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zte-mlbyhfx4fpqc42"
     }
@@ -4740,8 +4740,8 @@
    "name": "🛒 [พรีออเดอร์🇯🇵] Ichiban Kuji One Piece  Sculptor King Senor Pink ~With Love for Lucien~ (วันพีซ) ของแท้จากญี่ปุ่น 💯",
    "category": "kuji",
    "series": "One Piece",
-   "price": 7590,
-   "priceMax": 8290,
+   "price": 7690,
+   "priceMax": 8390,
    "status": "preorder",
    "stock": 10,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mpg3ir9ggu1ba2",
@@ -4756,14 +4756,14 @@
     {
      "label": "B สีเข้มกว่า",
      "opt": "",
-     "price": 8290,
+     "price": 8390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztl-mpg3jj3t5hcc71"
     },
     {
      "label": "A สีอ่อนกว่า",
      "opt": "",
-     "price": 7590,
+     "price": 7690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-mpg3jf3sulfzd8"
     }
@@ -4775,7 +4775,7 @@
    "category": "kuji",
    "series": "Hunter x Hunter",
    "price": 1090,
-   "priceMax": 5590,
+   "priceMax": 5690,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zto-ml4iwu2tvr416c",
@@ -4815,14 +4815,14 @@
     {
      "label": "Last One",
      "opt": "",
-     "price": 5290,
+     "price": 5390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-ml4ivppt687a48"
     },
     {
      "label": "D",
      "opt": "",
-     "price": 5590,
+     "price": 5690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-ml4iywhimxaf26"
     },
@@ -4841,7 +4841,7 @@
    "category": "kuji",
    "series": "Fate",
    "price": 790,
-   "priceMax": 2590,
+   "priceMax": 2690,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-mlc15e1i8b2g4b",
@@ -4865,7 +4865,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 2590,
+     "price": 2690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztg-mlc1hpsvcc90af"
     },
@@ -5022,8 +5022,8 @@
    "name": "[พรีออเดอร์] Ichiban Kuji Hololive ~Villain Style~ // อิจิบัง คุจิ โฮโลไลฟ์",
    "category": "kuji",
    "series": "Hololive",
-   "price": 3190,
-   "priceMax": 4790,
+   "price": 1690,
+   "priceMax": 3190,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztg-mlc3qn301n9k4d",
@@ -5040,28 +5040,28 @@
     {
      "label": "Watame Tsunomaki",
      "opt": "",
-     "price": 3190,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-mlc3t2xfbb40d8"
     },
     {
      "label": "Shihaku Botan",
      "opt": "",
-     "price": 4490,
+     "price": 3090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-mlc3t2yd6k1teb"
     },
     {
      "label": "Shirakami Fubuki",
      "opt": "",
-     "price": 4790,
+     "price": 3190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mlc3t2yel4hvb7"
     },
     {
      "label": "Ogami Mio",
      "opt": "",
-     "price": 3790,
+     "price": 2190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mlc3t2xajxtv5c"
     }
@@ -5089,7 +5089,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1790,
+     "price": 1890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-ml0ekj68p72801"
     },
@@ -5231,7 +5231,7 @@
    "category": "kuji",
    "series": "Demon Slayer",
    "price": 3090,
-   "priceMax": 14290,
+   "priceMax": 14390,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mleooanenoxuf5",
@@ -5262,7 +5262,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 14290,
+     "price": 14390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mleoriydpkaw24"
     },
@@ -5281,7 +5281,7 @@
    "category": "kuji",
    "series": "Kingdom",
    "price": 1390,
-   "priceMax": 4290,
+   "priceMax": 4390,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztl-mn5f2mkbzo5gef",
@@ -5312,7 +5312,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 4290,
+     "price": 4390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mn5euenegz5s71"
     },
@@ -5369,7 +5369,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1090,
+     "price": 1190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-mpluh0o07le6de"
     }
@@ -5489,14 +5489,14 @@
     {
      "label": "D",
      "opt": "",
-     "price": 2590,
+     "price": 2690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-mlffyacufy0x04"
     },
     {
      "label": "LO",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mlffyadp883s36"
     },
@@ -5638,7 +5638,7 @@
     {
      "label": "D",
      "opt": "",
-     "price": 2990,
+     "price": 3090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-ml379tlusyknc4"
     },
@@ -5793,7 +5793,7 @@
     {
      "label": "F",
      "opt": "",
-     "price": 3290,
+     "price": 2790,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztk-mlfihq3m66f86d"
     },
@@ -6025,7 +6025,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 1790,
+     "price": 1890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-mnqqffdauio519"
     },
@@ -6242,7 +6242,7 @@
    "category": "kuji",
    "series": "Fate",
    "price": 2190,
-   "priceMax": 6590,
+   "priceMax": 6690,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-ml6jaqdu0zyn04",
@@ -6266,7 +6266,7 @@
     {
      "label": "Last One",
      "opt": "",
-     "price": 6590,
+     "price": 6690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-ml6jaq2sfh1pad"
     },
@@ -6391,7 +6391,7 @@
    "name": "[พรีออเดอร์] Ichiban Kuji Uma Musume Pretty Derby 12th Edition // สาวม้า อิจิบัง คุจิ",
    "category": "kuji",
    "series": "Uma Musume",
-   "price": 1590,
+   "price": 1690,
    "priceMax": 1890,
    "status": "preorder",
    "stock": 15,
@@ -6415,14 +6415,14 @@
     {
      "label": "LO",
      "opt": "",
-     "price": 1590,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mlhgl2j444jpc3"
     },
     {
      "label": "A",
      "opt": "",
-     "price": 1590,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mlhgl1olo0zl6c"
     }
@@ -6475,7 +6475,7 @@
    "category": "kuji",
    "series": "My Hero Academia",
    "price": 1290,
-   "priceMax": 3190,
+   "priceMax": 3290,
    "status": "preorder",
    "stock": 35,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zte-ml4r5ocmawax70",
@@ -6495,7 +6495,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 3190,
+     "price": 3290,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-ml4qy7md15oo06"
     },
@@ -6615,7 +6615,7 @@
    "category": "kuji",
    "series": "One Piece",
    "price": 1490,
-   "priceMax": 1990,
+   "priceMax": 2090,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-mp4mrwuvhlvkdd",
@@ -6633,7 +6633,7 @@
     {
      "label": "D",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-mp4mrwyxm2oe33"
     },
@@ -6647,7 +6647,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1590,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-mp4mv2x9zklc80"
     },
@@ -7038,8 +7038,8 @@
    "name": "[พรีออเดอร์🇯🇵] Ichiban Kuji Attack on Titan (ผ่าพิภพไททัน) งานจับฉลาก – The World Outside the Walls",
    "category": "kuji",
    "series": "Attack on Titan",
-   "price": 3990,
-   "priceMax": 22490,
+   "price": 4090,
+   "priceMax": 22690,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mlce3qm7h2wx44",
@@ -7055,14 +7055,14 @@
     {
      "label": "B",
      "opt": "",
-     "price": 3990,
+     "price": 4090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztn-mlcegd9jsr9d15"
     },
     {
      "label": "LASTONE",
      "opt": "",
-     "price": 22490,
+     "price": 22690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-mlceggb34b2b4a"
     },
@@ -7161,7 +7161,7 @@
     {
      "label": "F",
      "opt": "",
-     "price": 1790,
+     "price": 1390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztg-mnzb2zw5ufpef1"
     },
@@ -7212,7 +7212,7 @@
    "category": "kuji",
    "series": "Dragon Ball",
    "price": 890,
-   "priceMax": 5090,
+   "priceMax": 5190,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-ml4nxhp9e3uy80",
@@ -7259,7 +7259,7 @@
     {
      "label": "D",
      "opt": "",
-     "price": 5090,
+     "price": 5190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-ml4o23g1zq4s62"
     },
@@ -7567,8 +7567,8 @@
    "name": "🛒 [พรีออเดอร์🇯🇵] Ichiban Kuji Persona 5 The Royal  เพอร์โซน่า 5 เดอะ รอยัล – งานจับฉลากแท้จากญี่ปุ่น",
    "category": "kuji",
    "series": "อื่นๆ",
-   "price": 2590,
-   "priceMax": 7990,
+   "price": 2690,
+   "priceMax": 8090,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-ml5x1hq35v678c",
@@ -7584,21 +7584,21 @@
     {
      "label": "A",
      "opt": "",
-     "price": 2590,
+     "price": 2690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-ml5x28dpz37s61"
     },
     {
      "label": "B",
      "opt": "",
-     "price": 3390,
+     "price": 3490,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-ml5x2csvej9eff"
     },
     {
      "label": "Last one",
      "opt": "",
-     "price": 7990,
+     "price": 8090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztl-ml5wz1wm89hg12"
     }
@@ -7760,7 +7760,7 @@
    "category": "kuji",
    "series": "One Piece",
    "price": 590,
-   "priceMax": 3190,
+   "priceMax": 2090,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zte-mnqpzbf5umth08",
@@ -7807,7 +7807,7 @@
     {
      "label": "D",
      "opt": "",
-     "price": 3190,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-mnqq0g4lo7b979"
     },
@@ -8058,8 +8058,8 @@
    "name": "[พรีออเดอร์🇯🇵] Ichiban Kuji HUNTER×HUNTER REVENGE OF SCARLET – คุราปิก้า ตาแดง Scarlet Eyes Figure ลิขสิทธิ์แท้ญี่ปุ่น (",
    "category": "kuji",
    "series": "Hunter x Hunter",
-   "price": 2790,
-   "priceMax": 3990,
+   "price": 2890,
+   "priceMax": 4090,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-ml4nj4sdnpxr16",
@@ -8084,7 +8084,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 2790,
+     "price": 2890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-ml4nj4s8cop40e"
     },
@@ -8098,7 +8098,7 @@
     {
      "label": "D",
      "opt": "",
-     "price": 3990,
+     "price": 4090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zte-ml4nj4s8miod24"
     },
@@ -8509,7 +8509,7 @@
    "category": "kuji",
    "series": "Kingdom",
    "price": 1490,
-   "priceMax": 4290,
+   "priceMax": 4390,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mj41rlsx0cg324",
@@ -8533,7 +8533,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 4290,
+     "price": 4390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ra0m-mbq7coptftc0fd"
     },
@@ -8547,7 +8547,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 3990,
+     "price": 4090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ra0r-mbq7cf43hq373d"
     }
@@ -8608,8 +8608,8 @@
    "name": "[พรีออเดอร์] Ichiban Kuji Hololive ~Wedding Dress Style~ // อิจิบัง คุจิ โฮโลไลฟ์",
    "category": "kuji",
    "series": "Hololive",
-   "price": 2190,
-   "priceMax": 3390,
+   "price": 1190,
+   "priceMax": 1790,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-mlchop8f6wb338",
@@ -8626,28 +8626,28 @@
     {
      "label": "Shirogane Noel",
      "opt": "",
-     "price": 2190,
+     "price": 1190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mlchoxga0lqn57"
     },
     {
      "label": "Houshou Marine",
      "opt": "",
-     "price": 2990,
+     "price": 1790,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-mlchoxm40i6nf4"
     },
     {
      "label": "Towa Tokoyami",
      "opt": "",
-     "price": 3390,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-mlchoxhy0z6759"
     },
     {
      "label": "Yukihana Lamy",
      "opt": "",
-     "price": 3190,
+     "price": 1690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-mlchoxnq41s313"
     }
@@ -8849,7 +8849,7 @@
    "category": "kuji",
    "series": "อื่นๆ",
    "price": 2290,
-   "priceMax": 2390,
+   "priceMax": 2490,
    "status": "preorder",
    "stock": 10,
    "img": "https://cf.shopee.co.th/file/th-11134207-7rasb-mamgkx1b7ki85e",
@@ -8864,7 +8864,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 2390,
+     "price": 2490,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ras9-mamgoo59hrr306"
     },
@@ -8883,7 +8883,7 @@
    "category": "kuji",
    "series": "Gundam",
    "price": 1490,
-   "priceMax": 5990,
+   "priceMax": 6090,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mlfhit9tko3l6d",
@@ -8906,7 +8906,7 @@
     {
      "label": "LO",
      "opt": "",
-     "price": 5990,
+     "price": 6090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mlfhjazu64ud96"
     },
@@ -9769,7 +9769,7 @@
    "category": "kuji",
    "series": "Naruto",
    "price": 1090,
-   "priceMax": 2990,
+   "priceMax": 3090,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-ml5xrt0egc8y00",
@@ -9802,14 +9802,14 @@
     {
      "label": "Last One",
      "opt": "",
-     "price": 1790,
+     "price": 1890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztj-ml5xug653j0gee"
     },
     {
      "label": "D",
      "opt": "",
-     "price": 2990,
+     "price": 3090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-ml5xu5c6owe95d"
     },
@@ -9869,7 +9869,7 @@
    "category": "kuji",
    "series": "Uma Musume",
    "price": 1090,
-   "priceMax": 1290,
+   "priceMax": 1390,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zte-mlhmfc8ckttw60",
@@ -9893,7 +9893,7 @@
     {
      "label": "LO",
      "opt": "",
-     "price": 1290,
+     "price": 1390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-mlhmfc81oxdt95"
     },
@@ -10572,7 +10572,7 @@
    "category": "kuji",
    "series": "Attack on Titan",
    "price": 2890,
-   "priceMax": 8590,
+   "priceMax": 8690,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mfos70li0o3yc7",
@@ -10588,7 +10588,7 @@
     {
      "label": "A Titan ลิง 30 cm",
      "opt": "",
-     "price": 5990,
+     "price": 6090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-mfos7avez28b5f"
     },
@@ -10602,7 +10602,7 @@
     {
      "label": "LASTONE Titan 45 cm",
      "opt": "",
-     "price": 8590,
+     "price": 8690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztk-mfos7aymnw204f"
     }
@@ -10740,7 +10740,7 @@
    "category": "kuji",
    "series": "อื่นๆ",
    "price": 5090,
-   "priceMax": 10890,
+   "priceMax": 10990,
    "status": "preorder",
    "stock": 10,
    "img": "https://cf.shopee.co.th/file/th-11134207-7ra0k-mcc89hs65lj83e",
@@ -10762,7 +10762,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 10890,
+     "price": 10990,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ra0j-mcc8jfti7npb6a"
     }
@@ -11063,7 +11063,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 3990,
+     "price": 4090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasm-m9wxwkoiicq9da"
     }
@@ -11450,7 +11450,7 @@
    "category": "kuji",
    "series": "Haikyu",
    "price": 490,
-   "priceMax": 4090,
+   "priceMax": 4190,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztm-milqvr8sazuv0f",
@@ -11488,7 +11488,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 4090,
+     "price": 4190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ra0n-mdj5v3wwlqpee5"
     }
@@ -11500,7 +11500,7 @@
    "category": "kuji",
    "series": "Jujutsu Kaisen",
    "price": 990,
-   "priceMax": 7990,
+   "priceMax": 8090,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztl-mihpr81vlxj738",
@@ -11523,7 +11523,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 7990,
+     "price": 8090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasf-m1wisrrg8dbda2"
     },
@@ -11574,7 +11574,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 1790,
+     "price": 1890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ras8-m1dqvu1lg78v9a"
     },
@@ -11999,7 +11999,7 @@
    "category": "kuji",
    "series": "อื่นๆ",
    "price": 1890,
-   "priceMax": 4890,
+   "priceMax": 3890,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-7ra0s-mbcjv5wd8upg3e",
@@ -12015,7 +12015,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 4890,
+     "price": 3890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ra0k-mbck04h7wyup2c"
     },
@@ -12029,7 +12029,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 4890,
+     "price": 1990,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ra0q-mbck07l1dc3l40"
     }
@@ -12173,8 +12173,8 @@
    "name": "[พรีออเดอร์🇯🇵]: Ichiban Kuji Godzilla vs King Ghidorah MEGA BRAVE A賞 / B賞 ฟิกเกอร์ก็อดซิลล่า คิงกิโดร่า ของแท้จากญี่ปุ่น",
    "category": "kuji",
    "series": "Godzilla",
-   "price": 8090,
-   "priceMax": 8290,
+   "price": 8190,
+   "priceMax": 8390,
    "status": "preorder",
    "stock": 10,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mg5ab4lpktn08c",
@@ -12189,14 +12189,14 @@
     {
      "label": "A",
      "opt": "",
-     "price": 8290,
+     "price": 8390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-mg5acem5dvyibf"
     },
     {
      "label": "B",
      "opt": "",
-     "price": 8090,
+     "price": 8190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztq-mg5ae2ude0p73e"
     }
@@ -12640,7 +12640,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 12890,
+     "price": 12990,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasc-m9sj7w3xzxhr6a"
     },
@@ -12654,7 +12654,7 @@
     {
      "label": "A",
      "opt": "",
-     "price": 18490,
+     "price": 18590,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rask-m9sj78yfx2pd15"
     },
@@ -12806,7 +12806,7 @@
    "category": "kuji",
    "series": "Naruto",
    "price": 3790,
-   "priceMax": 12890,
+   "priceMax": 12990,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-7rash-m335wu5o9lzn1d",
@@ -12837,7 +12837,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 12890,
+     "price": 12990,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasj-m335wu5p8q6rae"
     },
@@ -12894,7 +12894,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 4290,
+     "price": 4390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rash-m0ftavbpozx491"
     }
@@ -13052,7 +13052,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rase-m7b6rhhpx49m1c"
     }
@@ -13064,7 +13064,7 @@
    "category": "kuji",
    "series": "One Piece",
    "price": 590,
-   "priceMax": 1090,
+   "priceMax": 1190,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-7rasd-m58fggs52p6fa0",
@@ -13088,7 +13088,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 1090,
+     "price": 1190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasl-m58fh4aeoae5db"
     },
@@ -13185,7 +13185,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 1290,
+     "price": 1390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasm-m4itoluhf74k95"
     }
@@ -13360,8 +13360,8 @@
    "name": "[พรีออเดอร์]: Ichiban kuji My Hero Academia The Power of Weaving มายฮีโร่ set แรก",
    "category": "kuji",
    "series": "My Hero Academia",
-   "price": 2590,
-   "priceMax": 18490,
+   "price": 2390,
+   "priceMax": 12090,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-7rasl-m92qkxau6jux15",
@@ -13393,7 +13393,7 @@
     {
      "label": "C",
      "opt": "",
-     "price": 4190,
+     "price": 2390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rash-m92qma18v6rt03"
     },
@@ -13407,7 +13407,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 18490,
+     "price": 12090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7ras8-m92qmkvwzhmx0f"
     }
@@ -13520,7 +13520,7 @@
    "category": "kuji",
    "series": "One Piece",
    "price": 1890,
-   "priceMax": 5990,
+   "priceMax": 6090,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mihqj80wlzpj4d",
@@ -13538,7 +13538,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 5990,
+     "price": 6090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasg-m2e515kp2ois16"
     },
@@ -13768,7 +13768,7 @@
    "category": "kuji",
    "series": "Bleach",
    "price": 3790,
-   "priceMax": 12290,
+   "priceMax": 12390,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mj55kokr9f5vd1",
@@ -13785,7 +13785,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 12290,
+     "price": 12390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasd-m7mmn4kxg2s872"
     },
@@ -13799,7 +13799,7 @@
     {
      "label": "LastOne",
      "opt": "",
-     "price": 11690,
+     "price": 11790,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rase-m7mmnd3izeoo11"
     },
@@ -13877,7 +13877,7 @@
    "category": "kuji",
    "series": "Attack on Titan",
    "price": 2490,
-   "priceMax": 16390,
+   "priceMax": 16490,
    "status": "preorder",
    "stock": 20,
    "img": "https://cf.shopee.co.th/file/th-11134207-7r98y-m092snca0tsoff",
@@ -13908,7 +13908,7 @@
     {
      "label": "Last One",
      "opt": "",
-     "price": 16390,
+     "price": 16490,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zti-me2qu10a1nnr8d"
     },
@@ -13959,7 +13959,7 @@
    "category": "pokemon",
    "series": "Pokemon",
    "price": 790,
-   "priceMax": 1990,
+   "priceMax": 2090,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-7ras8-m7japlea5w0z2d",
@@ -13984,7 +13984,7 @@
     {
      "label": "LASTONE",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7rasd-m7jao0rh1h6831"
     },
@@ -14017,7 +14017,7 @@
    "category": "kuji",
    "series": "Demon Slayer",
    "price": 890,
-   "priceMax": 4290,
+   "priceMax": 4390,
    "status": "preorder",
    "stock": 25,
    "img": "https://cf.shopee.co.th/file/th-11134207-81ztd-mleqrtl0s45f19",
@@ -14049,7 +14049,7 @@
     {
      "label": "LO",
      "opt": "",
-     "price": 4290,
+     "price": 4390,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81zth-mleqyl38jzt093"
     },
@@ -14141,7 +14141,7 @@
    "category": "kuji",
    "series": "อื่นๆ",
    "price": 790,
-   "priceMax": 1990,
+   "priceMax": 2090,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-7r98s-lxpqompw4wy7e6",
@@ -14157,7 +14157,7 @@
     {
      "label": "Last one momonosuke",
      "opt": "",
-     "price": 1990,
+     "price": 2090,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-7r98t-lxpr9hsj158vce"
     },
@@ -14241,7 +14241,7 @@
    "category": "kuji",
    "series": "Naruto",
    "price": 1190,
-   "priceMax": 6790,
+   "priceMax": 6890,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mpxahoza0r9c55",
@@ -14295,7 +14295,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 6790,
+     "price": 6890,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztf-mpxahp06yaku33"
     }
@@ -14445,7 +14445,7 @@
    "category": "kuji",
    "series": "Dandadan",
    "price": 1190,
-   "priceMax": 4090,
+   "priceMax": 4190,
    "status": "preorder",
    "stock": 15,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zti-mpyvd09cybr519",
@@ -14475,7 +14475,7 @@
     {
      "label": "B",
      "opt": "",
-     "price": 4090,
+     "price": 4190,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-mpyve52xsb2j9d"
     }
@@ -14487,7 +14487,7 @@
    "category": "kuji",
    "series": "One Piece",
    "price": 790,
-   "priceMax": 4590,
+   "priceMax": 4690,
    "status": "preorder",
    "stock": 30,
    "img": "https://cf.shopee.co.th/file/th-11134207-81zto-mq77gaqpwcgf1d",
@@ -14541,7 +14541,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 4590,
+     "price": 4690,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztc-mq77gaqqsnikb0"
     }
@@ -14578,7 +14578,7 @@
     {
      "label": "Last one",
      "opt": "",
-     "price": 2690,
+     "price": 2790,
      "stock": 5,
      "img": "https://cf.shopee.co.th/file/th-11134207-81ztp-mpyuv53i2dq911"
     },
