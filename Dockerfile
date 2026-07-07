@@ -18,7 +18,6 @@ RUN cd db && npm install --omit=dev && cd ../be && npm install --omit=dev
 # คัดลอกซอร์สที่เหลือ
 COPY db ./db
 COPY be ./be
-COPY fe ./fe
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
 
