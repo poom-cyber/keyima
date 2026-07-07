@@ -12,13 +12,18 @@ const SYNC_URL = process.env.TURSO_DATABASE_URL || "";
 const AUTH_TOKEN = process.env.TURSO_AUTH_TOKEN || "";
 const USE_TURSO = !!SYNC_URL;
 
-const raw = new Database(DB_PATH, USE_TURSO ? { syncUrl: SYNC_URL, authToken: AUTH_TOKEN } : {});
-if (USE_TURSO) { try { raw.sync(); console.log("  • Turso: เชื่อม + ดึงข้อมูลครั้งแรกสำเร็จ"); } catch (e) { console.error("  ! Turso sync ครั้งแรกล้มเหลว:", e.message); } }
+// remote-only: เขียนตรงเข้า Turso cloud ทุก query → ข้อมูลถาวรจริง
+// (เดิมใช้ embedded replica DB_PATH+syncUrl แต่ raw.sync() ของ libsql "ดึง" ได้อย่างเดียว ไม่ "ดัน" write ขึ้น
+//  → seed ลง /tmp ที่ ephemeral แล้วหายทุก restart จึงเห็น 'seed products: 306' ทุกบูต และ Turso ว่างเสมอ)
+const raw = USE_TURSO
+  ? new Database(SYNC_URL, { authToken: AUTH_TOKEN })
+  : new Database(DB_PATH);
+if (USE_TURSO) console.log("  • Turso: เชื่อมแบบ remote (เขียนตรงเข้าคลาวด์)");
 
 // libsql แนบ _metadata มากับทุกแถว — ตัดออกให้ผลลัพธ์เหมือน node:sqlite เดิม
 const strip = r => { if (r && typeof r === "object") delete r._metadata; return r; };
 let inTx = false;
-function syncNow() { if (USE_TURSO) { try { raw.sync(); } catch (e) { console.error("  ! Turso sync:", e.message); } } }
+function syncNow() { /* remote-only: write เข้า Turso ตรงๆ แล้ว ไม่ต้อง sync */ }
 const db = {
   exec(s) {
     const r = raw.exec(s);
@@ -45,9 +50,11 @@ const db = {
   }
 };
 
-if (!USE_TURSO) db.exec("PRAGMA journal_mode = WAL");
-db.exec("PRAGMA foreign_keys = ON");
-db.exec("PRAGMA busy_timeout = 5000");  // รอแทนที่จะ error เมื่ออีก service ล็อกไฟล์อยู่
+if (!USE_TURSO) {
+  db.exec("PRAGMA journal_mode = WAL");
+  db.exec("PRAGMA foreign_keys = ON");
+  db.exec("PRAGMA busy_timeout = 5000");  // รอแทนที่จะ error เมื่ออีก service ล็อกไฟล์อยู่ (local เท่านั้น; Turso remote จัดการเอง)
+}
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS products (
