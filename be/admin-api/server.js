@@ -133,17 +133,9 @@ app.post("/api/sync-prices", (req, res) => {
     const p = path.join(__dirname, "..", "..", "db", "catalog.json");
     const cat = JSON.parse(fs.readFileSync(p, "utf8"));
     const items = cat.products || cat;
-    let updated = 0, created = 0;
-    for (const c of items) {
-      const cur = Products.get(c.id);
-      if (!cur) { Products.create(c); created++; continue; }   // upsert: สร้างใหม่ถ้ายังไม่มี (กัน DB ว่าง/สินค้าใหม่ตกหล่น)
-      const byLabel = {}; (c.variations || []).forEach(v => { byLabel[(v.label || "") + "|" + (v.opt || "")] = v.price; });
-      const merged = (cur.variations || []).map(v => { const np = byLabel[(v.label || "") + "|" + (v.opt || "")]; return (np != null) ? { ...v, price: np } : v; });
-      Products.update(c.id, { ...cur, price: c.price, priceMax: c.priceMax, variations: merged.length ? merged : (c.variations || []) });
-      updated++;
-    }
-    Audit.log(req.admin.sub, "sync_prices", { updated, created });
-    res.json({ ok: true, updated, created, updatedAt: (cat.meta && cat.meta.updated) || null });
+    const r = Products.bulkUpsert(items);   // ยิงเป็นชุด (chunk 100) — เร็ว ~2-3 วิ แทนทีละตัว
+    Audit.log(req.admin.sub, "sync_prices", { count: r.n });
+    res.json({ ok: true, count: r.n, updatedAt: (cat.meta && cat.meta.updated) || null });
   } catch (e) { res.status(500).json({ message: "ซิงค์ราคาไม่สำเร็จ: " + e.message }); }
 });
 

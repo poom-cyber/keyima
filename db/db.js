@@ -111,6 +111,22 @@ const Products = {
   _cols(p) { return { name:p.name, category:p.category, series:p.series||"", grade:p.grade||"", price:p.price, priceMax:p.priceMax||p.price, oldPrice:p.oldPrice??null, status:p.status||"instock", stock:p.stock||0, badge:p.badge||"", img:p.img||"", images:JSON.stringify(p.images||[]), short:p.short||"", desc:p.desc||"", variations:JSON.stringify(p.variations||[]) }; },
   create(p) { db.prepare(`INSERT INTO products (id,name,category,series,grade,price,priceMax,oldPrice,status,stock,badge,addedAt,img,images,short,"desc",variations) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(...prow(p, p.addedAt || new Date().toISOString().slice(0,10))); return Products.get(p.id); },
   update(id, p) { db.prepare(`UPDATE products SET name=?,category=?,series=?,grade=?,price=?,priceMax=?,oldPrice=?,status=?,stock=?,badge=?,img=?,images=?,short=?,"desc"=?,variations=? WHERE id=?`).run(...pcols15(p), id); return Products.get(id); },
+  // upsert เป็นชุด (เร็ว): แถวใหม่ = insert เต็ม ; แถวเดิม = อัปเฉพาะ price/priceMax/variations (คงชื่อ/รูป/ฟิลด์ที่แอดมินแก้)
+  // ยิงทีละ chunk 100 แถว (กันเกิน SQLite param limit) → ~4 round-trip แทน 600+
+  bulkUpsert(items) {
+    const today = new Date().toISOString().slice(0,10);
+    const ph = "(" + Array(17).fill("?").join(",") + ")";
+    let n = 0;
+    for (let i = 0; i < items.length; i += 100) {
+      const chunk = items.slice(i, i + 100);
+      const sql = `INSERT INTO products (id,name,category,series,grade,price,priceMax,oldPrice,status,stock,badge,addedAt,img,images,short,"desc",variations) VALUES ${chunk.map(()=>ph).join(",")} ON CONFLICT(id) DO UPDATE SET price=excluded.price, priceMax=excluded.priceMax, variations=excluded.variations`;
+      const params = [];
+      for (const p of chunk) params.push(...prow(p, p.addedAt || today));
+      db.prepare(sql).run(...params);
+      n += chunk.length;
+    }
+    return { n };
+  },
   remove: id => db.prepare("DELETE FROM products WHERE id=?").run(id)
 };
 const Orders = {
