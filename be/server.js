@@ -9,7 +9,8 @@ const admin = require("./admin-api/server");
 const app = express();
 app.set("trust proxy", 1);
 app.get("/healthz", (_q, res) => res.json({ ok: true, service: "keyima-combined" }));
-app.use("/admin", admin);   // /admin/api/... , /admin/uploads/...
+app.get("/admin", (_q, res) => res.redirect(301, "/admin/"));   // ให้ path มี trailing slash → asset paths สัมพัทธ์ resolve ถูก
+app.use("/admin", admin);   // /admin/api/... , /admin/uploads/... , /admin/ (หน้าแอดมิน static)
 app.use("/", storefront);   // /api/...
 
 const PORT = process.env.PORT || 8080;
