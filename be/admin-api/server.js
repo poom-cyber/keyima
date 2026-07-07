@@ -20,31 +20,12 @@ const mailer = require("../../db/mailer");
 const app = express();
 const PORT = process.env.PORT || 4000;
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET || "dev-admin-secret-change-me";
-const ORIGINS = (process.env.ADMIN_ORIGINS || "http://localhost:5173").split(",");
+const ORIGINS = ["https://keyima-admin.onrender.com", ...(process.env.ADMIN_ORIGINS || "http://localhost:5173").split(",")].map(s => s.trim()).filter(Boolean);  // อนุญาตโดเมน static admin เป็นค่า default + เพิ่มได้ผ่าน env
 const IP_ALLOW = (process.env.ADMIN_IP_ALLOWLIST || "").split(",").map(s => s.trim()).filter(Boolean);
 
 app.set("trust proxy", 1);
-// CSP ชัดเจน: อนุญาตหน้าแอดมิน (served same-origin ใต้ /admin) ให้ยิง API same-origin ได้
-// (connect-src 'self'), โหลดสคริปต์/สไตล์ของตัวเอง, รูปจาก https ภายนอกได้, ฟอนต์ Google
-app.use(helmet({
-  contentSecurityPolicy: {
-    useDefaults: false,
-    directives: {
-      defaultSrc: ["'self'"],
-      baseUri: ["'self'"],
-      objectSrc: ["'none'"],
-      frameAncestors: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
-    },
-  },
-}));
-app.use(cors({ origin: (o, cb) => cb(null, !o || ORIGINS.includes(o) || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o)), credentials: true }));  // อนุญาต: ไม่มี origin (file://) + origin ที่กำหนด + localhost ทุกพอร์ต (dev)
-// เสิร์ฟหน้าแอดมิน (static) แบบ same-origin ใต้ /admin — /admin/login.html, /admin/index.html, /admin/assets/*
-app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
+app.use(helmet());
+app.use(cors({ origin: (o, cb) => cb(null, !o || ORIGINS.includes(o) || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o)), credentials: true }));  // อนุญาต: ไม่มี origin (file://) + origin ที่กำหนด (ADMIN_ORIGINS) + localhost ทุกพอร์ต (dev)
 app.use(express.json({ limit: "1mb" }));
 app.use(rateLimit({ windowMs: 60_000, max: 200 }));
 

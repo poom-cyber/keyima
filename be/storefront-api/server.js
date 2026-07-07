@@ -15,7 +15,7 @@ const mailer = require("../../db/mailer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.STOREFRONT_JWT_SECRET || "dev-store-secret-change-me";
-const ORIGINS = (process.env.STOREFRONT_ORIGINS || "http://localhost:8080").split(",");
+const ORIGINS = ["https://keyima-store.onrender.com", ...(process.env.STOREFRONT_ORIGINS || "http://localhost:8080").split(",")].map(s => s.trim()).filter(Boolean);  // อนุญาตโดเมน static store เป็นค่า default + เพิ่มได้ผ่าน env
 
 app.set("trust proxy", 1);
 app.use(helmet());
