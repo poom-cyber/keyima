@@ -95,8 +95,8 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
   background: #1a1a2e; position: relative;
 }
 .hero-visual a, .hero-visual img { display: block; width: 100%; height: 100%; }
-/* ครอบให้เต็มกรอบ + ดันโฟกัสลงล่าง เพื่อ crop แถบ template Shopee ด้านบนออก */
-.hero-visual img { object-fit: cover; object-position: center 82%; }
+/* ครอบเต็มกรอบ + ซูมเข้ากลาง เพื่อ crop แถบส้ม template Shopee ทั้งบน-ล่างออก ให้เหลือเฉพาะ art กลางภาพ */
+.hero-visual img { object-fit: cover; object-position: center 42%; transform: scale(1.3); }
 .hero-tags { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 .hero-tags span { font-size: .82rem; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); padding: 5px 12px; border-radius: 999px; }
 
@@ -331,7 +331,7 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
   .footer-grid { grid-template-columns: 1fr; }
 }
 
-.brand-logo{width:40px;height:40px;border-radius:50%;overflow:hidden;display:inline-grid;place-items:center;flex-shrink:0;background:#fbf3cf}.brand-logo svg{width:100%;height:100%;display:block}
+.brand-logo{width:42px;height:42px;border-radius:50%;overflow:hidden;display:inline-grid;place-items:center;flex-shrink:0;background:#fdf7e3;box-shadow:0 2px 6px rgba(0,0,0,.10)}.brand-logo svg{width:100%;height:100%;display:block}
 
 /* --- รางวัลย่อย (variations) + hover (เพิ่มใหม่) --- */
 .card-media{position:relative;display:block}
