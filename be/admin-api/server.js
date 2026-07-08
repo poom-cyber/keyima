@@ -69,7 +69,7 @@ const num = (v, d = 0) => { const n = parseInt(v); return isNaN(n) ? d : n; };
 function normP(b) {
   return { id: b.id, name: (b.name || "").trim(), category: b.category === "pokemon" ? "pokemon" : "kuji",
     series: b.series || "", grade: b.grade || "", price: num(b.price), priceMax: num(b.priceMax || b.price),
-    oldPrice: b.oldPrice ? num(b.oldPrice) : null, status: ["instock", "preorder", "soldout"].includes(b.status) ? b.status : "instock",
+    oldPrice: b.oldPrice ? num(b.oldPrice) : null, status: ["instock", "preorder", "soldout", "hidden"].includes(b.status) ? b.status : "instock",
     stock: num(b.stock), badge: b.badge || "", addedAt: b.addedAt || new Date().toISOString().slice(0, 10),
     img: b.img || "", images: b.images || [], short: b.short || "", desc: b.desc || "", variations: b.variations || [] };
 }

@@ -36,7 +36,8 @@ Storefront.boot(() => {
   all.forEach(p => { const s = (p.series || "").trim(); if (s) (bySeries[s] = bySeries[s] || []).push(p); });
   const topSeries = Object.entries(bySeries)
     .filter(([s, arr]) => arr.length >= 3)
-    .sort((a, b) => b[1].length - a[1].length)
+    .map(([s, arr]) => [s, [...arr].sort(byDateDesc)])                          // เรียงสินค้าในซีรีส์: ใหม่/อัปเดตล่าสุดก่อน
+    .sort((a, b) => new Date(b[1][0].addedAt) - new Date(a[1][0].addedAt))      // เรียงซีรีส์: ที่อัปเดตล่าสุดขึ้นก่อน
     .slice(0, 6);
   document.getElementById("series-sections").innerHTML = topSeries.map(([s, arr]) => `
     <section class="section" style="padding-top:0;">

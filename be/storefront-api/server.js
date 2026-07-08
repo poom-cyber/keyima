@@ -35,10 +35,10 @@ function auth(req, res, next) {
 const isEmail = s => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s || "");
 
 /* ===================== PUBLIC: catalog ===================== */
-app.get("/api/products", (_q, res) => res.json(Products.all()));
+app.get("/api/products", (_q, res) => res.json(Products.all().filter(p => p.status !== "hidden")));  // ไม่แสดงสินค้าที่ซ่อน
 app.get("/api/products/:id", (req, res) => {
   const p = Products.get(req.params.id);
-  return p ? res.json(p) : res.status(404).json({ message: "ไม่พบสินค้า" });
+  return (p && p.status !== "hidden") ? res.json(p) : res.status(404).json({ message: "ไม่พบสินค้า" });
 });
 app.get("/api/settings", (_q, res) => {
   const s = Settings.all();

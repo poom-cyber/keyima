@@ -38,7 +38,7 @@ SERIES = [
  ("Dragon Ball", ["dragon ball","ดราก้อนบอล","goku","โกคู","daima","ไดมะ","saiyan","ไซย่า"]),
  ("Demon Slayer", ["demon slayer","ดาบพิฆาต","kimetsu","tanjiro","ทันจิโร"]),
  ("Jujutsu Kaisen", ["jujutsu","มหาเวทย์ผนึกมาร","gojo","โกโจ","sukuna","ซุคุนะ"]),
- ("My Hero Academia", ["my hero","มายฮีโร่","boku no hero","academia","deku","เดกุ","kingdom the animation"]),
+ ("My Hero Academia", ["my hero","มายฮีโร่","boku no hero","boku no hero academia","deku","เดกุ"]),
  ("Hunter x Hunter", ["hunter","ฮันเตอร์","killua","คิรัว","chimera"]),
  ("Bleach", ["bleach","บลีช","เทพมรณะ"]),
  ("JoJo", ["jojo","โจโจ้"]),

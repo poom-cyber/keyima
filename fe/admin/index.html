@@ -89,6 +89,7 @@
   .pill-pre{background:#e8f1f8;color:#2f7fb0}
   .pill-out{background:#fdeceb;color:#c23a34}
   .pill-low{background:#fff4e5;color:#c07c14}
+  .pill-hidden{background:#eceef1;color:#8a9099}
   .catx{font:700 11px Inter;padding:2px 8px;border-radius:6px;background:#f0f1f3;color:#5a616b}
   .act{border:1px solid #dfe3e8;background:#fff;color:var(--ink2);border-radius:8px;padding:5px 10px;font:600 12px 'Noto Sans Thai';cursor:pointer}
   .act:hover{background:#f5f6f8}
@@ -224,7 +225,7 @@
           <div class="toolbar">
             <input id="p-search" class="f search" placeholder="ค้นหาชื่อ / ซีรีส์…">
             <select id="p-cat" class="f"><option value="all">ทุกหมวด</option><option value="kuji">Kuji</option><option value="pokemon">Pokémon</option></select>
-            <select id="p-stat" class="f"><option value="all">ทุกสถานะ</option><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">ของหมด</option></select>
+            <select id="p-stat" class="f"><option value="all">ทุกสถานะ</option><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">ของหมด</option><option value="hidden">🚫 ซ่อนอยู่</option></select>
             <button id="p-sync" class="btn btn-blue btn-sm">🔄 ดึงราคาล่าสุด</button>
             <button id="p-add" class="btn btn-primary btn-sm">+ เพิ่มสินค้า</button>
           </div>
@@ -320,7 +321,7 @@
         <div class="field"><label class="lbl">หมวด</label><select id="pm-cat" class="f"><option value="kuji">Kuji</option><option value="pokemon">Pokémon</option></select></div>
         <div class="field"><label class="lbl">ซีรีส์</label><input id="pm-series" class="f"></div>
         <div class="field"><label class="lbl">เกรด</label><input id="pm-grade" class="f"></div>
-        <div class="field"><label class="lbl">สถานะ</label><select id="pm-status" class="f"><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">ของหมด</option></select></div>
+        <div class="field"><label class="lbl">สถานะ</label><select id="pm-status" class="f"><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">ของหมด</option><option value="hidden">🚫 ซ่อน (ไม่แสดงหน้าร้าน)</option></select></div>
         <div class="field"><label class="lbl">ราคา (บาท)</label><input id="pm-price" class="f" inputmode="numeric"></div>
         <div class="field"><label class="lbl">ราคาสูงสุด</label><input id="pm-max" class="f" inputmode="numeric"></div>
         <div class="field"><label class="lbl">ราคาเดิม (ขีดฆ่า)</label><input id="pm-old" class="f" inputmode="numeric"></div>
@@ -507,6 +508,7 @@ async function loadOverview(){
 let PRODUCTS=[], pPage=1, PER=12;
 async function loadProducts(){ try{ PRODUCTS=await API.products(); pPage=1; renderProducts(); $("nb-prod").textContent=PRODUCTS.length; }catch(e){ toast(e.message,"err"); } }
 function prodStatus(p){
+  if(p.status==="hidden") return ["🚫 ซ่อน","pill-hidden"];
   if(p.status==="soldout") return ["ของหมด","pill-out"];
   if(p.status==="preorder") return ["พรีออเดอร์","pill-pre"];
   if((p.stock??0)<=3) return ["เหลือ "+(p.stock??0),"pill-low"];
