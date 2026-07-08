@@ -10,6 +10,15 @@ Storefront.boot(() => {
   const newest = [...all].sort(byDateDesc).slice(0, 4);
   document.getElementById("grid-new").innerHTML = newest.map(productCard).join("");
 
+  // Hero: โชว์รูปคอลเลคชั่นล่าสุด + ลิงก์ไปหน้าสินค้านั้น
+  const latest = newest[0];
+  if (latest) {
+    const hi = document.getElementById("hero-img");
+    if (hi && latest.img) { hi.src = latest.img; hi.alt = latest.name || "คอลเลคชั่นล่าสุด"; }
+    const hl = document.getElementById("hero-link");
+    if (hl) hl.href = "product?id=" + encodeURIComponent(latest.id);
+  }
+
   // พรีออเดอร์
   const preorders = all.filter(p => p.status === "preorder").slice(0, 4);
   const poGrid = document.getElementById("grid-preorder");
