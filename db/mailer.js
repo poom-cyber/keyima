@@ -28,7 +28,7 @@ function getTransport() {
 }
 
 const baht = n => "฿" + Number(n || 0).toLocaleString("th-TH");
-const STATUS_TH = { paid: "ชำระเงินแล้ว", packing: "กำลังแพ็กสินค้า", shipped: "จัดส่งแล้ว", delivered: "ส่งสำเร็จ", cancelled: "ยกเลิกคำสั่งซื้อ" };
+const STATUS_TH = { pending: "รอยืนยันการชำระเงิน", paid: "ยืนยันการชำระเงินแล้ว", abroad: "กำลังเดินทางจากต่างประเทศ", packing: "เตรียมจัดส่งในไทย", shipped: "จัดส่งแล้ว", delivered: "ส่งสำเร็จ", cancelled: "ยกเลิกคำสั่งซื้อ" };
 
 function orderLines(o) {
   const items = (o.items || []).map(it => `  • ${it.name}\n     ${it.prize || ""}${it.opt ? " · " + it.opt : ""}  x${it.qty}  =  ${baht(it.price * it.qty)}`).join("\n");

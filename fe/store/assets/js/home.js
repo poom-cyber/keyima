@@ -64,11 +64,18 @@ function renderSection(key, all) {
 function seriesHTML(all) {
   const by = {};
   all.forEach(p => { const s = (p.series || "").trim(); if (s && s !== "อื่นๆ") (by[s] = by[s] || []).push(p); });
+  const pref = String((Storefront.settings || {}).seriesOrder || "").split(",").map(x => x.trim()).filter(Boolean);
   const top = Object.entries(by)
     .filter(([s, a]) => a.length >= 3)
     .map(([s, a]) => [s, [...a].sort(byDateDesc)])
-    .sort((a, b) => new Date(b[1][0].addedAt) - new Date(a[1][0].addedAt))
-    .slice(0, 6);
+    .sort((a, b) => {
+      const ia = pref.indexOf(a[0]), ib = pref.indexOf(b[0]);
+      if (ia >= 0 && ib >= 0) return ia - ib;   // ทั้งคู่ถูกจัดลำดับ → ตามที่ตั้ง
+      if (ia >= 0) return -1;                    // a ถูกจัดลำดับ → มาก่อน
+      if (ib >= 0) return 1;
+      return new Date(b[1][0].addedAt) - new Date(a[1][0].addedAt);  // ที่เหลือเรียงตามวันที่
+    })
+    .slice(0, 8);
   return top.map(([s, a]) => sectionHTML(s, "products?series=" + encodeURIComponent(s), grid(a.slice(0, 12)))).join("");
 }
 

@@ -92,7 +92,7 @@ app.delete("/api/products/:id", (req, res) => { Products.remove(req.params.id); 
 app.get("/api/orders", (_q, res) => res.json(Orders.all()));
 app.get("/api/orders/:no", (req, res) => { const o = Orders.get(req.params.no); return o ? res.json(o) : res.status(404).json({ message: "ไม่พบออเดอร์" }); });
 app.put("/api/orders/:no", (req, res) => {
-  if (req.body.status && !["pending", "paid", "packing", "shipped", "delivered", "cancelled"].includes(req.body.status))
+  if (req.body.status && !["pending", "paid", "abroad", "packing", "shipped", "delivered", "cancelled"].includes(req.body.status))
     return res.status(400).json({ message: "สถานะไม่ถูกต้อง" });
   const o = Orders.editFull(req.params.no, req.body);   // แก้ได้ทั้งสถานะ/พัสดุ/ข้อมูลลูกค้า/ที่อยู่/หมายเหตุ
   if (!o) return res.status(404).json({ message: "ไม่พบออเดอร์" });
@@ -122,7 +122,7 @@ app.get("/api/audit", (_q, res) => res.json(Audit.all(200)));
 /* ---------- settings ---------- */
 app.get("/api/settings", (_q, res) => res.json(Settings.all()));
 app.put("/api/settings", (req, res) => {
-  ["shippingFlat", "freeShipMin", "promo", "shopName", "heroProductId", "heroProductIds", "homeSections"].forEach(k => { if (k in req.body) Settings.set(k, req.body[k]); });
+  ["shippingFlat", "freeShipMin", "promo", "shopName", "heroProductId", "heroProductIds", "homeSections", "seriesOrder"].forEach(k => { if (k in req.body) Settings.set(k, req.body[k]); });
   Audit.log(req.admin.sub, "settings_update", {});
   res.json(Settings.all());
 });

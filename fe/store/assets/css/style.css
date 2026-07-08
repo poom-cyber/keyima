@@ -164,6 +164,17 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
 /* hover การ์ดสินค้า: สไลด์รูปรางวัลนุ่มๆ + ซูมเบาๆ */
 .card-media img { transition: opacity .45s ease, transform .55s ease; }
 .card:hover .card-media img { transform: scale(1.05); }
+/* timeline ติดตามคำสั่งซื้อ */
+.track-timeline { display: flex; flex-direction: column; margin: 10px 0 4px; }
+.track-step { display: flex; align-items: center; gap: 12px; padding: 7px 0; position: relative; }
+.track-step .dot { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; flex-shrink: 0; border: 2px solid #dfe3e8; background: #fff; color: #8a9099; z-index: 1; }
+.track-step .lbl { font-size: 14px; color: #8a9099; }
+.track-step.done .dot { background: #1e9e6a; border-color: #1e9e6a; color: #fff; }
+.track-step.done .lbl { color: #3a4048; }
+.track-step.cur .dot { background: #d8453f; border-color: #d8453f; color: #fff; box-shadow: 0 0 0 4px rgba(216,69,63,.15); }
+.track-step.cur .lbl { color: #d8453f; font-weight: 700; }
+.track-step:not(:last-child)::before { content: ""; position: absolute; left: 12px; top: 26px; height: 100%; width: 2px; background: #e6e8ec; }
+.track-step.done:not(:last-child)::before { background: #1e9e6a; }
 /* แถวเลื่อนแนวนอน (section ตามซีรีส์) */
 .hscroll { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
 .hscroll > * { flex: 0 0 220px; scroll-snap-align: start; }

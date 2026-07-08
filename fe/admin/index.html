@@ -249,7 +249,7 @@
           <h2>จัดการออเดอร์</h2>
           <div class="toolbar">
             <input id="o-search" class="f search" placeholder="ค้นหาเลข/ลูกค้า…">
-            <select id="o-stat" class="f"><option value="all">ทุกสถานะ</option><option value="pending">รอตรวจสลิป</option><option value="paid">ชำระแล้ว</option><option value="packing">กำลังแพ็ก</option><option value="shipped">จัดส่งแล้ว</option><option value="delivered">ส่งสำเร็จ</option><option value="cancelled">ยกเลิก</option></select>
+            <select id="o-stat" class="f"><option value="all">ทุกสถานะ</option><option value="pending">รอยืนยันชำระเงิน</option><option value="paid">ชำระเงินแล้ว</option><option value="abroad">กำลังเดินทางจากต่างประเทศ</option><option value="packing">เตรียมจัดส่งในไทย</option><option value="shipped">จัดส่งแล้ว</option><option value="delivered">ส่งสำเร็จ</option><option value="cancelled">ยกเลิก</option></select>
           </div>
         </div>
         <div style="overflow-x:auto">
@@ -308,6 +308,11 @@
         <h2>จัดเรียงหน้าแรก</h2>
         <div class="muted" style="font-size:12px;margin-bottom:10px">เปิด-ปิด และเรียงลำดับ section ในหน้าแรก (กด ↑↓ เลื่อน) — กด "บันทึกการตั้งค่า" ด้านบนเพื่อบันทึก</div>
         <div id="sec-config"></div>
+      </div>
+      <div class="set-card">
+        <h2>จัดลำดับซีรีส์ (ในหน้าแรก)</h2>
+        <div class="muted" style="font-size:12px;margin-bottom:10px">เลือกว่าซีรีส์/อนิเมะไหนแสดงก่อน-หลัง (กด ↑↓) — เฉพาะที่มีสินค้า ≥3 ตัว · กด "บันทึกการตั้งค่า" ด้านบนเพื่อบันทึก</div>
+        <div id="series-config" style="max-height:320px;overflow:auto"></div>
       </div>
       <div class="set-card">
         <h2>เปลี่ยนรหัสผ่านแอดมิน</h2>
@@ -392,7 +397,7 @@
         <div class="field"><label class="lbl">อำเภอ/เขต</label><input id="om-district" class="f"></div>
         <div class="field"><label class="lbl">จังหวัด</label><input id="om-province" class="f"></div>
         <div class="field"><label class="lbl">รหัสไปรษณีย์</label><input id="om-zip" class="f"></div>
-        <div class="field"><label class="lbl">สถานะ</label><select id="om-status" class="f"><option value="pending">รอตรวจสลิป</option><option value="paid">ชำระแล้ว</option><option value="packing">กำลังแพ็ก</option><option value="shipped">จัดส่งแล้ว</option><option value="delivered">ส่งสำเร็จ</option><option value="cancelled">ยกเลิก</option></select></div>
+        <div class="field"><label class="lbl">สถานะ</label><select id="om-status" class="f"><option value="pending">รอยืนยันชำระเงิน</option><option value="paid">ชำระเงินแล้ว</option><option value="abroad">กำลังเดินทางจากต่างประเทศ</option><option value="packing">เตรียมจัดส่งในไทย</option><option value="shipped">จัดส่งแล้ว</option><option value="delivered">ส่งสำเร็จ</option><option value="cancelled">ยกเลิก</option></select></div>
         <div class="field"><label class="lbl">เลขพัสดุ (ใส่แล้วอีเมลแจ้งลูกค้า)</label><input id="om-tracking" class="f" placeholder="เช่น TH123..."></div>
         <div class="field" style="grid-column:1/-1"><label class="lbl">หมายเหตุ</label><input id="om-note" class="f"></div>
       </div>
@@ -447,7 +452,7 @@ const $=id=>document.getElementById(id);
 const THB=n=>"฿"+Number(n||0).toLocaleString("th-TH");
 const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let tT; function toast(msg,type){ const el=$("toast"); el.textContent=msg; el.className="show"+(type==="err"?" err":""); clearTimeout(tT); tT=setTimeout(()=>el.className="",2600); }
-function statusLabel(s){ return ({pending:"รอตรวจสลิป",paid:"ชำระแล้ว",packing:"กำลังแพ็ก",shipped:"จัดส่งแล้ว",delivered:"ส่งสำเร็จ",cancelled:"ยกเลิก"})[s]||s; }
+function statusLabel(s){ return ({pending:"รอยืนยันชำระเงิน",paid:"ชำระเงินแล้ว",abroad:"กำลังเดินทางจากต่างประเทศ",packing:"เตรียมจัดส่งในไทย",shipped:"จัดส่งแล้ว",delivered:"ส่งสำเร็จ",cancelled:"ยกเลิก"})[s]||s; }
 function safeArr(s){ return Array.isArray(s)?s:(()=>{try{return JSON.parse(s)||[]}catch(e){return[]}})(); }
 
 /* ============ auth / boot ============ */
@@ -612,7 +617,7 @@ function renderOrders(){
       <td>${pay}${o.slip?`<br><a href="#" class="slip-link" data-slip="${esc(o.orderNo)}" style="color:var(--blue);font-size:12px">🧾 ดูสลิป</a>`:'<br><span class="muted" style="font-size:11px">— ไม่มีสลิป</span>'}</td>
       <td class="muted" style="font-size:12px">${date}</td>
       <td><span class="pill ${o.status==='cancelled'?'pill-out':o.status==='pending'?'pill-low':'pill-ready'}">${statusLabel(o.status)}</span></td>
-      <td><div style="display:flex;gap:6px;align-items:center"><select class="f" style="padding:6px 8px;font-size:12.5px" data-order="${esc(o.orderNo)}">${["pending","paid","packing","shipped","delivered","cancelled"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${statusLabel(s)}</option>`).join("")}</select><button class="act" data-oview="${esc(o.orderNo)}">ดู</button></div></td>
+      <td><div style="display:flex;gap:6px;align-items:center"><select class="f" style="padding:6px 8px;font-size:12.5px" data-order="${esc(o.orderNo)}">${["pending","paid","abroad","packing","shipped","delivered","cancelled"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${statusLabel(s)}</option>`).join("")}</select><button class="act" data-oview="${esc(o.orderNo)}">ดู</button></div></td>
     </tr>`;
   }).join("") || `<tr><td colspan="7" style="text-align:center;padding:34px" class="muted">ยังไม่มีออเดอร์</td></tr>`;
   $("o-body").querySelectorAll("[data-order]").forEach(sel=>sel.onchange=async()=>{ try{ await API.setOrderStatus(sel.dataset.order,sel.value); toast("อัปเดตสถานะแล้ว"); const o=ORDERS.find(x=>x.orderNo===sel.dataset.order); if(o)o.status=sel.value; }catch(e){ toast(e.message,"err"); } });
@@ -696,13 +701,28 @@ function initSecOrder(homeSections){
   secOrder=enabled.map(k=>({k,on:true}));
   SECTIONS_DEF.forEach(d=>{ if(!enabled.includes(d.k)) secOrder.push({k:d.k,on:false}); });
 }
+let seriesArr=[];
+function renderSeriesConfig(){
+  const box=$("series-config"); if(!box) return;
+  box.innerHTML = seriesArr.length ? seriesArr.map((s,idx)=>`<div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid #eceef1;border-radius:9px;margin-bottom:6px"><span style="flex:1;font-size:13px">${esc(s)}</span><button type="button" class="act" data-serup="${idx}" ${idx===0?'disabled':''}>↑</button><button type="button" class="act" data-serdn="${idx}" ${idx===seriesArr.length-1?'disabled':''}>↓</button></div>`).join("") : '<div class="muted" style="font-size:12px">ยังไม่มีซีรีส์ที่มีสินค้า ≥3 ตัว</div>';
+  box.querySelectorAll("[data-serup]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.serup; [seriesArr[i-1],seriesArr[i]]=[seriesArr[i],seriesArr[i-1]]; renderSeriesConfig(); });
+  box.querySelectorAll("[data-serdn]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.serdn; [seriesArr[i+1],seriesArr[i]]=[seriesArr[i],seriesArr[i+1]]; renderSeriesConfig(); });
+}
+function initSeriesOrder(seriesOrder){
+  const counts={}; PRODUCTS.forEach(p=>{ const s=(p.series||"").trim(); if(s&&s!=="อื่นๆ") counts[s]=(counts[s]||0)+1; });
+  const all=Object.keys(counts).filter(s=>counts[s]>=3);
+  const pref=String(seriesOrder||"").split(",").map(x=>x.trim()).filter(Boolean).filter(s=>all.includes(s));
+  const rest=all.filter(s=>!pref.includes(s)).sort((a,b)=>counts[b]-counts[a]);
+  seriesArr=[...pref,...rest];
+}
 async function loadSettings(){ try{ const s=await API.getSettings(); $("s-shop").value=s.shopName||""; $("s-promo").value=s.promo||""; $("s-ship").value=s.shippingFlat??60; $("s-free").value=s.freeShipMin??3000;
   if(!PRODUCTS.length){ try{ PRODUCTS=await API.products(); }catch(_){} }
   heroSelArr=String(s.heroProductIds || s.heroProductId || "").split(",").map(x=>x.trim()).filter(Boolean); renderHeroList(""); heroCurLabel();
   initSecOrder(s.homeSections); renderSecConfig();
+  initSeriesOrder(s.seriesOrder); renderSeriesConfig();
  }catch(e){ toast(e.message,"err"); } }
 $("s-hero-search").addEventListener("input",e=>renderHeroList(e.target.value));
-$("s-save").onclick=async()=>{ try{ await API.saveSettings({ shopName:$("s-shop").value, promo:$("s-promo").value, shippingFlat:$("s-ship").value, freeShipMin:$("s-free").value, heroProductIds:heroSelArr.join(","), homeSections:secOrder.filter(s=>s.on).map(s=>s.k).join(",") }); toast("บันทึกการตั้งค่าแล้ว"); }catch(e){ toast(e.message,"err"); } };
+$("s-save").onclick=async()=>{ try{ await API.saveSettings({ shopName:$("s-shop").value, promo:$("s-promo").value, shippingFlat:$("s-ship").value, freeShipMin:$("s-free").value, heroProductIds:heroSelArr.join(","), homeSections:secOrder.filter(s=>s.on).map(s=>s.k).join(","), seriesOrder:seriesArr.join(",") }); toast("บันทึกการตั้งค่าแล้ว"); }catch(e){ toast(e.message,"err"); } };
 $("s-chpass").onclick=async()=>{ const np=$("s-np").value, cp=$("s-cp").value; if(np.length<8){ toast("รหัสผ่านต้องยาวอย่างน้อย 8 ตัว","err"); return; } if(np!==cp){ toast("รหัสผ่านยืนยันไม่ตรงกัน","err"); return; } try{ await API.changePassword(np); $("s-np").value=""; $("s-cp").value=""; toast("เปลี่ยนรหัสผ่านแล้ว"); }catch(e){ toast(e.message,"err"); } };
 
 /* ============ start ============ */
