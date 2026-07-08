@@ -46,8 +46,28 @@ function orderLines(o) {
   ].join("\n");
 }
 
+/* ดึงอีเมลออกจาก "KEYIMA <keyi.bkk@gmail.com>" หรือรับอีเมลเปล่า */
+function fromEmail() {
+  if (process.env.MAIL_FROM_EMAIL) return process.env.MAIL_FROM_EMAIL;
+  const m = /<([^>]+)>/.exec(FROM);
+  return (m ? m[1] : FROM).trim();
+}
+
 async function send(to, subject, text) {
   if (!to) return;
+  // 1) Brevo HTTP API (port 443) — เลี่ยงการที่ Render free tier บล็อก SMTP
+  if (process.env.BREVO_API_KEY) {
+    try {
+      const r = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: { "api-key": process.env.BREVO_API_KEY, "content-type": "application/json", "accept": "application/json" },
+        body: JSON.stringify({ sender: { name: SHOP, email: fromEmail() }, to: [{ email: to }], subject, textContent: text })
+      });
+      if (!r.ok) console.warn("Brevo API ส่งไม่สำเร็จ:", r.status, await r.text().catch(() => ""));
+    } catch (e) { console.warn("Brevo API error:", e.message); }
+    return;
+  }
+  // 2) SMTP (ใช้ได้บน paid tier ที่ไม่บล็อก port)
   try { await getTransport().sendMail({ from: FROM, to, subject, text }); }
   catch (e) { console.warn("ส่งอีเมลไม่สำเร็จ:", e.message); }
 }
