@@ -8,8 +8,23 @@ Storefront.boot(() => {
   if (params.get("email")) document.getElementById("t-email").value = params.get("email");
   document.getElementById("t-btn").addEventListener("click", lookup);
   document.getElementById("t-email").addEventListener("keydown", e => { if (e.key === "Enter") lookup(); });
+  renderSaved();
   if (params.get("no") && params.get("email")) lookup();
 });
+
+/* รายการคำสั่งซื้อที่จำไว้ในเบราว์เซอร์ (กดดูได้เลยไม่ต้องจำเลข) */
+function renderSaved() {
+  const box = document.getElementById("t-saved"); if (!box) return;
+  let mine = []; try { mine = JSON.parse(localStorage.getItem("kps_myorders") || "[]"); } catch (e) {}
+  if (!mine.length) { box.innerHTML = ""; return; }
+  box.innerHTML = `<div class="form-card" style="margin-bottom:16px;"><h3>คำสั่งซื้อของคุณ</h3>
+    ${mine.map(m => `<button class="btn btn--ghost btn--block" style="margin-top:8px;text-align:left;" data-mno="${m.no}" data-memail="${m.email}">#${m.no} · ${formatTHB(m.total)} · ${new Date(m.date).toLocaleDateString("th-TH")}</button>`).join("")}</div>`;
+  box.querySelectorAll("[data-mno]").forEach(b => b.onclick = () => {
+    document.getElementById("t-no").value = b.dataset.mno;
+    document.getElementById("t-email").value = b.dataset.memail;
+    lookup();
+  });
+}
 
 async function lookup() {
   const no = (document.getElementById("t-no").value || "").trim();

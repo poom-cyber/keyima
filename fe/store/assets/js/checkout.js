@@ -92,6 +92,8 @@ async function submit() {
   const saved = await Storefront.createOrder(payload);
   if (!saved || !saved.orderNo) { btn.disabled = false; btn.textContent = "ยืนยันสั่งซื้อ " + formatTHB(total); showToast("บันทึกออเดอร์ไม่สำเร็จ — เช็กว่าเซิร์ฟเวอร์รันอยู่", "err"); return; }
   Store.clearCart();
+  // จำออเดอร์ไว้ในเบราว์เซอร์ → กลับมาดูที่หน้า /track ได้โดยไม่ต้องจำเลข
+  try { const mine = JSON.parse(localStorage.getItem("kps_myorders") || "[]"); mine.unshift({ no: saved.orderNo, email: payload.email, total: saved.total || total, date: Date.now() }); localStorage.setItem("kps_myorders", JSON.stringify(mine.slice(0, 20))); } catch (e) {}
   const cfg = window.APP_CONFIG || {};
   root.innerHTML = `
   <div class="success-box"><div class="check">✓</div><h2>รับออเดอร์แล้ว!</h2>

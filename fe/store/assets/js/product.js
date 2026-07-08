@@ -76,7 +76,7 @@ function renderPDP(p) {
         <div class="muted" style="font-weight:700;margin:16px 0 8px;">รูปแบบจัดส่ง</div>
         <div class="vgrid">
           <button class="vchip ${!expressSel ? "on" : ""}" data-exp="0"><span>รับสินค้าตามระบบ</span><small>${formatTHB(v.price)}</small></button>
-          <button class="vchip ${expressSel ? "on" : ""}" data-exp="1"><span>ส่งด่วน 7-15 วัน</span><small>${formatTHB(ep)} · +1,000</small></button>
+          <button class="vchip ${expressSel ? "on" : ""}" data-exp="1"><span>ส่งด่วน 7-15 วัน</span><small>${formatTHB(ep)}</small></button>
         </div>
         <div class="pdp-meta">
           <div class="row"><span>หมวดสินค้า</span><span>${catLabel}</span></div>
@@ -111,7 +111,10 @@ function renderPDP(p) {
   }
   draw();
 
-  const related = (window.PRODUCTS || []).filter(x => x.category === p.category && x.id !== p.id).slice(0, 4);
+  const pool = (window.PRODUCTS || []).filter(x => x.id !== p.id && x.status !== "hidden");
+  const sameSeries = pool.filter(x => x.series && x.series === p.series);                 // อนิเมะ/ซีรีส์เดียวกันก่อน
+  const sameCat = pool.filter(x => x.category === p.category && x.series !== p.series);    // แล้วค่อยหมวดเดียวกัน
+  const related = [...sameSeries, ...sameCat].slice(0, 6);
   const rel = document.getElementById("related");
   if (rel) { rel.innerHTML = related.map(productCard).join(""); if (typeof bindCards === "function") bindCards(); }
 }

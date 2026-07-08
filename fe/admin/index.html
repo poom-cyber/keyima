@@ -692,7 +692,7 @@ function renderSecConfig(){
   $("sec-config").querySelectorAll("[data-secdn]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.secdn; [secOrder[i+1],secOrder[i]]=[secOrder[i],secOrder[i+1]]; renderSecConfig(); });
 }
 function initSecOrder(homeSections){
-  const enabled=String(homeSections||"new,preorder,series").split(",").map(s=>s.trim()).filter(Boolean);
+  const enabled=String(homeSections||"new,series").split(",").map(s=>s.trim()).filter(Boolean);
   secOrder=enabled.map(k=>({k,on:true}));
   SECTIONS_DEF.forEach(d=>{ if(!enabled.includes(d.k)) secOrder.push({k:d.k,on:false}); });
 }

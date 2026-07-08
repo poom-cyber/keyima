@@ -80,7 +80,7 @@ app.post("/api/orders", (req, res) => {
     const v = (p.variations || [])[it.idx] || { price: p.price, label: "", opt: "" };
     const qty = Math.max(1, Math.min(parseInt(it.qty) || 1, 99));
     const express = !!it.express;
-    const price = express ? (Number(v.priceExpress) || (Number(v.price) + 1000)) : v.price;
+    const price = express ? (Number(v.price) + 800) : v.price;
     subtotal += price * qty;
     items.push({ id: p.id, name: p.name, prize: v.label, opt: v.opt, price, qty, img: v.img || p.img, express, ship: express ? "ส่งด่วน 7-15 วัน" : "รับสินค้าตามระบบ" });
   }

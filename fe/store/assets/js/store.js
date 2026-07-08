@@ -53,7 +53,7 @@ const Store = {
   removeFromCart(key) { const cart = Store.getCart(); delete cart[key]; Store.saveCart(cart); },
   clearCart() { localStorage.removeItem(CART_KEY); Store.updateBadge(); },
 
-  expressPrice(v) { return (v && v.priceExpress) ? v.priceExpress : ((v ? v.price : 0) + 1000); },
+  expressPrice(v) { return (v ? v.price : 0) + 800; },   // ส่งด่วน = ราคาปกติ + 800
   cartItems() {
     const cart = Store.getCart();
     return Object.keys(cart).map(key => {

@@ -161,6 +161,9 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
 .hero-dots { display: flex; gap: 7px; justify-content: center; margin-top: 12px; }
 .hero-dots span { width: 9px; height: 9px; border-radius: 50%; background: #d0d4da; cursor: pointer; transition: .25s; }
 .hero-dots span.on { background: #d8453f; width: 22px; border-radius: 5px; }
+/* hover การ์ดสินค้า: สไลด์รูปรางวัลนุ่มๆ + ซูมเบาๆ */
+.card-media img { transition: opacity .45s ease, transform .55s ease; }
+.card:hover .card-media img { transform: scale(1.05); }
 /* แถวเลื่อนแนวนอน (section ตามซีรีส์) */
 .hscroll { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
 .hscroll > * { flex: 0 0 220px; scroll-snap-align: start; }

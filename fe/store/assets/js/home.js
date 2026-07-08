@@ -9,7 +9,7 @@ Storefront.boot(() => {
 
   setupHero(all, S);
 
-  const order = String(S.homeSections || "new,preorder,series").split(",").map(s => s.trim()).filter(Boolean);
+  const order = String(S.homeSections || "new,series").split(",").map(s => s.trim()).filter(Boolean);
   const html = order.map(key => renderSection(key, all)).filter(Boolean).join("");
   document.getElementById("home-sections").innerHTML = html + viewAllHTML();
   bindAddButtons();

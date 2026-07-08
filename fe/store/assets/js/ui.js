@@ -17,6 +17,7 @@ function renderChrome(activePage) {
       </nav>
       <div class="header-actions">
         <a href="products" class="icon-btn" aria-label="ค้นหา" title="ค้นหาสินค้า">🔍</a>
+        <a href="track" class="icon-btn" aria-label="ติดตามคำสั่งซื้อ" title="ติดตามคำสั่งซื้อ">📦</a>
         <a href="account" class="icon-btn" aria-label="บัญชี" title="บัญชีของฉัน">👤</a>
         <a href="cart" class="icon-btn cart-link" aria-label="ตะกร้า" title="ตะกร้าสินค้า">🛒<span class="cart-badge" data-cart-badge>0</span></a>
       </div>
@@ -112,8 +113,9 @@ function bindCardHover() {
     const img = a.querySelector("img");
     if (!img || imgs.length < 2) return;
     let i = 0, timer = null;
-    a.addEventListener("mouseenter", () => { clearInterval(timer); timer = setInterval(() => { i = (i + 1) % imgs.length; img.src = imgs[i]; }, 650); });
-    a.addEventListener("mouseleave", () => { clearInterval(timer); i = 0; img.src = imgs[0]; });
+    const swap = n => { img.style.opacity = "0"; setTimeout(() => { i = n; img.src = imgs[i]; img.style.opacity = "1"; }, 240); };
+    a.addEventListener("mouseenter", () => { clearInterval(timer); timer = setInterval(() => swap((i + 1) % imgs.length), 1500); });
+    a.addEventListener("mouseleave", () => { clearInterval(timer); swap(0); });
   });
 }
 
