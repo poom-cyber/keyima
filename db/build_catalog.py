@@ -14,6 +14,9 @@ OUT  = os.environ.get("CATALOG_OUT", os.path.join(HERE, "catalog.json"))
 MARKUP = 30      # %
 VAT    = 7       # %
 SHIP   = 200     # ค่าส่งญี่ปุ่น->ไทย ต่อชิ้น (บาท)
+EXPRESS_ADD   = 1000                    # ส่วนบวกราคาส่งด่วน = ราคาปกติ + 1000 (บาท)
+EXPRESS_LABEL = "ส่งด่วน 7-15 วัน"      # ชื่อตัวเลือกส่งด่วน (แสดงหน้าร้าน)
+NORMAL_LABEL  = "รับสินค้าตามระบบ"      # ชื่อตัวเลือกส่งปกติ
 
 def round90(n):
     return math.ceil(n/100)*100 - 10
@@ -96,6 +99,7 @@ def main():
                 "label": str(pz.get("pz","")),
                 "opt": "",
                 "price": sell or 0,
+                "priceExpress": (sell + EXPRESS_ADD) if sell else 0,   # ราคาส่งด่วน = ราคาปกติ + ค่าส่งด่วน
                 "stock": 5,
                 "img": img,
             })
@@ -119,7 +123,8 @@ def main():
             "desc": name,
             "variations": variations,
         })
-    meta = {"updated": d.get("updated"), "rate": rate, "markup": MARKUP, "vat": VAT, "ship": SHIP, "count": len(out)}
+    meta = {"updated": d.get("updated"), "rate": rate, "markup": MARKUP, "vat": VAT, "ship": SHIP, "count": len(out),
+            "expressAdd": EXPRESS_ADD, "expressLabel": EXPRESS_LABEL, "normalLabel": NORMAL_LABEL}
     json.dump({"meta": meta, "products": out}, open(OUT,"w",encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"[ok] catalog.json: {len(out)} products -> {OUT}")
     # สรุปหมวด/ซีรีส์

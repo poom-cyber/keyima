@@ -116,7 +116,7 @@
   .modal-bd{padding:20px;max-height:70vh;overflow:auto}
   .modal-ft{display:flex;gap:10px;justify-content:flex-end;padding:15px 20px;border-top:1px solid #f0f1f3}
   .field{margin-bottom:13px}
-  .var-row{display:grid;grid-template-columns:52px 1fr 82px 66px 30px;gap:7px;align-items:center;margin-bottom:7px}
+  .var-row{display:grid;grid-template-columns:58px 1fr 1fr 62px 30px;gap:7px;align-items:center;margin-bottom:7px}
   .var-row .f{padding:7px 9px;font-size:12.5px}
 
   /* toast */
@@ -210,7 +210,7 @@
         <div id="p-syncmsg" class="muted" style="padding:0 18px;font-size:12px"></div>
         <div style="overflow-x:auto">
           <table>
-            <thead><tr><th>สินค้า</th><th>หมวด / ซีรีส์</th><th>ราคา</th><th>สูงสุด</th><th>สต็อก</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <thead><tr><th>สินค้า</th><th>หมวด / ซีรีส์</th><th>ราคา (ปกติ / ด่วน)</th><th>สูงสุด</th><th>สต็อก</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
             <tbody id="p-body"></tbody>
           </table>
         </div>
@@ -321,10 +321,10 @@
       </div>
       <div class="field">
         <label class="lbl">รางวัล (variations) — เว้นว่าง = สินค้ารางวัลเดียว</label>
-        <div style="display:grid;grid-template-columns:52px 1fr 82px 66px 30px;gap:7px;font:700 11px 'Noto Sans Thai';color:var(--muted);margin-bottom:5px"><span>รางวัล</span><span>รอบส่ง</span><span>ราคา</span><span>สต็อก</span><span></span></div>
+        <div style="display:grid;grid-template-columns:58px 1fr 1fr 62px 30px;gap:7px;font:700 11px 'Noto Sans Thai';color:var(--muted);margin-bottom:5px"><span>รางวัล</span><span>ราคาปกติ</span><span>ราคาส่งด่วน 7-15 วัน</span><span>สต็อก</span><span></span></div>
         <div id="pm-vars"></div>
         <button type="button" id="pm-addvar" class="btn btn-ghost btn-sm" style="margin-top:6px">+ เพิ่มรางวัล</button>
-        <div class="muted" style="font-size:11px;margin-top:5px">ราคาถูกทับเมื่อกด "ดึงราคาล่าสุด"</div>
+        <div class="muted" style="font-size:11px;margin-top:5px">ราคาด่วน = ราคาปกติ + 1,000 (แก้ได้) · ราคาถูกทับเมื่อกด "ดึงราคาล่าสุด"</div>
       </div>
     </div>
     <div class="modal-ft"><button class="btn btn-ghost btn-sm" id="pm-cancel">ยกเลิก</button><button class="btn btn-primary btn-sm" id="pm-save">บันทึก</button></div>
@@ -457,7 +457,7 @@ function renderProducts(){
     return `<tr>
       <td><div style="display:flex;align-items:center;gap:11px"><img class="thumb" src="${esc(p.img||'')}" alt=""><strong style="font-weight:600">${esc((p.name||'').slice(0,46))}</strong></div></td>
       <td><span class="catx">${p.category==='pokemon'?'Pokémon':'Kuji'}</span><br><span class="muted" style="font-size:11.5px">${esc(p.series||'')}</span></td>
-      <td>${THB(p.price)}${p.oldPrice?`<br><span class="old">${THB(p.oldPrice)}</span>`:''}</td>
+      <td>${THB(p.price)}<br><span class="muted" style="font-size:11px">ด่วน ${THB((parseInt(p.price)||0)+1000)}</span>${p.oldPrice?`<br><span class="old">${THB(p.oldPrice)}</span>`:''}</td>
       <td class="muted">${p.priceMax?THB(p.priceMax):'-'}</td>
       <td>${p.stock??0}</td>
       <td><span class="pill ${cls}">${lbl}</span></td>
@@ -478,7 +478,10 @@ $("p-sync").onclick=async()=>{ const b=$("p-sync"); b.disabled=true; $("p-syncms
 /* ============ product modal ============ */
 let editingId=null;
 function varRow(v){ v=v||{}; const d=document.createElement("div"); d.className="var-row";
-  d.innerHTML=`<input class="f v-label" placeholder="A" value="${esc(v.label)}"><input class="f v-opt" placeholder="รอบส่ง" value="${esc(v.opt)}"><input class="f v-price" inputmode="numeric" placeholder="฿" value="${v.price||''}"><input class="f v-stock" inputmode="numeric" placeholder="0" value="${v.stock??''}"><button type="button" class="act del v-del">✕</button>`;
+  const exp = (v.priceExpress!=null && v.priceExpress!=="") ? v.priceExpress : (v.price ? (parseInt(v.price)+1000) : "");
+  d.innerHTML=`<input class="f v-label" placeholder="A" value="${esc(v.label)}"><input class="f v-price" inputmode="numeric" placeholder="฿ ปกติ" value="${v.price||''}"><input class="f v-exp" inputmode="numeric" placeholder="฿ ด่วน" value="${exp}"><input class="f v-stock" inputmode="numeric" placeholder="0" value="${v.stock??''}"><button type="button" class="act del v-del">✕</button>`;
+  const pI=d.querySelector(".v-price"), eI=d.querySelector(".v-exp");
+  pI.addEventListener("input",()=>{ const n=parseInt(pI.value); eI.value = isNaN(n)?"":(n+1000); });  // ด่วน = ปกติ + 1000 (พิมพ์ทับเองได้)
   d.querySelector(".v-del").onclick=()=>d.remove(); return d; }
 function openModal(id){
   editingId=id||null;
@@ -499,7 +502,7 @@ $("pm").onclick=e=>{ if(e.target===$("pm")) closeModal(); };
 $("pm-addvar").onclick=()=>$("pm-vars").appendChild(varRow());
 $("pm-img").addEventListener("input",()=>$("pm-preview").src=$("pm-img").value);
 $("pm-file").addEventListener("change",async()=>{ const f=$("pm-file").files[0]; if(!f) return; $("pm-upmsg").textContent="กำลังอัปโหลด…"; try{ const {url}=await API.upload(f); $("pm-img").value=url; $("pm-preview").src=url; $("pm-upmsg").textContent="อัปโหลดสำเร็จ ✔"; }catch(e){ $("pm-upmsg").textContent=""; toast(e.message,"err"); } });
-function collectVars(){ return [...$("pm-vars").querySelectorAll(".var-row")].map(r=>({ label:r.querySelector(".v-label").value.trim(), opt:r.querySelector(".v-opt").value.trim(), price:parseInt(r.querySelector(".v-price").value)||0, stock:parseInt(r.querySelector(".v-stock").value)||0 })).filter(v=>v.label||v.price); }
+function collectVars(){ return [...$("pm-vars").querySelectorAll(".var-row")].map(r=>{ const price=parseInt(r.querySelector(".v-price").value)||0; const exp=parseInt(r.querySelector(".v-exp").value); return { label:r.querySelector(".v-label").value.trim(), opt:"", price, priceExpress:isNaN(exp)?(price?price+1000:0):exp, stock:parseInt(r.querySelector(".v-stock").value)||0 }; }).filter(v=>v.label||v.price); }
 $("pm-save").onclick=async()=>{
   const pl={ name:$("pm-name").value.trim(), category:$("pm-cat").value, series:$("pm-series").value.trim(), grade:$("pm-grade").value.trim(), status:$("pm-status").value, price:$("pm-price").value, priceMax:$("pm-max").value||null, oldPrice:$("pm-old").value||null, stock:$("pm-stock").value||0, badge:$("pm-badge").value.trim(), short:$("pm-short").value.trim(), desc:$("pm-desc").value.trim(), img:$("pm-img").value.trim(), variations:collectVars() };
   if(!pl.name||!pl.price){ toast("กรอกชื่อและราคาก่อน","err"); return; }
