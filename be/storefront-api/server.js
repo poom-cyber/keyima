@@ -42,7 +42,7 @@ app.get("/api/products/:id", (req, res) => {
 });
 app.get("/api/settings", (_q, res) => {
   const s = Settings.all();
-  res.json({ shopName: s.shopName, promo: s.promo, shippingFlat: s.shippingFlat, freeShipMin: s.freeShipMin });
+  res.json({ shopName: s.shopName, promo: s.promo, shippingFlat: s.shippingFlat, freeShipMin: s.freeShipMin, heroProductId: s.heroProductId });
 });
 
 /* ===================== customer auth ===================== */
