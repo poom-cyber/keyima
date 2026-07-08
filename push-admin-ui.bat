@@ -8,7 +8,7 @@ echo.
 git add -A
 if errorlevel 1 goto repair
 
-git commit -m "restore fe/ static sites (store+admin) + keyima-api stays API-only; CORS allowlist keyima-admin/keyima-store origins"
+git commit -m "new admin UI (design port, wired to keyima-api) + API-only backend + CORS allowlist static origins"
 git push
 if errorlevel 1 goto pushfail
 goto done
@@ -19,7 +19,7 @@ echo [!] git index looks corrupt - rebuilding it (safe; index is derived state).
 if exist ".git\index" del /q ".git\index"
 git reset
 git add -A
-git commit -m "restore fe/ static sites (store+admin) + keyima-api stays API-only; CORS allowlist keyima-admin/keyima-store origins"
+git commit -m "new admin UI (design port, wired to keyima-api) + API-only backend + CORS allowlist static origins"
 git push
 if errorlevel 1 goto pushfail
 goto done

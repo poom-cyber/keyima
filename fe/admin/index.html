@@ -1,146 +1,571 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>หลังบ้าน — KEYIMA</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/admin.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KEYIMA Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#d8453f; --red-dk:#c23a34; --blue:#2f7fb0; --green:#1e9e6a;
+    --ink:#1f2430; --ink2:#3a4048; --muted:#8a9099; --muted2:#a3a8b0;
+    --line:#ededed; --line2:#e6e8ec; --card-line:#ececec; --bg:#f6f7f9; --bg2:#fbfbfc;
+    --cream:#fbf3cf;
+    --shadow:0 6px 18px -8px rgba(216,69,63,.5);
+    font-family:'Noto Sans Thai','Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:400 14px/1.5 'Noto Sans Thai','Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  input,select,textarea,button{font-family:inherit}
+  .hidden{display:none !important}
+  .muted{color:var(--muted)}
+  .sm{font-size:12px}
+
+  /* ---------- buttons ---------- */
+  .btn{border:none;border-radius:10px;padding:10px 16px;font:700 13.5px 'Noto Sans Thai';cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s;white-space:nowrap}
+  .btn-primary{background:var(--red);color:#fff;box-shadow:var(--shadow)}
+  .btn-primary:hover{background:var(--red-dk)}
+  .btn-blue{background:var(--blue);color:#fff}
+  .btn-ghost{background:#fff;color:var(--ink2);border:1px solid #dfe3e8}
+  .btn-ghost:hover{background:#f7f8fa}
+  .btn-sm{padding:6px 11px;font-size:12.5px;border-radius:8px}
+  .btn:disabled{opacity:.55;cursor:default;box-shadow:none}
+
+  input.f,select.f,textarea.f{width:100%;padding:11px 13px;border:1px solid #dfe3e8;border-radius:10px;font:400 14px 'Noto Sans Thai';color:var(--ink);outline:none;background:var(--bg2)}
+  input.f:focus,select.f:focus,textarea.f:focus{border-color:var(--blue)}
+  label.lbl{display:block;font:600 13px 'Noto Sans Thai';color:var(--ink2);margin-bottom:6px}
+
+  /* ---------- login ---------- */
+  #login-view{position:fixed;inset:0;background:var(--cream);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
+  .login-card{background:#fff;border-radius:22px;box-shadow:0 24px 60px -26px rgba(30,40,60,.32);width:100%;max-width:390px;padding:34px 30px}
+  .logo-badge{width:64px;height:64px;border-radius:50%;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--shadow);margin:0 auto}
+  .logo-cn{font:800 20px/1 'Noto Sans Thai';letter-spacing:1px}
+  .logo-en{font:800 8px/1 Inter;letter-spacing:2.5px;color:var(--red-dk);margin-top:4px}
+
+  /* ---------- app shell ---------- */
+  #app-view{display:none}
+  #app-view.on{display:block}
+  aside{width:240px;position:fixed;top:0;left:0;bottom:0;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:60;transition:transform .25s}
+  .nav-brand{display:flex;align-items:center;gap:11px;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .nav-group{font:700 11px 'Noto Sans Thai';color:var(--muted2);letter-spacing:.5px;padding:16px 20px 7px}
+  .nav-a{display:flex;align-items:center;gap:11px;margin:2px 12px;padding:10px 12px;border-radius:11px;color:var(--ink2);font:600 13.5px 'Noto Sans Thai';cursor:pointer}
+  .nav-a:hover{background:#f5f6f8}
+  .nav-a.active{background:#fbeceb;color:var(--red)}
+  .nav-a .ic{width:18px;text-align:center;font-size:15px}
+  .nav-badge{margin-left:auto;background:#eef0f3;color:var(--muted);font:700 11px Inter;padding:1px 8px;border-radius:999px}
+  .nav-a.active .nav-badge{background:var(--red);color:#fff}
+  .nav-foot{margin-top:auto;border-top:1px solid var(--line);padding:14px 18px;display:flex;align-items:center;gap:10px}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:700 14px Inter;flex-shrink:0}
+
+  main{margin-left:240px;min-height:100vh}
+  .topbar{display:flex;align-items:center;gap:12px;padding:16px 26px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+  .topbar h1{font:800 18px 'Noto Sans Thai';color:var(--ink)}
+  #hamb{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink2)}
+  .wrap{padding:24px 26px;max-width:1180px}
+
+  .stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+  .stat{flex:1;min-width:150px;background:#fff;border:1px solid var(--card-line);border-radius:14px;padding:15px 17px}
+  .stat .n{font:800 24px Inter;color:var(--ink)}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+  .card{background:#fff;border:1px solid var(--card-line);border-radius:16px;overflow:hidden}
+  .card-hd{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:15px 18px;border-bottom:1px solid #f0f1f3}
+  .card-hd h2{font:800 15px 'Noto Sans Thai';color:var(--ink)}
+  .toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-left:auto}
+  .toolbar .f{width:auto;padding:8px 11px;font-size:13px}
+  .search{min-width:190px}
+
+  table{width:100%;border-collapse:collapse}
+  th{font:700 11.5px 'Noto Sans Thai';color:var(--muted);text-align:left;padding:11px 16px;border-bottom:1px solid #eef0f2;background:#fafbfc;white-space:nowrap}
+  td{padding:12px 16px;border-bottom:1px solid #f2f3f5;font-size:13px;vertical-align:middle}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#fcfcfd}
+  .thumb{width:42px;height:42px;border-radius:9px;object-fit:cover;background:#f0f1f3;border:1px solid #eee}
+  .pill{display:inline-block;font:700 11px 'Noto Sans Thai';padding:3px 10px;border-radius:999px}
+  .pill-ready{background:#e5f6ee;color:#158a5b}
+  .pill-pre{background:#e8f1f8;color:#2f7fb0}
+  .pill-out{background:#fdeceb;color:#c23a34}
+  .pill-low{background:#fff4e5;color:#c07c14}
+  .catx{font:700 11px Inter;padding:2px 8px;border-radius:6px;background:#f0f1f3;color:#5a616b}
+  .act{border:1px solid #dfe3e8;background:#fff;color:var(--ink2);border-radius:8px;padding:5px 10px;font:600 12px 'Noto Sans Thai';cursor:pointer}
+  .act:hover{background:#f5f6f8}
+  .act.del{color:var(--red);border-color:#f3d2d0}
+  .act.del:hover{background:#fdeceb}
+  .old{text-decoration:line-through;color:var(--muted2);font-size:11.5px}
+
+  .pager{display:flex;gap:6px;align-items:center;justify-content:flex-end;padding:12px 16px}
+  .pg{min-width:32px;height:32px;border:1px solid #dfe3e8;background:#fff;border-radius:8px;font:600 12.5px Inter;cursor:pointer;color:var(--ink2)}
+  .pg.on{background:var(--red);color:#fff;border-color:var(--red)}
+  .pg:disabled{opacity:.45;cursor:default}
+
+  /* forms grid */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .set-card{background:#fff;border:1px solid var(--card-line);border-radius:16px;padding:20px;max-width:620px;margin-bottom:18px}
+  .set-card h2{font:800 15px 'Noto Sans Thai';margin-bottom:14px}
+
+  /* modal */
+  .ov{position:fixed;inset:0;background:rgba(20,22,34,.55);display:none;align-items:flex-start;justify-content:center;padding:26px 16px;z-index:120;overflow:auto}
+  .ov.on{display:flex}
+  .modal{background:#fff;border-radius:18px;width:100%;max-width:640px;box-shadow:0 30px 70px -20px rgba(20,30,50,.4)}
+  .modal-hd{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid #f0f1f3}
+  .modal-hd h3{font:800 16px 'Noto Sans Thai'}
+  .x{border:none;background:none;font-size:20px;cursor:pointer;color:var(--muted)}
+  .modal-bd{padding:20px;max-height:70vh;overflow:auto}
+  .modal-ft{display:flex;gap:10px;justify-content:flex-end;padding:15px 20px;border-top:1px solid #f0f1f3}
+  .field{margin-bottom:13px}
+  .var-row{display:grid;grid-template-columns:52px 1fr 82px 66px 30px;gap:7px;align-items:center;margin-bottom:7px}
+  .var-row .f{padding:7px 9px;font-size:12.5px}
+
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1f2430;color:#fff;padding:11px 18px;border-radius:11px;font:600 13.5px 'Noto Sans Thai';opacity:0;pointer-events:none;transition:.25s;z-index:300;box-shadow:0 10px 30px -8px rgba(0,0,0,.4)}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast.err{background:#c23a34}
+
+  #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:55}
+  @media(max-width:860px){
+    aside{transform:translateX(-100%)} aside.open{transform:none}
+    main{margin-left:0}
+    #hamb{display:block}
+    #overlay.on{display:block}
+    .grid2{grid-template-columns:1fr}
+  }
+</style>
 </head>
 <body>
-  <div class="admin-shell">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="login-brand" style="margin-bottom:28px;"><span class="brand-logo"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="57" fill="#fbf3cf" stroke="#d8453f" stroke-width="4"/><text x="60" y="60" text-anchor="middle" font-family="'Noto Sans Thai',sans-serif" font-weight="700" font-size="34"><tspan fill="#d8453f">可</tspan><tspan fill="#2f7fb0">以</tspan><tspan fill="#d8453f">吗</tspan></text><text x="60" y="88" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="15" letter-spacing="1"><tspan fill="#2f7fb0">KE </tspan><tspan fill="#d8453f">YI </tspan><tspan fill="#2f7fb0">MA</tspan></text></svg></span> <strong>KEYIMA</strong></div>
-      <nav class="side-nav">
-        <a data-tab="products" class="active">📦 สินค้า</a>
-        <a data-tab="orders">🧾 ออเดอร์</a>
-        <a data-tab="settings">⚙️ ตั้งค่าร้าน</a>
-      </nav>
-      <div class="side-foot">
-        <a href="../index.html" target="_blank" class="muted">↗ เปิดหน้าร้าน</a>
-        <button id="logout" class="muted">ออกจากระบบ</button>
-      </div>
-    </aside>
 
-    <!-- Main -->
-    <main class="admin-main">
-      <!-- สินค้า -->
-      <section data-panel="products">
-        <div class="panel-head">
-          <div><h1>จัดการสินค้า</h1><p class="muted" id="prod-count"></p></div>
-          <button class="btn btn--primary" id="add-product">+ เพิ่มสินค้า</button>
-        </div>
-        <div class="toolbar">
-          <input id="prod-search" class="input" placeholder="ค้นหาสินค้า…">
-          <select id="prod-filter" class="input">
-            <option value="all">ทุกหมวด</option>
-            <option value="kuji">Ichiban Kuji</option>
-            <option value="pokemon">การ์ดโปเกม่อน</option>
-          </select>
-        </div>
-        <div class="table-wrap">
-          <table class="table" id="prod-table">
-            <thead><tr><th>รูป</th><th>ชื่อ</th><th>หมวด</th><th>ราคา</th><th>สต็อก</th><th>สถานะ</th><th></th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ออเดอร์ -->
-      <section data-panel="orders" hidden>
-        <div class="panel-head"><div><h1>รายการออเดอร์</h1><p class="muted" id="order-count"></p></div></div>
-        <div class="table-wrap">
-          <table class="table" id="order-table">
-            <thead><tr><th>เลขที่</th><th>ลูกค้า</th><th>ยอด</th><th>ช่องทาง</th><th>วันที่</th><th>สถานะ</th><th></th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ตั้งค่า -->
-      <section data-panel="settings" hidden>
-        <div class="panel-head"><h1>ตั้งค่าร้าน</h1></div>
-        <div class="card-box" style="max-width:560px;">
-          <div class="field"><label>ชื่อร้าน</label><input id="s-shopName" class="input"></div>
-          <div class="field"><label>ข้อความโปรโมชัน (แสดงบนเว็บ)</label><textarea id="s-promoText" class="input" rows="2"></textarea></div>
-          <div class="form-2">
-            <div class="field"><label>ค่าส่งแบบเหมา (บาท)</label><input id="s-shippingFlat" class="input" inputmode="numeric"></div>
-            <div class="field"><label>ส่งฟรีเมื่อซื้อครบ (บาท)</label><input id="s-freeShipMin" class="input" inputmode="numeric"></div>
-          </div>
-          <button class="btn btn--primary" id="save-settings">บันทึกการตั้งค่า</button>
-          <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line)">
-            <label style="font-weight:700;display:block;margin-bottom:4px">ราคา — เชื่อมระบบเช็คราคา (Mercari)</label>
-            <p class="muted" style="font-size:.8rem;margin-bottom:8px">ดึง "ราคาขายเอง" ล่าสุดเข้าสินค้าทั้งหมด (คงสต็อก/สถานะที่ตั้งไว้)</p>
-            <button class="btn btn--primary" id="sync-prices">🔄 ดึงราคาล่าสุด</button>
-            <span class="muted" id="sync-status" style="margin-left:8px"></span>
-          </div>
-        </div>
-
-        <div class="card-box" style="max-width:560px;margin-top:20px;">
-          <h3 style="margin-bottom:14px;">เปลี่ยนรหัสผ่าน admin</h3>
-          <div class="field"><label>รหัสผ่านใหม่ (อย่างน้อย 6 ตัว)</label><input id="s-newpass" type="password" class="input"></div>
-          <button class="btn btn--dark" id="change-pass">เปลี่ยนรหัสผ่าน</button>
-        </div>
-      </section>
-    </main>
+<!-- ==================== LOGIN ==================== -->
+<div id="login-view">
+  <div class="login-card">
+    <div class="logo-badge">
+      <div class="logo-cn"><span style="color:var(--red)">可</span><span style="color:var(--blue)">以</span><span style="color:var(--red)">吗</span></div>
+      <div class="logo-en">KE YI MA</div>
+    </div>
+    <div style="text-align:center;margin:16px 0 22px">
+      <div style="font:800 22px/1.2 'Noto Sans Thai';color:var(--ink);letter-spacing:.3px">KEYIMA Admin</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">ระบบจัดการร้านพรีออเดอร์</div>
+    </div>
+    <div id="login-err" class="hidden" style="background:#fdeceb;border:1px solid #f6cdca;color:#c23a34;font:500 13px 'Noto Sans Thai';padding:10px 12px;border-radius:10px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="font-size:15px">⚠</span><span id="login-err-t"></span></div>
+    <div class="field"><label class="lbl">ชื่อผู้ใช้</label><input id="lg-user" class="f" placeholder="admin" autocomplete="username"></div>
+    <div class="field"><label class="lbl">รหัสผ่าน</label><input id="lg-pass" class="f" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+    <button id="lg-btn" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:6px">เข้าสู่ระบบ</button>
+    <div style="text-align:center;margin-top:14px">
+      <span id="lg-apitoggle" class="muted" style="font-size:11.5px;cursor:pointer;border-bottom:1px dashed #cfd4da">ตั้งค่าที่อยู่เซิร์ฟเวอร์ (API)</span>
+      <div id="lg-apirow" class="hidden" style="margin-top:8px"><input id="lg-api" class="f" style="font-size:12.5px" placeholder="https://keyima-api.onrender.com/admin"></div>
+    </div>
   </div>
+</div>
 
-  <!-- Modal แก้ไข/เพิ่มสินค้า -->
-  <div class="modal" id="product-modal" hidden>
-    <div class="modal-card">
-      <div class="modal-head"><h3 id="modal-title">เพิ่มสินค้า</h3><button class="modal-close" id="modal-close">✕</button></div>
-      <div class="modal-body">
-        <div class="form-2">
-          <div class="field full"><label>ชื่อสินค้า *</label><input id="m-name" class="input"></div>
-          <div class="field"><label>หมวด *</label>
-            <select id="m-category" class="input"><option value="kuji">Ichiban Kuji</option><option value="pokemon">การ์ดโปเกม่อน</option></select>
-          </div>
-          <div class="field"><label>ซีรีส์</label><input id="m-series" class="input" placeholder="เช่น One Piece"></div>
-          <div class="field"><label>ประเภท/เกรด</label><input id="m-grade" class="input" placeholder="เช่น Prize A, SAR, PSA 10"></div>
-          <div class="field"><label>สถานะ *</label>
-            <select id="m-status" class="input"><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">สินค้าหมด</option></select>
-          </div>
-          <div class="field"><label>ราคา (บาท) *</label><input id="m-price" class="input" inputmode="numeric"></div>
-          <div class="field"><label>ราคาเดิม (ถ้าลดราคา)</label><input id="m-oldPrice" class="input" inputmode="numeric"></div>
-          <div class="field"><label>จำนวนสต็อก</label><input id="m-stock" class="input" inputmode="numeric"></div>
-          <div class="field"><label>ป้ายมุมรูป</label>
-            <select id="m-badge" class="input"><option value="">— ไม่มี —</option><option value="new">ใหม่</option><option value="hot">ฮอต</option></select>
-          </div>
-          <div class="field full"><label>คำโปรย (สั้น)</label><input id="m-short" class="input"></div>
-          <div class="field full"><label>รายละเอียดสินค้า</label><textarea id="m-desc" class="input" rows="3"></textarea></div>
+<!-- ==================== APP ==================== -->
+<div id="app-view">
+  <div id="overlay"></div>
+  <aside id="sidebar">
+    <div class="nav-brand">
+      <div class="logo-badge" style="width:42px;height:42px;box-shadow:0 4px 12px -5px rgba(216,69,63,.5)">
+        <div class="logo-cn" style="font-size:14px"><span style="color:var(--red)">可</span><span style="color:var(--blue)">以</span><span style="color:var(--red)">吗</span></div>
+      </div>
+      <div><div style="font:800 15px 'Noto Sans Thai';color:var(--ink)">KEYIMA</div><div style="font-size:11px;color:var(--muted)">Admin Panel</div></div>
+    </div>
+    <div class="nav-group">เมนูหลัก</div>
+    <div class="nav-a active" data-view="products"><span class="ic">📦</span>สินค้า<span class="nav-badge" id="nb-prod">0</span></div>
+    <div class="nav-a" data-view="orders"><span class="ic">🧾</span>ออเดอร์<span class="nav-badge" id="nb-order">0</span></div>
+    <div class="nav-a" data-view="members"><span class="ic">👥</span>สมาชิก</div>
+    <div class="nav-group">ระบบ</div>
+    <div class="nav-a" data-view="audit"><span class="ic">📜</span>บันทึกการใช้งาน</div>
+    <div class="nav-a" data-view="settings"><span class="ic">⚙️</span>ตั้งค่า</div>
+    <div class="nav-foot">
+      <div class="avatar" id="me-init">A</div>
+      <div style="min-width:0"><div id="me-name" style="font:700 13px 'Noto Sans Thai';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">แอดมิน</div><div class="muted" style="font-size:11px">ผู้ดูแลระบบ</div></div>
+      <button id="logout" class="act" style="margin-left:auto" title="ออกจากระบบ">⎋</button>
+    </div>
+  </aside>
 
-          <div class="field full"><label>รางวัลย่อย (A / B / C / Last One) — ราคาแยกตามรางวัล</label>
-            <div class="muted" style="display:grid;grid-template-columns:56px 96px 78px 60px 1fr 26px;gap:6px;font-size:.7rem;margin-bottom:4px"><span>รางวัล</span><span>รอบส่ง</span><span>ราคา</span><span>สต็อก</span><span>URL รูป</span><span></span></div>
-            <div id="m-variations"></div>
-            <button type="button" class="btn btn--ghost btn--sm" id="m-add-var" style="margin-top:8px">+ เพิ่มรางวัล</button>
-            <p class="muted" style="font-size:.72rem;margin-top:4px">เว้นว่างทั้งหมด = สินค้ารางวัลเดียว (ใช้ราคาหลัก) · ราคาถูกทับเมื่อกด "ดึงราคาล่าสุด"</p>
-          </div>
+  <main>
+    <div class="topbar">
+      <button id="hamb">☰</button>
+      <h1 id="sec-title">สินค้า</h1>
+    </div>
 
-          <div class="field full"><label>รูปสินค้า</label>
-            <div class="img-row">
-              <img id="m-preview" class="img-preview" src="" alt="">
-              <div style="flex:1;">
-                <input id="m-img" class="input" placeholder="วาง URL รูป หรืออัปโหลดด้านล่าง">
-                <div class="upload-row">
-                  <label class="btn btn--ghost btn--sm">⬆ อัปโหลดรูป<input type="file" id="m-file" accept="image/*" hidden></label>
-                  <span class="muted" id="upload-status"></span>
-                </div>
-              </div>
+    <!-- PRODUCTS -->
+    <div class="wrap view" data-view="products">
+      <div class="stats">
+        <div class="stat"><div class="n" id="st-total">0</div><div class="l">สินค้าทั้งหมด</div></div>
+        <div class="stat"><div class="n" id="st-ready" style="color:var(--green)">0</div><div class="l">พร้อมส่ง</div></div>
+        <div class="stat"><div class="n" id="st-pre" style="color:var(--blue)">0</div><div class="l">พรีออเดอร์</div></div>
+        <div class="stat"><div class="n" id="st-out" style="color:var(--red)">0</div><div class="l">ของหมด</div></div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <h2>สินค้าทั้งหมด</h2>
+          <div class="toolbar">
+            <input id="p-search" class="f search" placeholder="ค้นหาชื่อ / ซีรีส์…">
+            <select id="p-cat" class="f"><option value="all">ทุกหมวด</option><option value="kuji">Kuji</option><option value="pokemon">Pokémon</option></select>
+            <select id="p-stat" class="f"><option value="all">ทุกสถานะ</option><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">ของหมด</option></select>
+            <button id="p-sync" class="btn btn-blue btn-sm">🔄 ดึงราคาล่าสุด</button>
+            <button id="p-add" class="btn btn-primary btn-sm">+ เพิ่มสินค้า</button>
+          </div>
+        </div>
+        <div id="p-syncmsg" class="muted" style="padding:0 18px;font-size:12px"></div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>สินค้า</th><th>หมวด / ซีรีส์</th><th>ราคา</th><th>สูงสุด</th><th>สต็อก</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="p-body"></tbody>
+          </table>
+        </div>
+        <div class="pager" id="p-pager"></div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="wrap view hidden" data-view="orders">
+      <div class="card">
+        <div class="card-hd">
+          <h2>จัดการออเดอร์</h2>
+          <div class="toolbar">
+            <input id="o-search" class="f search" placeholder="ค้นหาเลข/ลูกค้า…">
+            <select id="o-stat" class="f"><option value="all">ทุกสถานะ</option><option value="pending">รอตรวจสลิป</option><option value="paid">ชำระแล้ว</option><option value="packing">กำลังแพ็ก</option><option value="shipped">จัดส่งแล้ว</option><option value="delivered">ส่งสำเร็จ</option><option value="cancelled">ยกเลิก</option></select>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>เลขออเดอร์</th><th>ลูกค้า</th><th>ยอดรวม</th><th>ชำระ/สลิป</th><th>วันที่</th><th>สถานะ</th><th>เปลี่ยนสถานะ</th></tr></thead>
+            <tbody id="o-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMBERS -->
+    <div class="wrap view hidden" data-view="members">
+      <div class="card">
+        <div class="card-hd"><h2>สมาชิก</h2><div class="toolbar"><input id="m-search" class="f search" placeholder="ค้นหาชื่อ/อีเมล…"></div></div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>ลูกค้า</th><th>อีเมล</th><th>เบอร์โทร</th><th>ออเดอร์</th><th>ยอดสะสม</th></tr></thead>
+            <tbody id="m-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDIT -->
+    <div class="wrap view hidden" data-view="audit">
+      <div class="card">
+        <div class="card-hd"><h2>บันทึกการใช้งาน</h2></div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>เวลา</th><th>แอดมิน</th><th>การกระทำ</th><th>รายละเอียด</th><th>IP</th></tr></thead>
+            <tbody id="a-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="wrap view hidden" data-view="settings">
+      <div class="set-card">
+        <h2>ตั้งค่าร้าน</h2>
+        <div class="grid2">
+          <div class="field"><label class="lbl">ชื่อร้าน</label><input id="s-shop" class="f"></div>
+          <div class="field"><label class="lbl">ค่าส่ง (บาท)</label><input id="s-ship" class="f" inputmode="numeric"></div>
+          <div class="field"><label class="lbl">ยอดขั้นต่ำส่งฟรี (บาท)</label><input id="s-free" class="f" inputmode="numeric"></div>
+          <div class="field"><label class="lbl">ข้อความโปรโมชัน</label><input id="s-promo" class="f"></div>
+        </div>
+        <button id="s-save" class="btn btn-primary btn-sm">บันทึกการตั้งค่า</button>
+      </div>
+      <div class="set-card">
+        <h2>เปลี่ยนรหัสผ่านแอดมิน</h2>
+        <div class="grid2">
+          <div class="field"><label class="lbl">รหัสผ่านใหม่ (≥ 8 ตัว)</label><input id="s-np" class="f" type="password" placeholder="••••••••"></div>
+          <div class="field"><label class="lbl">ยืนยันรหัสผ่านใหม่</label><input id="s-cp" class="f" type="password" placeholder="••••••••"></div>
+        </div>
+        <button id="s-chpass" class="btn btn-ghost btn-sm">เปลี่ยนรหัสผ่าน</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="ov" id="pm">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="pm-title">เพิ่มสินค้า</h3><button class="x" id="pm-x">✕</button></div>
+    <div class="modal-bd">
+      <div class="grid2">
+        <div class="field" style="grid-column:1/-1"><label class="lbl">ชื่อสินค้า</label><input id="pm-name" class="f"></div>
+        <div class="field"><label class="lbl">หมวด</label><select id="pm-cat" class="f"><option value="kuji">Kuji</option><option value="pokemon">Pokémon</option></select></div>
+        <div class="field"><label class="lbl">ซีรีส์</label><input id="pm-series" class="f"></div>
+        <div class="field"><label class="lbl">เกรด</label><input id="pm-grade" class="f"></div>
+        <div class="field"><label class="lbl">สถานะ</label><select id="pm-status" class="f"><option value="instock">พร้อมส่ง</option><option value="preorder">พรีออเดอร์</option><option value="soldout">ของหมด</option></select></div>
+        <div class="field"><label class="lbl">ราคา (บาท)</label><input id="pm-price" class="f" inputmode="numeric"></div>
+        <div class="field"><label class="lbl">ราคาสูงสุด</label><input id="pm-max" class="f" inputmode="numeric"></div>
+        <div class="field"><label class="lbl">ราคาเดิม (ขีดฆ่า)</label><input id="pm-old" class="f" inputmode="numeric"></div>
+        <div class="field"><label class="lbl">สต็อก</label><input id="pm-stock" class="f" inputmode="numeric"></div>
+        <div class="field"><label class="lbl">Badge</label><input id="pm-badge" class="f" placeholder="เช่น มาใหม่"></div>
+        <div class="field" style="grid-column:1/-1"><label class="lbl">คำโปรย</label><input id="pm-short" class="f"></div>
+        <div class="field" style="grid-column:1/-1"><label class="lbl">รายละเอียด</label><textarea id="pm-desc" class="f" rows="2"></textarea></div>
+      </div>
+      <div class="field">
+        <label class="lbl">รูปสินค้า</label>
+        <div style="display:flex;gap:12px;align-items:center">
+          <img id="pm-preview" class="thumb" style="width:60px;height:60px" src="" alt="">
+          <div style="flex:1">
+            <input id="pm-img" class="f" placeholder="URL รูป">
+            <div style="display:flex;gap:8px;align-items:center;margin-top:7px">
+              <input id="pm-file" type="file" accept="image/*" style="font-size:12px">
+              <span id="pm-upmsg" class="muted" style="font-size:11.5px"></span>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-foot">
-        <button class="btn btn--ghost" id="modal-cancel">ยกเลิก</button>
-        <button class="btn btn--primary" id="modal-save">บันทึก</button>
+      <div class="field">
+        <label class="lbl">รางวัล (variations) — เว้นว่าง = สินค้ารางวัลเดียว</label>
+        <div style="display:grid;grid-template-columns:52px 1fr 82px 66px 30px;gap:7px;font:700 11px 'Noto Sans Thai';color:var(--muted);margin-bottom:5px"><span>รางวัล</span><span>รอบส่ง</span><span>ราคา</span><span>สต็อก</span><span></span></div>
+        <div id="pm-vars"></div>
+        <button type="button" id="pm-addvar" class="btn btn-ghost btn-sm" style="margin-top:6px">+ เพิ่มรางวัล</button>
+        <div class="muted" style="font-size:11px;margin-top:5px">ราคาถูกทับเมื่อกด "ดึงราคาล่าสุด"</div>
       </div>
     </div>
+    <div class="modal-ft"><button class="btn btn-ghost btn-sm" id="pm-cancel">ยกเลิก</button><button class="btn btn-primary btn-sm" id="pm-save">บันทึก</button></div>
   </div>
+</div>
 
-  <div id="toast" class="toast"></div>
+<!-- SLIP MODAL -->
+<div class="ov" id="sm">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-hd"><h3 id="sm-title">สลิปการโอน</h3><button class="x" id="sm-x">✕</button></div>
+    <div class="modal-bd" style="text-align:center"><img id="sm-img" src="" alt="slip" style="max-width:100%;border-radius:10px;border:1px solid #eee"></div>
+    <div class="modal-ft"><button class="btn btn-ghost btn-sm" id="sm-close">ปิด</button><button class="btn btn-primary btn-sm" id="sm-confirm">✓ ยืนยันชำระเงิน</button></div>
+  </div>
+</div>
 
-  <script src="assets/js/admin-api.js"></script>
-  <script src="assets/js/app.js"></script>
+<div id="toast"></div>
+
+<script>
+/* ============ API client (cross-origin → keyima-api) ============ */
+const PROD_API = "https://keyima-api.onrender.com/admin";
+const IS_LOCAL = ["localhost","127.0.0.1",""].includes(location.hostname);
+const API = {
+  base(){ return localStorage.getItem("kps_api_base") || (IS_LOCAL ? "http://localhost:4000" : PROD_API); },
+  setBase(u){ localStorage.setItem("kps_api_base", u.replace(/\/$/,"")); },
+  token(){ return localStorage.getItem("kps_admin_token"); },
+  setToken(t){ localStorage.setItem("kps_admin_token", t); },
+  clearToken(){ localStorage.removeItem("kps_admin_token"); },
+  async req(method, path, body, isForm=false){
+    const o={ method, headers:{} };
+    if(this.token()) o.headers["Authorization"]="Bearer "+this.token();
+    if(body && !isForm){ o.headers["Content-Type"]="application/json"; o.body=JSON.stringify(body); }
+    if(body && isForm) o.body=body;
+    const r=await fetch(this.base()+path, o);
+    if(r.status===401){ this.clearToken(); showLogin(); throw new Error("เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่"); }
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(d.message || ("เกิดข้อผิดพลาด ("+r.status+")"));
+    return d;
+  },
+  async login(u,p){ const r=await fetch(this.base()+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u,password:p})}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.message||"เข้าสู่ระบบไม่สำเร็จ"); this.setToken(d.token); return d; },
+  products(){ return this.req("GET","/api/products"); },
+  createProduct(p){ return this.req("POST","/api/products",p); },
+  updateProduct(id,p){ return this.req("PUT","/api/products/"+id,p); },
+  deleteProduct(id){ return this.req("DELETE","/api/products/"+id); },
+  async upload(file){ const fd=new FormData(); fd.append("image",file); return this.req("POST","/api/upload",fd,true); },
+  orders(){ return this.req("GET","/api/orders"); },
+  setOrderStatus(no,status){ return this.req("PUT","/api/orders/"+encodeURIComponent(no),{status}); },
+  members(){ return this.req("GET","/api/members"); },
+  audit(){ return this.req("GET","/api/audit"); },
+  getSettings(){ return this.req("GET","/api/settings"); },
+  saveSettings(s){ return this.req("PUT","/api/settings",s); },
+  changePassword(newPassword){ return this.req("POST","/api/auth/change-password",{newPassword}); },
+  syncPrices(){ return this.req("POST","/api/sync-prices"); },
+};
+
+/* ============ helpers ============ */
+const $=id=>document.getElementById(id);
+const THB=n=>"฿"+Number(n||0).toLocaleString("th-TH");
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let tT; function toast(msg,type){ const el=$("toast"); el.textContent=msg; el.className="show"+(type==="err"?" err":""); clearTimeout(tT); tT=setTimeout(()=>el.className="",2600); }
+function statusLabel(s){ return ({pending:"รอตรวจสลิป",paid:"ชำระแล้ว",packing:"กำลังแพ็ก",shipped:"จัดส่งแล้ว",delivered:"ส่งสำเร็จ",cancelled:"ยกเลิก"})[s]||s; }
+function safeArr(s){ return Array.isArray(s)?s:(()=>{try{return JSON.parse(s)||[]}catch(e){return[]}})(); }
+
+/* ============ auth / boot ============ */
+function showLogin(){ $("app-view").classList.remove("on"); $("login-view").classList.remove("hidden"); }
+function showApp(){ $("login-view").classList.add("hidden"); $("app-view").classList.add("on"); }
+$("lg-apitoggle").onclick=()=>{ $("lg-apirow").classList.toggle("hidden"); $("lg-api").value=API.base(); };
+$("lg-btn").onclick=doLogin;
+$("lg-pass").addEventListener("keydown",e=>{ if(e.key==="Enter") doLogin(); });
+async function doLogin(){
+  const err=$("login-err"); err.classList.add("hidden");
+  if($("lg-api").value.trim()) API.setBase($("lg-api").value.trim());
+  $("lg-btn").disabled=true; $("lg-btn").textContent="กำลังเข้าสู่ระบบ…";
+  try{
+    const d=await API.login($("lg-user").value.trim(), $("lg-pass").value);
+    bootApp(d.username||$("lg-user").value.trim());
+  }catch(e){ $("login-err-t").textContent=e.message; err.classList.remove("hidden"); }
+  $("lg-btn").disabled=false; $("lg-btn").textContent="เข้าสู่ระบบ";
+}
+function bootApp(name){
+  showApp();
+  $("me-name").textContent=name||"แอดมิน";
+  $("me-init").textContent=(name||"A").trim().charAt(0).toUpperCase();
+  loadProducts();
+}
+$("logout").onclick=()=>{ API.clearToken(); location.reload(); };
+
+/* ============ nav ============ */
+const loaded={};
+document.querySelectorAll(".nav-a").forEach(a=>a.onclick=()=>{
+  const v=a.dataset.view;
+  document.querySelectorAll(".nav-a").forEach(x=>x.classList.toggle("active",x===a));
+  document.querySelectorAll(".view").forEach(s=>s.classList.toggle("hidden",s.dataset.view!==v));
+  $("sec-title").textContent=a.textContent.replace(/\d+$/,"").trim();
+  closeNav();
+  if(v==="orders") loadOrders();
+  if(v==="members") loadMembers();
+  if(v==="audit") loadAudit();
+  if(v==="settings" && !loaded.settings){ loadSettings(); loaded.settings=true; }
+});
+$("hamb").onclick=()=>{ $("sidebar").classList.add("open"); $("overlay").classList.add("on"); };
+$("overlay").onclick=closeNav;
+function closeNav(){ $("sidebar").classList.remove("open"); $("overlay").classList.remove("on"); }
+
+/* ============ PRODUCTS ============ */
+let PRODUCTS=[], pPage=1, PER=12;
+async function loadProducts(){ try{ PRODUCTS=await API.products(); pPage=1; renderProducts(); $("nb-prod").textContent=PRODUCTS.length; }catch(e){ toast(e.message,"err"); } }
+function prodStatus(p){
+  if(p.status==="soldout") return ["ของหมด","pill-out"];
+  if(p.status==="preorder") return ["พรีออเดอร์","pill-pre"];
+  if((p.stock??0)<=3) return ["เหลือ "+(p.stock??0),"pill-low"];
+  return ["พร้อมส่ง","pill-ready"];
+}
+function filteredProducts(){
+  const q=($("p-search").value||"").toLowerCase(), cat=$("p-cat").value, stt=$("p-stat").value;
+  return PRODUCTS.filter(p=>
+    (cat==="all"||p.category===cat) &&
+    (stt==="all"||p.status===stt) &&
+    (!q || (p.name||"").toLowerCase().includes(q) || (p.series||"").toLowerCase().includes(q)));
+}
+function renderProducts(){
+  const list=filteredProducts();
+  $("st-total").textContent=PRODUCTS.length;
+  $("st-ready").textContent=PRODUCTS.filter(p=>p.status!=="soldout"&&p.status!=="preorder").length;
+  $("st-pre").textContent=PRODUCTS.filter(p=>p.status==="preorder").length;
+  $("st-out").textContent=PRODUCTS.filter(p=>p.status==="soldout").length;
+  const pages=Math.max(1,Math.ceil(list.length/PER)); if(pPage>pages) pPage=pages;
+  const rows=list.slice((pPage-1)*PER,pPage*PER);
+  $("p-body").innerHTML = rows.map(p=>{
+    const [lbl,cls]=prodStatus(p);
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:11px"><img class="thumb" src="${esc(p.img||'')}" alt=""><strong style="font-weight:600">${esc((p.name||'').slice(0,46))}</strong></div></td>
+      <td><span class="catx">${p.category==='pokemon'?'Pokémon':'Kuji'}</span><br><span class="muted" style="font-size:11.5px">${esc(p.series||'')}</span></td>
+      <td>${THB(p.price)}${p.oldPrice?`<br><span class="old">${THB(p.oldPrice)}</span>`:''}</td>
+      <td class="muted">${p.priceMax?THB(p.priceMax):'-'}</td>
+      <td>${p.stock??0}</td>
+      <td><span class="pill ${cls}">${lbl}</span></td>
+      <td><div style="display:flex;gap:6px"><button class="act" data-edit="${esc(p.id)}">แก้ไข</button><button class="act del" data-del="${esc(p.id)}">ลบ</button></div></td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="7" style="text-align:center;padding:34px" class="muted">ไม่พบสินค้า</td></tr>`;
+  $("p-body").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openModal(b.dataset.edit));
+  $("p-body").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>delProduct(b.dataset.del));
+  let pg=""; for(let i=1;i<=pages;i++){ if(pages>9 && Math.abs(i-pPage)>2 && i!==1 && i!==pages){ if(Math.abs(i-pPage)===3) pg+=`<span class="muted" style="padding:0 4px">…</span>`; continue; } pg+=`<button class="pg ${i===pPage?'on':''}" data-pg="${i}">${i}</button>`; }
+  $("p-pager").innerHTML = pages>1 ? `<button class="pg" data-pg="${pPage-1}" ${pPage===1?'disabled':''}>‹</button>${pg}<button class="pg" data-pg="${pPage+1}" ${pPage===pages?'disabled':''}>›</button>` : "";
+  $("p-pager").querySelectorAll("[data-pg]").forEach(b=>b.onclick=()=>{ pPage=Math.max(1,Math.min(pages,+b.dataset.pg)); renderProducts(); });
+}
+["p-search","p-cat","p-stat"].forEach(id=>$(id).addEventListener("input",()=>{ pPage=1; renderProducts(); }));
+async function delProduct(id){ const p=PRODUCTS.find(x=>x.id===id); if(!confirm(`ลบสินค้า "${p?.name||id}" ?`)) return; try{ await API.deleteProduct(id); toast("ลบสินค้าแล้ว"); loadProducts(); }catch(e){ toast(e.message,"err"); } }
+
+$("p-sync").onclick=async()=>{ const b=$("p-sync"); b.disabled=true; $("p-syncmsg").textContent="กำลังดึงราคา…"; try{ const r=await API.syncPrices(); $("p-syncmsg").textContent=`อัปเดต ${r.count??r.updated??0} รายการ${r.updatedAt?" (ข้อมูล "+r.updatedAt+")":""} ✔`; loadProducts(); }catch(e){ $("p-syncmsg").textContent=""; toast(e.message,"err"); } b.disabled=false; };
+
+/* ============ product modal ============ */
+let editingId=null;
+function varRow(v){ v=v||{}; const d=document.createElement("div"); d.className="var-row";
+  d.innerHTML=`<input class="f v-label" placeholder="A" value="${esc(v.label)}"><input class="f v-opt" placeholder="รอบส่ง" value="${esc(v.opt)}"><input class="f v-price" inputmode="numeric" placeholder="฿" value="${v.price||''}"><input class="f v-stock" inputmode="numeric" placeholder="0" value="${v.stock??''}"><button type="button" class="act del v-del">✕</button>`;
+  d.querySelector(".v-del").onclick=()=>d.remove(); return d; }
+function openModal(id){
+  editingId=id||null;
+  const p=id?PRODUCTS.find(x=>x.id===id)||{}:{};
+  $("pm-title").textContent=id?"แก้ไขสินค้า":"เพิ่มสินค้า";
+  $("pm-name").value=p.name||""; $("pm-cat").value=p.category||"kuji"; $("pm-series").value=p.series||"";
+  $("pm-grade").value=p.grade||""; $("pm-status").value=p.status||"instock";
+  $("pm-price").value=p.price||""; $("pm-max").value=p.priceMax||""; $("pm-old").value=p.oldPrice||"";
+  $("pm-stock").value=p.stock??""; $("pm-badge").value=p.badge||""; $("pm-short").value=p.short||""; $("pm-desc").value=p.desc||"";
+  $("pm-img").value=p.img||""; $("pm-preview").src=p.img||""; $("pm-upmsg").textContent="";
+  const vc=$("pm-vars"); vc.innerHTML=""; (safeArr(p.variations)).forEach(v=>vc.appendChild(varRow(v)));
+  $("pm").classList.add("on");
+}
+function closeModal(){ $("pm").classList.remove("on"); }
+$("p-add").onclick=()=>openModal(null);
+$("pm-x").onclick=closeModal; $("pm-cancel").onclick=closeModal;
+$("pm").onclick=e=>{ if(e.target===$("pm")) closeModal(); };
+$("pm-addvar").onclick=()=>$("pm-vars").appendChild(varRow());
+$("pm-img").addEventListener("input",()=>$("pm-preview").src=$("pm-img").value);
+$("pm-file").addEventListener("change",async()=>{ const f=$("pm-file").files[0]; if(!f) return; $("pm-upmsg").textContent="กำลังอัปโหลด…"; try{ const {url}=await API.upload(f); $("pm-img").value=url; $("pm-preview").src=url; $("pm-upmsg").textContent="อัปโหลดสำเร็จ ✔"; }catch(e){ $("pm-upmsg").textContent=""; toast(e.message,"err"); } });
+function collectVars(){ return [...$("pm-vars").querySelectorAll(".var-row")].map(r=>({ label:r.querySelector(".v-label").value.trim(), opt:r.querySelector(".v-opt").value.trim(), price:parseInt(r.querySelector(".v-price").value)||0, stock:parseInt(r.querySelector(".v-stock").value)||0 })).filter(v=>v.label||v.price); }
+$("pm-save").onclick=async()=>{
+  const pl={ name:$("pm-name").value.trim(), category:$("pm-cat").value, series:$("pm-series").value.trim(), grade:$("pm-grade").value.trim(), status:$("pm-status").value, price:$("pm-price").value, priceMax:$("pm-max").value||null, oldPrice:$("pm-old").value||null, stock:$("pm-stock").value||0, badge:$("pm-badge").value.trim(), short:$("pm-short").value.trim(), desc:$("pm-desc").value.trim(), img:$("pm-img").value.trim(), variations:collectVars() };
+  if(!pl.name||!pl.price){ toast("กรอกชื่อและราคาก่อน","err"); return; }
+  try{ if(editingId) await API.updateProduct(editingId,pl); else await API.createProduct(pl); toast(editingId?"บันทึกการแก้ไขแล้ว":"เพิ่มสินค้าแล้ว"); closeModal(); loadProducts(); }catch(e){ toast(e.message,"err"); }
+};
+
+/* ============ ORDERS ============ */
+let ORDERS=[];
+async function loadOrders(){ try{ ORDERS=await API.orders(); $("nb-order").textContent=ORDERS.filter(o=>o.status==="pending").length; renderOrders(); }catch(e){ toast(e.message,"err"); } }
+function renderOrders(){
+  const q=($("o-search").value||"").toLowerCase(), stt=$("o-stat").value;
+  const list=ORDERS.filter(o=>(stt==="all"||o.status===stt)&&(!q||(o.orderNo||"").toLowerCase().includes(q)||(o.name||"").toLowerCase().includes(q)||(o.email||"").toLowerCase().includes(q)));
+  $("o-body").innerHTML=list.map(o=>{
+    const items=safeArr(o.items); const date=o.createdAt?new Date(o.createdAt).toLocaleDateString("th-TH",{day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"}):"-";
+    const pay=o.payment==='card'?'บัตร':o.payment==='promptpay'?'พร้อมเพย์':(o.payment||'-');
+    return `<tr>
+      <td><strong>${esc(o.orderNo)}</strong><br><span class="muted" style="font-size:11.5px">${items.length} ชิ้น</span></td>
+      <td>${esc(o.name||'-')}<br><span class="muted" style="font-size:11.5px">${esc(o.email||'')}</span></td>
+      <td>${THB(o.total)}</td>
+      <td>${pay}${o.slip?`<br><a href="#" class="slip-link" data-slip="${esc(o.orderNo)}" style="color:var(--blue);font-size:12px">🧾 ดูสลิป</a>`:'<br><span class="muted" style="font-size:11px">— ไม่มีสลิป</span>'}</td>
+      <td class="muted" style="font-size:12px">${date}</td>
+      <td><span class="pill ${o.status==='cancelled'?'pill-out':o.status==='pending'?'pill-low':'pill-ready'}">${statusLabel(o.status)}</span></td>
+      <td><select class="f" style="padding:6px 8px;font-size:12.5px" data-order="${esc(o.orderNo)}">${["pending","paid","packing","shipped","delivered","cancelled"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${statusLabel(s)}</option>`).join("")}</select></td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="7" style="text-align:center;padding:34px" class="muted">ยังไม่มีออเดอร์</td></tr>`;
+  $("o-body").querySelectorAll("[data-order]").forEach(sel=>sel.onchange=async()=>{ try{ await API.setOrderStatus(sel.dataset.order,sel.value); toast("อัปเดตสถานะแล้ว"); const o=ORDERS.find(x=>x.orderNo===sel.dataset.order); if(o)o.status=sel.value; }catch(e){ toast(e.message,"err"); } });
+  $("o-body").querySelectorAll("[data-slip]").forEach(a=>a.onclick=e=>{ e.preventDefault(); const o=ORDERS.find(x=>x.orderNo===a.dataset.slip); showSlip(o); });
+}
+["o-search","o-stat"].forEach(id=>$(id).addEventListener("input",renderOrders));
+let slipOrder=null;
+function showSlip(o){ if(!o||!o.slip){ toast("ออเดอร์นี้ยังไม่มีสลิป","err"); return; } slipOrder=o; $("sm-title").textContent="สลิป · "+o.orderNo; $("sm-img").src=o.slip; $("sm").classList.add("on"); }
+$("sm-x").onclick=$("sm-close").onclick=()=>$("sm").classList.remove("on");
+$("sm").onclick=e=>{ if(e.target===$("sm")) $("sm").classList.remove("on"); };
+$("sm-confirm").onclick=async()=>{ if(!slipOrder) return; try{ await API.setOrderStatus(slipOrder.orderNo,"paid"); toast("ยืนยันชำระเงินแล้ว"); $("sm").classList.remove("on"); loadOrders(); }catch(e){ toast(e.message,"err"); } };
+
+/* ============ MEMBERS ============ */
+let MEMBERS=[];
+async function loadMembers(){ try{ MEMBERS=await API.members(); renderMembers(); }catch(e){ toast(e.message,"err"); } }
+function renderMembers(){
+  const q=($("m-search").value||"").toLowerCase();
+  const list=MEMBERS.filter(m=>!q||(m.name||"").toLowerCase().includes(q)||(m.email||"").toLowerCase().includes(q));
+  $("m-body").innerHTML=list.map(m=>{
+    const oc=m.orderCount??m.orders??'-'; const tot=(m.total!=null)?THB(m.total):(m.totalSpent!=null?THB(m.totalSpent):'-');
+    const init=(m.name||m.email||"?").trim().charAt(0).toUpperCase();
+    return `<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="width:30px;height:30px;font-size:12px">${esc(init)}</div><strong style="font-weight:600">${esc(m.name||'-')}</strong></div></td><td class="muted">${esc(m.email||'')}</td><td>${esc(m.phone||'-')}</td><td>${oc}</td><td>${tot}</td></tr>`;
+  }).join("") || `<tr><td colspan="5" style="text-align:center;padding:34px" class="muted">ยังไม่มีสมาชิก</td></tr>`;
+}
+$("m-search").addEventListener("input",renderMembers);
+
+/* ============ AUDIT ============ */
+async function loadAudit(){ try{ const rows=await API.audit(); $("a-body").innerHTML=(rows||[]).map(a=>{
+    const t=a.at||a.createdAt||a.time||a.ts; const time=t?new Date(t).toLocaleString("th-TH",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}):"-";
+    const who=a.actor||a.admin||a.username||a.user||"-"; const action=a.action||a.event||"-";
+    let detail=a.detail||a.meta||a.data||""; if(detail&&typeof detail==="object") detail=JSON.stringify(detail);
+    const ip=a.ip||(a.meta&&a.meta.ip)||"-";
+    return `<tr><td class="muted" style="font-size:12px;white-space:nowrap">${esc(time)}</td><td>${esc(who)}</td><td><span class="catx">${esc(action)}</span></td><td class="muted" style="font-size:12px">${esc(String(detail).slice(0,80))}</td><td class="muted" style="font-size:12px">${esc(ip)}</td></tr>`;
+  }).join("") || `<tr><td colspan="5" style="text-align:center;padding:34px" class="muted">ยังไม่มีบันทึก</td></tr>`;
+  }catch(e){ toast(e.message,"err"); } }
+
+/* ============ SETTINGS ============ */
+async function loadSettings(){ try{ const s=await API.getSettings(); $("s-shop").value=s.shopName||""; $("s-promo").value=s.promo||""; $("s-ship").value=s.shippingFlat??60; $("s-free").value=s.freeShipMin??3000; }catch(e){ toast(e.message,"err"); } }
+$("s-save").onclick=async()=>{ try{ await API.saveSettings({ shopName:$("s-shop").value, promo:$("s-promo").value, shippingFlat:$("s-ship").value, freeShipMin:$("s-free").value }); toast("บันทึกการตั้งค่าแล้ว"); }catch(e){ toast(e.message,"err"); } };
+$("s-chpass").onclick=async()=>{ const np=$("s-np").value, cp=$("s-cp").value; if(np.length<8){ toast("รหัสผ่านต้องยาวอย่างน้อย 8 ตัว","err"); return; } if(np!==cp){ toast("รหัสผ่านยืนยันไม่ตรงกัน","err"); return; } try{ await API.changePassword(np); $("s-np").value=""; $("s-cp").value=""; toast("เปลี่ยนรหัสผ่านแล้ว"); }catch(e){ toast(e.message,"err"); } };
+
+/* ============ start ============ */
+if(API.token()) bootApp(); else showLogin();
+</script>
 </body>
 </html>
