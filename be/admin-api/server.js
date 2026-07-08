@@ -89,7 +89,7 @@ app.put("/api/products/:id", (req, res) => {
 app.delete("/api/products/:id", (req, res) => { Products.remove(req.params.id); Audit.log(req.admin.sub, "product_delete", { id: req.params.id }); res.json({ ok: true }); });
 
 /* ---------- orders ---------- */
-app.get("/api/orders", (_q, res) => res.json(Orders.all()));
+app.get("/api/orders", (_q, res) => { Orders.sweepExpired(); res.json(Orders.all()); });
 app.get("/api/orders/:no", (req, res) => { const o = Orders.get(req.params.no); return o ? res.json(o) : res.status(404).json({ message: "ไม่พบออเดอร์" }); });
 app.put("/api/orders/:no", (req, res) => {
   if (req.body.status && !["pending", "paid", "abroad", "packing", "shipped", "delivered", "cancelled"].includes(req.body.status))

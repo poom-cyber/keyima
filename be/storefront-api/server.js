@@ -104,10 +104,12 @@ app.get("/api/orders/track", (req, res) => {
   const no = String(req.query.no || "").trim();
   const email = String(req.query.email || "").trim().toLowerCase();
   if (!no || !email) return res.status(400).json({ message: "กรอกเลขคำสั่งซื้อและอีเมล" });
-  const o = Orders.get(no);
+  let o = Orders.get(no);
   if (!o || (o.email || "").toLowerCase() !== email) return res.status(404).json({ message: "ไม่พบคำสั่งซื้อ — เช็กเลขที่และอีเมลอีกครั้ง" });
+  o = Orders.expireIfNeeded(o) || o;
+  const payBy = (o.status === "pending" && !o.slip && o.createdAt) ? new Date(new Date(o.createdAt).getTime() + 3 * 3600 * 1000).toISOString() : null;
   res.json({ orderNo: o.orderNo, name: o.name, status: o.status, tracking: o.tracking || "", total: o.total, createdAt: o.createdAt,
-    hasSlip: !!o.slip,
+    hasSlip: !!o.slip, payBy,
     items: (o.items || []).map(it => ({ name: it.name, prize: it.prize, qty: it.qty, ship: it.ship || "" })) });
 });
 
@@ -119,10 +121,11 @@ app.post("/api/orders/track/slip", (req, res) => {
   if (!no || !email || !slip) return res.status(400).json({ message: "ข้อมูลไม่ครบ" });
   if (!/^data:image\//.test(slip)) return res.status(400).json({ message: "ไฟล์ต้องเป็นรูปภาพ" });
   if (slip.length > 2500000) return res.status(413).json({ message: "รูปใหญ่เกินไป (เกิน ~2MB)" });
-  const o = Orders.get(no);
+  let o = Orders.get(no);
   if (!o || (o.email || "").toLowerCase() !== email) return res.status(404).json({ message: "ไม่พบคำสั่งซื้อ" });
+  o = Orders.expireIfNeeded(o) || o;
   if (o.slip) return res.status(409).json({ message: "ออเดอร์นี้มีสลิปแล้ว" });
-  if (o.status !== "pending") return res.status(409).json({ message: "ออเดอร์นี้ไม่สามารถแนบสลิปได้แล้ว" });
+  if (o.status !== "pending") return res.status(409).json({ message: "หมดเวลาชำระ — ออเดอร์นี้ถูกยกเลิกแล้ว" });
   Orders.setSlip(no, slip);
   res.json({ ok: true });
 });

@@ -104,8 +104,8 @@ async function submit() {
       <div class="row"><span>สถานะ</span><span>รอตรวจสอบการชำระเงิน</span></div>
     </div></div>
     <p style="margin-top:6px;"><a class="link" href="track?no=${saved.orderNo}&email=${encodeURIComponent(payload.email)}">📦 ติดตามสถานะคำสั่งซื้อนี้ (บันทึกลิงก์ไว้ได้)</a></p>
-    ${!slipData && cfg.LINE_URL
-      ? `<p class="muted">ยังไม่ได้แนบสลิป — ส่งให้เราทาง LINE ได้เลย</p><p><a class="btn btn--primary" href="${cfg.LINE_URL}" target="_blank" rel="noopener">💬 ส่งสลิปทาง LINE</a> <a class="btn btn--ghost" href="/">กลับหน้าแรก</a></p>`
+    ${!slipData
+      ? `<p style="margin-top:14px;color:#d8453f;font-weight:600;">⏰ กรุณาชำระและแนบสลิปภายใน 3 ชั่วโมง (ก่อน ${new Date(Date.now() + 3 * 3600 * 1000).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" })} น.)</p><p class="muted" style="font-size:.85rem;margin-top:-4px;">มิฉะนั้นออเดอร์จะถูกยกเลิกอัตโนมัติ</p><p><a class="btn btn--primary" href="track?no=${saved.orderNo}&email=${encodeURIComponent(payload.email)}">📎 แนบสลิป</a> <a class="btn btn--ghost" href="/">กลับหน้าแรก</a></p>`
       : `<p style="margin-top:18px;"><a class="btn btn--primary" href="/">กลับหน้าแรก</a></p>`}
   </div>`;
   window.scrollTo({ top: 0, behavior: "smooth" });

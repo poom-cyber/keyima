@@ -129,6 +129,7 @@ const Products = {
   },
   remove: id => db.prepare("DELETE FROM products WHERE id=?").run(id)
 };
+const PAY_WINDOW_MS = 3 * 60 * 60 * 1000; // เวลาให้ชำระ 3 ชั่วโมง
 const Orders = {
   all: () => db.prepare("SELECT * FROM orders ORDER BY id DESC").all().map(o => ({ ...o, items: JSON.parse(o.items||"[]"), history: JSON.parse(o.history||"[]") })),
   byEmail: e => Orders.all().filter(o => o.email === e),
@@ -137,6 +138,17 @@ const Orders = {
   update(no, patch) { const o = Orders.get(no); if (!o) return null; const h = o.history||[]; if (patch.status && patch.status !== o.status) h.push({ s:patch.status, at:new Date().toISOString() }); db.prepare("UPDATE orders SET status=?, tracking=?, history=? WHERE orderNo=?").run(patch.status||o.status, patch.tracking??o.tracking, JSON.stringify(h), no); return Orders.get(no); },
   editFull(no, f) { const o = Orders.get(no); if (!o) return null; const h = o.history||[]; if (f.status && f.status !== o.status) h.push({ s:f.status, at:new Date().toISOString() }); db.prepare("UPDATE orders SET name=?,phone=?,email=?,address=?,subdist=?,district=?,province=?,zip=?,note=?,status=?,tracking=?,history=? WHERE orderNo=?").run(f.name??o.name, f.phone??o.phone, (f.email||o.email||"").toLowerCase(), f.address??o.address, f.subdist??o.subdist, f.district??o.district, f.province??o.province, f.zip??o.zip, f.note??o.note, f.status??o.status, f.tracking??o.tracking, JSON.stringify(h), no); return Orders.get(no); },
   setSlip(no, slip) { const o = Orders.get(no); if (!o) return null; db.prepare("UPDATE orders SET slip=? WHERE orderNo=?").run(slip||"", no); return Orders.get(no); },
+  /* ยกเลิกอัตโนมัติถ้ายัง pending + ไม่มีสลิป + เกินเวลาชำระ (3 ชม.) */
+  expireIfNeeded(o) {
+    if (o && o.status === "pending" && !o.slip && o.createdAt && (Date.now() - new Date(o.createdAt).getTime() > PAY_WINDOW_MS)) return Orders.update(o.orderNo, { status: "cancelled" });
+    return o;
+  },
+  sweepExpired() {
+    const cutoff = new Date(Date.now() - PAY_WINDOW_MS).toISOString();
+    const rows = db.prepare("SELECT orderNo FROM orders WHERE status='pending' AND (slip IS NULL OR slip='') AND createdAt < ?").all(cutoff);
+    rows.forEach(r => Orders.update(r.orderNo, { status: "cancelled" }));
+    return rows.length;
+  },
   remove(no) { return db.prepare("DELETE FROM orders WHERE orderNo=?").run(no); }
 };
 const Customers = {

@@ -68,17 +68,18 @@ async function lookup() {
         <div style="margin-top:12px;">
           ${(o.items || []).map(it => `<div class="muted" style="font-size:.85rem;padding:3px 0;">• ${it.name}${it.prize ? " (" + it.prize + ")" : ""} × ${it.qty}${it.ship ? " · " + it.ship : ""}</div>`).join("")}
         </div>
-        ${(!o.hasSlip && o.status === "pending") ? slipUploadHTML() : ""}
+        ${(!o.hasSlip && o.status === "pending") ? slipUploadHTML(o.payBy) : ""}
       </div>`;
-    if (!o.hasSlip && o.status === "pending") bindSlipUpload(o.orderNo, email);
+    if (!o.hasSlip && o.status === "pending") bindSlipUpload(o.orderNo, email, o.payBy);
   } catch (e) { res.innerHTML = `<div class="note">เกิดข้อผิดพลาด ลองใหม่อีกครั้ง</div>`; }
 }
 
 /* กล่องแนบสลิป (โชว์เฉพาะออเดอร์ที่ยังไม่มีสลิป + รอชำระ) */
-function slipUploadHTML() {
+function slipUploadHTML(payBy) {
   const line = (window.APP_CONFIG && window.APP_CONFIG.LINE_URL) || "";
   return `<div style="margin-top:14px;padding:14px;border:1px dashed #d8453f;border-radius:12px;background:#fff7f6;">
     <div style="font-weight:700;color:#d8453f;margin-bottom:2px;">ยังไม่ได้แนบสลิปการโอน</div>
+    ${payBy ? `<div id="pay-cd" style="font-size:.85rem;color:#d8453f;font-weight:600;margin-bottom:8px;"></div>` : ""}
     <div class="muted" style="font-size:.85rem;margin-bottom:10px;">แนบสลิปที่นี่ เพื่อให้เรายืนยันการชำระเงินได้เร็วขึ้น</div>
     <input id="slip-file" type="file" accept="image/*" style="display:block;width:100%;margin-bottom:6px;">
     <div id="slip-prev" style="text-align:center;"></div>
@@ -87,11 +88,23 @@ function slipUploadHTML() {
   </div>`;
 }
 
-function bindSlipUpload(no, email) {
+function bindSlipUpload(no, email, payBy) {
   const file = document.getElementById("slip-file");
   const btn = document.getElementById("slip-send");
   const prev = document.getElementById("slip-prev");
   if (!file || !btn) return;
+  // นับถอยหลังกำหนดชำระ
+  if (payBy) {
+    const cd = document.getElementById("pay-cd");
+    const end = new Date(payBy).getTime();
+    const tick = () => {
+      const ms = end - Date.now();
+      if (ms <= 0) { if (cd) cd.textContent = "⏰ หมดเวลาชำระแล้ว"; clearInterval(window._cdTimer); lookup(); return; }
+      const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
+      if (cd) cd.textContent = `⏰ ชำระภายใน ${h} ชม. ${m} นาที (ก่อน ${new Date(end).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" })} น.)`;
+    };
+    tick(); clearInterval(window._cdTimer); window._cdTimer = setInterval(tick, 30000);
+  }
   let data = "";
   file.addEventListener("change", e => {
     const f = e.target.files[0];
