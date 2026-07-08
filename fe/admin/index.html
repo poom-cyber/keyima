@@ -294,6 +294,7 @@
           <div class="field"><label class="lbl">ค่าส่ง (บาท)</label><input id="s-ship" class="f" inputmode="numeric"></div>
           <div class="field"><label class="lbl">ยอดขั้นต่ำส่งฟรี (บาท)</label><input id="s-free" class="f" inputmode="numeric"></div>
           <div class="field"><label class="lbl">ข้อความโปรโมชัน</label><input id="s-promo" class="f"></div>
+          <div class="field" style="grid-column:1/-1"><label class="lbl">สินค้าเด่นหน้าแรก (รูป Hero)</label><select id="s-hero" class="f"><option value="">— ใช้คอลเลคชั่นล่าสุดอัตโนมัติ —</option></select></div>
         </div>
         <button id="s-save" class="btn btn-primary btn-sm">บันทึกการตั้งค่า</button>
       </div>
@@ -661,8 +662,13 @@ async function loadAudit(){ try{ const rows=await API.audit(); $("a-body").inner
   }catch(e){ toast(e.message,"err"); } }
 
 /* ============ SETTINGS ============ */
-async function loadSettings(){ try{ const s=await API.getSettings(); $("s-shop").value=s.shopName||""; $("s-promo").value=s.promo||""; $("s-ship").value=s.shippingFlat??60; $("s-free").value=s.freeShipMin??3000; }catch(e){ toast(e.message,"err"); } }
-$("s-save").onclick=async()=>{ try{ await API.saveSettings({ shopName:$("s-shop").value, promo:$("s-promo").value, shippingFlat:$("s-ship").value, freeShipMin:$("s-free").value }); toast("บันทึกการตั้งค่าแล้ว"); }catch(e){ toast(e.message,"err"); } };
+async function loadSettings(){ try{ const s=await API.getSettings(); $("s-shop").value=s.shopName||""; $("s-promo").value=s.promo||""; $("s-ship").value=s.shippingFlat??60; $("s-free").value=s.freeShipMin??3000;
+  if(!PRODUCTS.length){ try{ PRODUCTS=await API.products(); }catch(_){} }
+  const opts=[...PRODUCTS].sort((a,b)=>(a.name||"").localeCompare(b.name||"","th")).map(p=>`<option value="${esc(p.id)}">${esc((p.name||'').slice(0,55))}</option>`).join("");
+  $("s-hero").innerHTML='<option value="">— ใช้คอลเลคชั่นล่าสุดอัตโนมัติ —</option>'+opts;
+  $("s-hero").value=s.heroProductId||"";
+ }catch(e){ toast(e.message,"err"); } }
+$("s-save").onclick=async()=>{ try{ await API.saveSettings({ shopName:$("s-shop").value, promo:$("s-promo").value, shippingFlat:$("s-ship").value, freeShipMin:$("s-free").value, heroProductId:$("s-hero").value }); toast("บันทึกการตั้งค่าแล้ว"); }catch(e){ toast(e.message,"err"); } };
 $("s-chpass").onclick=async()=>{ const np=$("s-np").value, cp=$("s-cp").value; if(np.length<8){ toast("รหัสผ่านต้องยาวอย่างน้อย 8 ตัว","err"); return; } if(np!==cp){ toast("รหัสผ่านยืนยันไม่ตรงกัน","err"); return; } try{ await API.changePassword(np); $("s-np").value=""; $("s-cp").value=""; toast("เปลี่ยนรหัสผ่านแล้ว"); }catch(e){ toast(e.message,"err"); } };
 
 /* ============ start ============ */

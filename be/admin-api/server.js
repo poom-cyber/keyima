@@ -122,7 +122,7 @@ app.get("/api/audit", (_q, res) => res.json(Audit.all(200)));
 /* ---------- settings ---------- */
 app.get("/api/settings", (_q, res) => res.json(Settings.all()));
 app.put("/api/settings", (req, res) => {
-  ["shippingFlat", "freeShipMin", "promo", "shopName"].forEach(k => { if (k in req.body) Settings.set(k, req.body[k]); });
+  ["shippingFlat", "freeShipMin", "promo", "shopName", "heroProductId"].forEach(k => { if (k in req.body) Settings.set(k, req.body[k]); });
   Audit.log(req.admin.sub, "settings_update", {});
   res.json(Settings.all());
 });

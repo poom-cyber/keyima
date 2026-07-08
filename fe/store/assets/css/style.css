@@ -151,6 +151,12 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
 .cat-banner--logo img { object-fit: contain; padding: 24px 24px 66px; }
 .cat-banner--logo h3 { color: #1a1a2e; }
 .cat-banner--logo p { color: #5a6270; }
+/* แถวเลื่อนแนวนอน (section ตามซีรีส์) */
+.hscroll { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.hscroll > * { flex: 0 0 220px; scroll-snap-align: start; }
+.hscroll::-webkit-scrollbar { height: 8px; }
+.hscroll::-webkit-scrollbar-thumb { background: #d8dbe0; border-radius: 8px; }
+@media (max-width: 560px) { .hscroll > * { flex-basis: 160px; } }
 
 /* ---------- หน้ารายการสินค้า (toolbar + filter) ---------- */
 .shop-layout { display: grid; grid-template-columns: 240px 1fr; gap: 32px; padding: 36px 0 64px; }

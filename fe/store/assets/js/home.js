@@ -10,13 +10,14 @@ Storefront.boot(() => {
   const newest = [...all].sort(byDateDesc).slice(0, 4);
   document.getElementById("grid-new").innerHTML = newest.map(productCard).join("");
 
-  // Hero: โชว์รูปคอลเลคชั่นล่าสุด + ลิงก์ไปหน้าสินค้านั้น
-  const latest = newest[0];
-  if (latest) {
+  // Hero: ใช้สินค้าที่แอดมินเลือก (settings.heroProductId) ถ้าไม่ได้ตั้ง → คอลเลคชั่นล่าสุด
+  const heroId = (Storefront.settings && Storefront.settings.heroProductId) || "";
+  const heroProd = (heroId && all.find(p => p.id === heroId)) || newest[0];
+  if (heroProd) {
     const hi = document.getElementById("hero-img");
-    if (hi && latest.img) { hi.src = latest.img; hi.alt = latest.name || "คอลเลคชั่นล่าสุด"; }
+    if (hi && heroProd.img) { hi.src = heroProd.img; hi.alt = heroProd.name || "คอลเลคชั่นล่าสุด"; }
     const hl = document.getElementById("hero-link");
-    if (hl) hl.href = "product?id=" + encodeURIComponent(latest.id);
+    if (hl) hl.href = "product?id=" + encodeURIComponent(heroProd.id);
   }
 
   // พรีออเดอร์
@@ -29,6 +30,24 @@ Storefront.boot(() => {
   // ยอดนิยม: badge = hot
   const hot = all.filter(p => p.badge === "hot").slice(0, 4);
   document.getElementById("grid-hot").innerHTML = hot.map(productCard).join("");
+
+  // ตามซีรีส์: จัดกลุ่มตาม series แสดงซีรีส์ที่ของเยอะสุด (เลื่อนแนวนอนได้)
+  const bySeries = {};
+  all.forEach(p => { const s = (p.series || "").trim(); if (s) (bySeries[s] = bySeries[s] || []).push(p); });
+  const topSeries = Object.entries(bySeries)
+    .filter(([s, arr]) => arr.length >= 3)
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 6);
+  document.getElementById("series-sections").innerHTML = topSeries.map(([s, arr]) => `
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="section-head">
+          <h2>${s}</h2>
+          <a href="products?series=${encodeURIComponent(s)}" class="link">ดูทั้งหมด →</a>
+        </div>
+        <div class="hscroll">${arr.slice(0, 12).map(productCard).join("")}</div>
+      </div>
+    </section>`).join("");
 
   bindAddButtons();
 });
