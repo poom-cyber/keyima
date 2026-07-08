@@ -33,7 +33,7 @@ Storefront.boot(() => {
 
   // ตามซีรีส์: จัดกลุ่มตาม series แสดงซีรีส์ที่ของเยอะสุด (เลื่อนแนวนอนได้)
   const bySeries = {};
-  all.forEach(p => { const s = (p.series || "").trim(); if (s) (bySeries[s] = bySeries[s] || []).push(p); });
+  all.forEach(p => { const s = (p.series || "").trim(); if (s && s !== "อื่นๆ") (bySeries[s] = bySeries[s] || []).push(p); });
   const topSeries = Object.entries(bySeries)
     .filter(([s, arr]) => arr.length >= 3)
     .map(([s, arr]) => [s, [...arr].sort(byDateDesc)])                          // เรียงสินค้าในซีรีส์: ใหม่/อัปเดตล่าสุดก่อน
