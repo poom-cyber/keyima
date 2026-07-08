@@ -145,12 +145,13 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
 .cat-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .cat-banner > div { position: relative; z-index: 2; }
 .cat-banner h3 { font-size: 1.5rem; }
-/* แบนเนอร์แบบโลโก้ (โชว์โลโก้เต็มบนพื้นขาว) */
-.cat-banner--logo { background: #fff; border: 1px solid #ececec; }
-.cat-banner--logo::before { background: linear-gradient(180deg, transparent 55%, rgba(255,255,255,.97)); }
-.cat-banner--logo img { object-fit: contain; padding: 24px 24px 66px; }
+/* แบนเนอร์แบบโลโก้ (โลโก้ด้านบน / ข้อความด้านล่าง พื้นขาว) */
+.cat-banner--logo { background: #fff; border: 1px solid #ececec; display: flex; flex-direction: column; align-items: stretch; padding: 0; }
+.cat-banner--logo::before { display: none; }
+.cat-banner--logo img { position: relative; inset: auto; width: 100%; height: 150px; object-fit: contain; padding: 22px; }
+.cat-banner--logo > div { position: relative; z-index: 2; padding: 16px 22px; border-top: 1px solid #f0f1f3; }
 .cat-banner--logo h3 { color: #1a1a2e; }
-.cat-banner--logo p { color: #5a6270; }
+.cat-banner--logo p { color: #5a6270; margin-top: 2px; }
 /* แถวเลื่อนแนวนอน (section ตามซีรีส์) */
 .hscroll { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
 .hscroll > * { flex: 0 0 220px; scroll-snap-align: start; }
