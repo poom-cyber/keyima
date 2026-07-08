@@ -1,7 +1,7 @@
 /* ============================================================
    ui.js — ส่วนประกอบ UI ร่วม (header, footer, toast, การ์ดสินค้า)
    ============================================================ */
-const LOGO_SVG = `<span class="brand-logo"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="lgbg" cx="50%" cy="42%" r="65%"><stop offset="0%" stop-color="#fefcf1"/><stop offset="100%" stop-color="#fbf4dc"/></radialGradient></defs><circle cx="60" cy="60" r="58" fill="url(#lgbg)"/><circle cx="60" cy="60" r="57" fill="none" stroke="#d8453f" stroke-width="1.5" opacity="0.35"/><text x="60" y="57" text-anchor="middle" font-family="'Noto Sans SC','Noto Sans Thai',sans-serif" font-weight="700" font-size="35"><tspan fill="#cf4038">可</tspan><tspan fill="#2f7fb0" dx="1">以</tspan><tspan fill="#cf4038" dx="1">吗</tspan></text><text x="60" y="87" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="15" letter-spacing="2.5"><tspan fill="#cf4038">KE</tspan><tspan fill="#2f7fb0"> YI</tspan><tspan fill="#cf4038"> MA</tspan></text></svg></span>`;
+const LOGO_SVG = `<span class="brand-logo"><img src="assets/img/logo-keyima.png" alt="KEYIMA" width="42" height="42"></span>`;
 
 function renderChrome(activePage) {
   const line = (window.APP_CONFIG && window.APP_CONFIG.LINE_URL) || "#";
