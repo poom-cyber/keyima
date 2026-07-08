@@ -36,7 +36,7 @@ function renderChrome(activePage) {
         <a href="products?status=preorder">สินค้าพรีออเดอร์</a>
       </div>
       <div><h4>ช่วยเหลือ</h4>
-        <a href="/">วิธีสั่งซื้อ</a><a href="/">การจัดส่ง</a><a href="/">การรับประกันของแท้</a>
+        <a href="track">📦 ติดตามคำสั่งซื้อ</a><a href="/">วิธีสั่งซื้อ</a><a href="/">การจัดส่ง</a><a href="/">การรับประกันของแท้</a>
       </div>
       <div><h4>ติดต่อ</h4>
         <a href="${line}" target="_blank" rel="noopener">💬 แอดไลน์ร้าน</a>

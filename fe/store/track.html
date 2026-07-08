@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ติดตามคำสั่งซื้อ — KEYIMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="container" style="max-width:620px;padding:34px 20px;">
+    <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:6px;">ติดตามคำสั่งซื้อ</h1>
+    <p class="muted" style="margin-bottom:18px;">กรอกเลขคำสั่งซื้อ และอีเมลที่ใช้ตอนสั่ง เพื่อดูสถานะ (ไม่ต้องล็อกอิน)</p>
+    <div class="form-card">
+      <div class="field"><label>เลขคำสั่งซื้อ</label><input id="t-no" placeholder="เช่น KMXXXXXX"></div>
+      <div class="field"><label>อีเมล</label><input id="t-email" type="email" placeholder="อีเมลที่ใช้สั่งซื้อ"></div>
+      <button class="btn btn--primary btn--block" id="t-btn" style="margin-top:8px;">ดูสถานะคำสั่งซื้อ</button>
+    </div>
+    <div id="t-result" style="margin-top:20px;"></div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/track.js"></script>
+</body>
+</html>

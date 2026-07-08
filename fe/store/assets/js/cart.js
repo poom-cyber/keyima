@@ -42,6 +42,7 @@ function cartItemHTML(it) {
     <div>
       <a class="ci-title" href="product?id=${it.id}">${it.name}</a>
       <div class="ci-series">${it.prize ? "🎁 " + it.prize + (it.opt ? " · " + it.opt : "") : it.series}</div>
+      <div class="ci-series" style="font-size:.76rem;color:${it.express ? "#d8453f" : "#8a9099"}">${it.express ? "🚀 ส่งด่วน 7-15 วัน (+1,000)" : "🚚 รับสินค้าตามระบบ"}</div>
       ${it.status === "preorder" ? `<span class="pill pill--preorder" style="margin-top:6px;display:inline-block;">พรีออเดอร์</span>` : ""}
       <br><button class="ci-remove" data-remove="${it.key}">ลบออก</button>
     </div>

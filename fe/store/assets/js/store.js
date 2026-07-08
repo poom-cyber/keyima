@@ -28,15 +28,15 @@ const Store = {
   findProduct(id) { return (window.PRODUCTS || []).find(p => p.id === id); },
   variation(p, idx) { const vs = vlistOf(p); return vs[idx] || vs[0]; },
 
-  addToCart(id, idx = 0, qty = 1) {
+  addToCart(id, idx = 0, qty = 1, express = false) {
     const p = Store.findProduct(id);
     if (!p || p.status === "soldout") return false;
     const v = Store.variation(p, idx);
-    const key = id + "|" + idx;
+    const key = id + "|" + idx + "|" + (express ? "x" : "n");
     const cart = Store.getCart();
     const cur = (cart[key] && cart[key].qty) || 0;
     const max = p.status === "preorder" ? 99 : (v.stock > 0 ? v.stock : 99);
-    cart[key] = { id, idx, qty: Math.min(cur + qty, max) };
+    cart[key] = { id, idx, qty: Math.min(cur + qty, max), express: !!express };
     Store.saveCart(cart);
     return true;
   },
@@ -53,14 +53,18 @@ const Store = {
   removeFromCart(key) { const cart = Store.getCart(); delete cart[key]; Store.saveCart(cart); },
   clearCart() { localStorage.removeItem(CART_KEY); Store.updateBadge(); },
 
+  expressPrice(v) { return (v && v.priceExpress) ? v.priceExpress : ((v ? v.price : 0) + 1000); },
   cartItems() {
     const cart = Store.getCart();
     return Object.keys(cart).map(key => {
       const e = cart[key]; const p = Store.findProduct(e.id); if (!p) return null;
       const v = Store.variation(p, e.idx);
+      const express = !!e.express;
+      const price = express ? Store.expressPrice(v) : v.price;
       return { key, id: e.id, idx: e.idx, name: p.name, series: p.series, grade: p.grade,
         status: p.status, img: v.img || p.img, prize: prizeLabel(v), opt: v.opt || "",
-        price: v.price, qty: e.qty, lineTotal: v.price * e.qty };
+        express, ship: express ? "ส่งด่วน 7-15 วัน" : "รับสินค้าตามระบบ",
+        price, qty: e.qty, lineTotal: price * e.qty };
     }).filter(Boolean);
   },
   cartCount() { return Object.values(Store.getCart()).reduce((a, b) => a + ((b && b.qty) || 0), 0); },

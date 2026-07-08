@@ -13,7 +13,7 @@ function vlist(p) {
   return (p.variations && p.variations.length)
     ? p.variations : [{ label: "", opt: "", price: p.price, stock: p.stock, img: p.img }];
 }
-let selIdx = 0, selImg = "";
+let selIdx = 0, selImg = "", expressSel = false;
 
 Storefront.boot(async () => {
   const pid = new URLSearchParams(location.search).get("id");
@@ -49,10 +49,12 @@ function renderPDP(p) {
   const imgs = [p.img, ...(p.images || []), ...vs.map(v => v.img)].filter((u, i, a) => u && a.indexOf(u) === i);
   const order = vs.map((v, i) => i).sort((a, b) => prizeRank(vs[a]) - prizeRank(vs[b]) || a - b);
   selIdx = order.find(i => pre || vs[i].stock > 0); if (selIdx === undefined) selIdx = order[0];
-  selImg = "";
+  selImg = ""; expressSel = false;
 
   function draw() {
     const v = vs[selIdx] || vs[0];
+    const ep = Store.expressPrice(v);
+    const shown = expressSel ? ep : v.price;
     const main = selImg || v.img || p.img;
     const max = pre ? 99 : (v.stock > 0 ? v.stock : 99);
     document.getElementById("pdp-root").innerHTML = `
@@ -64,13 +66,18 @@ function renderPDP(p) {
         <div style="margin-bottom:10px;">${statusBadge(p)}</div>
         <h1>${p.name}</h1>
         <div class="pdp-series">${p.series} · ${p.grade || ""}</div>
-        <div class="pdp-price"><span class="price">${formatTHB(v.price)}</span></div>
+        <div class="pdp-price"><span class="price">${formatTHB(shown)}</span>${expressSel ? `<span class="muted" style="font-size:.85rem;margin-left:8px">(ส่งด่วน +1,000)</span>` : ``}</div>
         ${vs.length > 1 ? `<div class="muted" style="font-weight:700;margin:16px 0 8px;">เลือกรางวัล (${vs.length})</div>
           <div class="vgrid">${order.map((i) => { const vv = vs[i];
             const out = !pre && vv.stock <= 0;
             return `<button class="vchip ${i === selIdx ? "on" : ""}" ${out ? "disabled" : ""} data-idx="${i}">
               <span>${prizeLabel(vv) || ("แบบ " + (i + 1))}${vv.opt ? " · " + vv.opt : ""}</span>
               <small>${formatTHB(vv.price)}${out ? " · หมด" : ""}</small></button>`; }).join("")}</div>` : ""}
+        <div class="muted" style="font-weight:700;margin:16px 0 8px;">รูปแบบจัดส่ง</div>
+        <div class="vgrid">
+          <button class="vchip ${!expressSel ? "on" : ""}" data-exp="0"><span>รับสินค้าตามระบบ</span><small>${formatTHB(v.price)}</small></button>
+          <button class="vchip ${expressSel ? "on" : ""}" data-exp="1"><span>ส่งด่วน 7-15 วัน</span><small>${formatTHB(ep)} · +1,000</small></button>
+        </div>
         <div class="pdp-meta">
           <div class="row"><span>หมวดสินค้า</span><span>${catLabel}</span></div>
           <div class="row"><span>สถานะ</span><span>${pre ? "เปิดพรีออเดอร์" : sold ? "สินค้าหมด" : "พร้อมส่ง"}</span></div>
@@ -85,16 +92,21 @@ function renderPDP(p) {
     </div>`;
 
     const root = document.getElementById("pdp-root");
-    root.querySelectorAll("[data-img]").forEach(t => t.onclick = () => { selImg = t.dataset.img; draw(); });
+    root.querySelectorAll("[data-img]").forEach(t => t.onclick = () => {
+      const vi = vs.findIndex(v => v.img && v.img === t.dataset.img);   // ถ้าเป็นรูปของรางวัล → เลือกรางวัลนั้นด้วย
+      if (vi >= 0) { selIdx = vi; selImg = ""; } else { selImg = t.dataset.img; }
+      draw();
+    });
     root.querySelectorAll("[data-idx]").forEach(b => b.onclick = () => { selIdx = +b.dataset.idx; selImg = ""; draw(); });
+    root.querySelectorAll("[data-exp]").forEach(b => b.onclick = () => { expressSel = b.dataset.exp === "1"; draw(); });
     if (!sold) {
       const input = document.getElementById("q-input");
       const clamp = x => Math.max(1, Math.min(parseInt(x) || 1, max));
       document.getElementById("q-minus").onclick = () => input.value = clamp(+input.value - 1);
       document.getElementById("q-plus").onclick = () => input.value = clamp(+input.value + 1);
       input.onchange = () => input.value = clamp(input.value);
-      document.getElementById("add-btn").onclick = () => { Store.addToCart(p.id, selIdx, +input.value); showToast(`เพิ่ม "${(prizeLabel(vs[selIdx]) || p.name).slice(0, 24)}" ลงตะกร้าแล้ว`); };
-      document.getElementById("buy-btn").onclick = () => { Store.addToCart(p.id, selIdx, +input.value); location.href = "cart"; };
+      document.getElementById("add-btn").onclick = () => { Store.addToCart(p.id, selIdx, +input.value, expressSel); showToast(`เพิ่ม "${(prizeLabel(vs[selIdx]) || p.name).slice(0, 24)}"${expressSel ? " (ส่งด่วน)" : ""} ลงตะกร้าแล้ว`); };
+      document.getElementById("buy-btn").onclick = () => { Store.addToCart(p.id, selIdx, +input.value, expressSel); location.href = "cart"; };
     }
   }
   draw();

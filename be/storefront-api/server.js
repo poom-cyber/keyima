@@ -79,8 +79,10 @@ app.post("/api/orders", (req, res) => {
     const p = Products.get(it.id); if (!p) return res.status(400).json({ message: "สินค้าไม่ถูกต้อง: " + it.id });
     const v = (p.variations || [])[it.idx] || { price: p.price, label: "", opt: "" };
     const qty = Math.max(1, Math.min(parseInt(it.qty) || 1, 99));
-    subtotal += v.price * qty;
-    items.push({ id: p.id, name: p.name, prize: v.label, opt: v.opt, price: v.price, qty, img: v.img || p.img });
+    const express = !!it.express;
+    const price = express ? (Number(v.priceExpress) || (Number(v.price) + 1000)) : v.price;
+    subtotal += price * qty;
+    items.push({ id: p.id, name: p.name, prize: v.label, opt: v.opt, price, qty, img: v.img || p.img, express, ship: express ? "ส่งด่วน 7-15 วัน" : "รับสินค้าตามระบบ" });
   }
   const st = Settings.all();
   const shipping = subtotal >= st.freeShipMin ? 0 : st.shippingFlat;
@@ -95,6 +97,17 @@ app.post("/api/orders", (req, res) => {
   });
   mailer.sendOrderConfirmation(order).catch(() => {});   // ส่งใบยืนยัน/ใบพรีออเดอร์
   res.status(201).json({ orderNo: order.orderNo, total: order.total, status: order.status });
+});
+
+/* ติดตามคำสั่งซื้อ (guest): ต้องมีเลขออเดอร์ + อีเมลตรงกัน */
+app.get("/api/orders/track", (req, res) => {
+  const no = String(req.query.no || "").trim();
+  const email = String(req.query.email || "").trim().toLowerCase();
+  if (!no || !email) return res.status(400).json({ message: "กรอกเลขคำสั่งซื้อและอีเมล" });
+  const o = Orders.get(no);
+  if (!o || (o.email || "").toLowerCase() !== email) return res.status(404).json({ message: "ไม่พบคำสั่งซื้อ — เช็กเลขที่และอีเมลอีกครั้ง" });
+  res.json({ orderNo: o.orderNo, name: o.name, status: o.status, tracking: o.tracking || "", total: o.total, createdAt: o.createdAt,
+    items: (o.items || []).map(it => ({ name: it.name, prize: it.prize, qty: it.qty, ship: it.ship || "" })) });
 });
 
 app.get("/healthz", (_q, res) => res.json({ ok: true, service: "storefront-api" }));

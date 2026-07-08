@@ -87,7 +87,7 @@ async function submit() {
     name: val("f-first") + " " + val("f-last"), phone: val("f-phone"), email: val("f-email"),
     address: val("f-addr"), subdist: val("f-subdist"), district: val("f-district"), province: val("f-province"), zip: val("f-zip"),
     note: val("f-note"), payment: "promptpay", slip: slipData,
-    items: items.map(it => ({ id: it.id, idx: it.idx, qty: it.qty }))
+    items: items.map(it => ({ id: it.id, idx: it.idx, qty: it.qty, express: it.express }))
   };
   const saved = await Storefront.createOrder(payload);
   if (!saved || !saved.orderNo) { btn.disabled = false; btn.textContent = "ยืนยันสั่งซื้อ " + formatTHB(total); showToast("บันทึกออเดอร์ไม่สำเร็จ — เช็กว่าเซิร์ฟเวอร์รันอยู่", "err"); return; }
@@ -101,6 +101,7 @@ async function submit() {
       <div class="row"><span>ยอดชำระ</span><strong>${formatTHB(saved.total || total)}</strong></div>
       <div class="row"><span>สถานะ</span><span>รอตรวจสอบการชำระเงิน</span></div>
     </div></div>
+    <p style="margin-top:6px;"><a class="link" href="track?no=${saved.orderNo}&email=${encodeURIComponent(payload.email)}">📦 ติดตามสถานะคำสั่งซื้อนี้ (บันทึกลิงก์ไว้ได้)</a></p>
     ${!slipData && cfg.LINE_URL
       ? `<p class="muted">ยังไม่ได้แนบสลิป — ส่งให้เราทาง LINE ได้เลย</p><p><a class="btn btn--primary" href="${cfg.LINE_URL}" target="_blank" rel="noopener">💬 ส่งสลิปทาง LINE</a> <a class="btn btn--ghost" href="/">กลับหน้าแรก</a></p>`
       : `<p style="margin-top:18px;"><a class="btn btn--primary" href="/">กลับหน้าแรก</a></p>`}
