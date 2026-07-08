@@ -149,8 +149,8 @@ const Customers = {
   remove: e => db.prepare("DELETE FROM customers WHERE email=?").run(e)
 };
 const Settings = {
-  all() { const o={}; db.prepare("SELECT * FROM settings").all().forEach(r => o[r.key]=r.value); o.shippingFlat=Number(o.shippingFlat||60); o.freeShipMin=Number(o.freeShipMin||3000); return o; },
-  set: (k, v) => db.prepare("INSERT INTO settings (key,value) VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=?").run(k, String(v), String(v))
+  all() { const o={}; db.prepare('SELECT key AS k, value AS v FROM settings').all().forEach(r => { if (r.k != null) o[r.k]=r.v; }); o.shippingFlat=Number(o.shippingFlat||60); o.freeShipMin=Number(o.freeShipMin||3000); return o; },
+  set: (k, v) => db.prepare('INSERT INTO settings (key,value) VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').run(String(k), String(v))
 };
 const Admins = {
   get: u => db.prepare("SELECT * FROM admins WHERE username=?").get(u),
