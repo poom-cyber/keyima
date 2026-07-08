@@ -152,6 +152,11 @@ h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .5em; }
 .cat-banner--logo > div { position: relative; z-index: 2; padding: 16px 22px; border-top: 1px solid #f0f1f3; }
 .cat-banner--logo h3 { color: #1a1a2e; }
 .cat-banner--logo p { color: #5a6270; margin-top: 2px; }
+/* แบนเนอร์โลโก้พื้นดำ (สำหรับโลโก้ที่มีพื้นดำ เช่น Pokémon jpg) */
+.cat-banner--dark { background: #000; border-color: #000; }
+.cat-banner--dark > div { border-top-color: #242424; }
+.cat-banner--dark h3 { color: #fff; }
+.cat-banner--dark p { color: #b8bcc6; }
 /* แถวเลื่อนแนวนอน (section ตามซีรีส์) */
 .hscroll { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
 .hscroll > * { flex: 0 0 220px; scroll-snap-align: start; }

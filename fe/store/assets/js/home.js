@@ -27,10 +27,6 @@ Storefront.boot(() => {
     ? preorders.map(productCard).join("")
     : `<p class="muted">ยังไม่มีสินค้าพรีออเดอร์ในขณะนี้</p>`;
 
-  // ยอดนิยม: badge = hot
-  const hot = all.filter(p => p.badge === "hot").slice(0, 4);
-  document.getElementById("grid-hot").innerHTML = hot.map(productCard).join("");
-
   // ตามซีรีส์: จัดกลุ่มตาม series แสดงซีรีส์ที่ของเยอะสุด (เลื่อนแนวนอนได้)
   const bySeries = {};
   all.forEach(p => { const s = (p.series || "").trim(); if (s && s !== "อื่นๆ") (bySeries[s] = bySeries[s] || []).push(p); });
