@@ -1,50 +1,94 @@
-/* home.js — เติมสินค้าในหน้าแรก (โหลดจาก API ก่อน แล้วค่อย render) */
+/* home.js — หน้าแรก: hero carousel (หลายคอล) + section จัดเรียงได้ + แนะนำตามความสนใจ */
 renderChrome("home");
-
 function byDateDesc(a, b) { return new Date(b.addedAt) - new Date(a.addedAt); }
+function readPrefs() { try { return JSON.parse(localStorage.getItem("kps_prefs") || "{}"); } catch (e) { return {}; } }
 
 Storefront.boot(() => {
-  const all = window.PRODUCTS;
+  const all = window.PRODUCTS.filter(p => p.status !== "hidden");
+  const S = Storefront.settings || {};
 
-  // มาใหม่: เรียงตามวันที่ล่าสุด 4 ชิ้น
-  const newest = [...all].sort(byDateDesc).slice(0, 4);
-  document.getElementById("grid-new").innerHTML = newest.map(productCard).join("");
+  setupHero(all, S);
 
-  // Hero: ใช้สินค้าที่แอดมินเลือก (settings.heroProductId) ถ้าไม่ได้ตั้ง → คอลเลคชั่นล่าสุด
-  const heroId = (Storefront.settings && Storefront.settings.heroProductId) || "";
-  const heroProd = (heroId && all.find(p => p.id === heroId)) || newest[0];
-  if (heroProd) {
-    const hi = document.getElementById("hero-img");
-    if (hi && heroProd.img) { hi.src = heroProd.img; hi.alt = heroProd.name || "คอลเลคชั่นล่าสุด"; }
-    const hl = document.getElementById("hero-link");
-    if (hl) hl.href = "product?id=" + encodeURIComponent(heroProd.id);
-  }
-
-  // พรีออเดอร์
-  const preorders = all.filter(p => p.status === "preorder").slice(0, 4);
-  const poGrid = document.getElementById("grid-preorder");
-  poGrid.innerHTML = preorders.length
-    ? preorders.map(productCard).join("")
-    : `<p class="muted">ยังไม่มีสินค้าพรีออเดอร์ในขณะนี้</p>`;
-
-  // ตามซีรีส์: จัดกลุ่มตาม series แสดงซีรีส์ที่ของเยอะสุด (เลื่อนแนวนอนได้)
-  const bySeries = {};
-  all.forEach(p => { const s = (p.series || "").trim(); if (s && s !== "อื่นๆ") (bySeries[s] = bySeries[s] || []).push(p); });
-  const topSeries = Object.entries(bySeries)
-    .filter(([s, arr]) => arr.length >= 3)
-    .map(([s, arr]) => [s, [...arr].sort(byDateDesc)])                          // เรียงสินค้าในซีรีส์: ใหม่/อัปเดตล่าสุดก่อน
-    .sort((a, b) => new Date(b[1][0].addedAt) - new Date(a[1][0].addedAt))      // เรียงซีรีส์: ที่อัปเดตล่าสุดขึ้นก่อน
-    .slice(0, 6);
-  document.getElementById("series-sections").innerHTML = topSeries.map(([s, arr]) => `
-    <section class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="section-head">
-          <h2>${s}</h2>
-          <a href="products?series=${encodeURIComponent(s)}" class="link">ดูทั้งหมด →</a>
-        </div>
-        <div class="hscroll">${arr.slice(0, 12).map(productCard).join("")}</div>
-      </div>
-    </section>`).join("");
-
+  const order = String(S.homeSections || "new,preorder,series").split(",").map(s => s.trim()).filter(Boolean);
+  const html = order.map(key => renderSection(key, all)).filter(Boolean).join("");
+  document.getElementById("home-sections").innerHTML = html + viewAllHTML();
   bindAddButtons();
 });
+
+/* ---------- HERO (เลือกได้หลายคอล → สไลด์อัตโนมัติ) ---------- */
+function setupHero(all, S) {
+  let ids = String(S.heroProductIds || "").split(",").map(x => x.trim()).filter(Boolean);
+  if (!ids.length && S.heroProductId) ids = [S.heroProductId];
+  let heroes = ids.map(id => all.find(p => p.id === id)).filter(Boolean);
+  if (!heroes.length) { const n = [...all].sort(byDateDesc)[0]; if (n) heroes = [n]; }
+  const img = document.getElementById("hero-img");
+  const link = document.getElementById("hero-link");
+  const dots = document.getElementById("hero-dots");
+  if (!heroes.length || !img) return;
+  let i = 0;
+  function show(n) {
+    i = n; const p = heroes[i];
+    if (p.img) img.src = p.img; img.alt = p.name || "";
+    if (link) link.href = "product?id=" + encodeURIComponent(p.id);
+    if (dots) dots.querySelectorAll("span").forEach((d, k) => d.classList.toggle("on", k === i));
+  }
+  if (heroes.length > 1 && dots) {
+    dots.innerHTML = heroes.map((_, k) => `<span data-i="${k}"></span>`).join("");
+    dots.querySelectorAll("span").forEach(d => d.onclick = () => show(+d.dataset.i));
+  }
+  show(0);
+  if (heroes.length > 1) setInterval(() => show((i + 1) % heroes.length), 4500);
+}
+
+/* ---------- section ---------- */
+function sectionHTML(title, link, inner) {
+  return `
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head"><h2>${title}</h2>${link ? `<a href="${link}" class="link">ดูทั้งหมด →</a>` : ""}</div>
+      ${inner}
+    </div>
+  </section>`;
+}
+function grid(list) { return `<div class="hscroll">${list.map(productCard).join("")}</div>`; }
+
+function renderSection(key, all) {
+  if (key === "new") { const l = [...all].sort(byDateDesc).slice(0, 10); return l.length ? sectionHTML("🆕 สินค้ามาใหม่", "products?sort=new", grid(l)) : ""; }
+  if (key === "preorder") { const l = all.filter(p => p.status === "preorder").slice(0, 10); return l.length ? sectionHTML("📦 เปิดพรีออเดอร์", "products?status=preorder", grid(l)) : ""; }
+  if (key === "recommended") { const l = recommended(all); return l.length ? sectionHTML("✨ แนะนำสำหรับคุณ", "products", grid(l)) : ""; }
+  if (key === "series") { return seriesHTML(all); }
+  return "";
+}
+
+/* ตามซีรีส์ (หลายแถว เลื่อนแนวนอน) */
+function seriesHTML(all) {
+  const by = {};
+  all.forEach(p => { const s = (p.series || "").trim(); if (s && s !== "อื่นๆ") (by[s] = by[s] || []).push(p); });
+  const top = Object.entries(by)
+    .filter(([s, a]) => a.length >= 3)
+    .map(([s, a]) => [s, [...a].sort(byDateDesc)])
+    .sort((a, b) => new Date(b[1][0].addedAt) - new Date(a[1][0].addedAt))
+    .slice(0, 6);
+  return top.map(([s, a]) => sectionHTML(s, "products?series=" + encodeURIComponent(s), grid(a.slice(0, 12)))).join("");
+}
+
+/* แนะนำตามความสนใจ (จาก localStorage ที่บันทึกตอนดูสินค้า/ค้นหา) */
+function recommended(all) {
+  const pr = readPrefs(); const ser = pr.series || {}, cat = pr.cat || {};
+  const topSer = Object.entries(ser).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => x[0]);
+  const topCatEntry = Object.entries(cat).sort((a, b) => b[1] - a[1])[0];
+  const topCat = topCatEntry ? topCatEntry[0] : null;
+  if (!topSer.length && !topCat) return [];
+  let l = all.filter(p => topSer.includes(p.series) || (topCat && p.category === topCat));
+  l.sort((a, b) => (topSer.includes(b.series) - topSer.includes(a.series)) || (new Date(b.addedAt) - new Date(a.addedAt)));
+  return l.slice(0, 10);
+}
+
+function viewAllHTML() {
+  return `
+  <section class="section" style="padding-top:0;">
+    <div class="container" style="text-align:center;">
+      <a href="products" class="btn btn--primary" style="padding:14px 30px;font-size:1.05rem;">ดูสินค้าทั้งหมด →</a>
+    </div>
+  </section>`;
+}

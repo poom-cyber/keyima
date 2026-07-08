@@ -26,8 +26,20 @@ Storefront.boot(async () => {
       <p><a class="link" href="products">กลับไปหน้าสินค้าทั้งหมด</a></p></div>`;
     return;
   }
+  trackView(p);
   renderPDP(p);
 });
+
+/* บันทึกความสนใจ (ซีรีส์/หมวด) ลง browser เพื่อทำ section "แนะนำสำหรับคุณ" หน้าแรก */
+function trackView(p) {
+  try {
+    const pr = JSON.parse(localStorage.getItem("kps_prefs") || "{}");
+    pr.series = pr.series || {}; pr.cat = pr.cat || {};
+    if (p.series) pr.series[p.series] = (pr.series[p.series] || 0) + 1;
+    if (p.category) pr.cat[p.category] = (pr.cat[p.category] || 0) + 1;
+    localStorage.setItem("kps_prefs", JSON.stringify(pr));
+  } catch (e) {}
+}
 
 function renderPDP(p) {
   const vs = vlist(p), pre = p.status === "preorder", sold = p.status === "soldout";
