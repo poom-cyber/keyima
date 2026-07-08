@@ -1,25 +1,24 @@
 /* track.js — ติดตามคำสั่งซื้อสำหรับ guest (เลขออเดอร์ + อีเมล) */
 renderChrome("");
 const FLOW = [
-  { k: "pending", label: "รอยืนยันการชำระเงิน" },
-  { k: "paid", label: "ยืนยันการชำระเงินแล้ว" },
-  { k: "abroad", label: "กำลังเดินทางจากต่างประเทศ" },
-  { k: "packing", label: "เตรียมจัดส่งในไทย" },
-  { k: "shipped", label: "จัดส่งแล้ว" },
-  { k: "delivered", label: "ส่งสำเร็จ" }
+  { k: "pending", label: "รอยืนยันชำระเงิน", icon: "⏳" },
+  { k: "paid", label: "ชำระเงินแล้ว", icon: "💳" },
+  { k: "abroad", label: "เดินทางจากต่างประเทศ", icon: "✈️" },
+  { k: "packing", label: "เตรียมส่งในไทย", icon: "📦" },
+  { k: "shipped", label: "จัดส่งแล้ว", icon: "🚚" },
+  { k: "delivered", label: "ส่งสำเร็จ", icon: "🏠" }
 ];
 const STATUS_TH = Object.fromEntries(FLOW.map(f => [f.k, f.label]).concat([["cancelled", "ยกเลิกคำสั่งซื้อ"]]));
 
-/* timeline แสดงขั้นตอนคำสั่งซื้อให้ลูกค้าเห็น */
+/* progress bar แนวนอน + icon แสดงขั้นตอนคำสั่งซื้อ */
 function stepperHTML(status) {
   if (status === "cancelled") return `<div class="note" style="margin:12px 0;">❌ คำสั่งซื้อนี้ถูกยกเลิก</div>`;
-  const steps = [{ label: "สั่งซื้อแล้ว" }].concat(FLOW);
+  const steps = [{ label: "สั่งซื้อแล้ว", icon: "🛒" }].concat(FLOW);
   const idx = FLOW.findIndex(f => f.k === status);
   const curIdx = idx >= 0 ? idx + 1 : 0;
-  return `<div class="track-timeline">` + steps.map((s, i) => {
+  return `<div class="track-bar">` + steps.map((s, i) => {
     const cls = i === curIdx ? "cur" : (i < curIdx ? "done" : "todo");
-    const mark = i < curIdx ? "✓" : (i === curIdx ? "●" : "");
-    return `<div class="track-step ${cls}"><span class="dot">${mark}</span><span class="lbl">${s.label}</span></div>`;
+    return `<div class="tb-step ${cls}"><div class="tb-ico">${i < curIdx ? "✓" : s.icon}</div><div class="tb-lbl">${s.label}</div></div>`;
   }).join("") + `</div>`;
 }
 

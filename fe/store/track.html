@@ -11,16 +11,21 @@
 <body>
   <div id="site-header"></div>
 
-  <div class="container" style="max-width:620px;padding:34px 20px;">
-    <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:6px;">ติดตามคำสั่งซื้อ</h1>
-    <p class="muted" style="margin-bottom:18px;">กรอกเลขคำสั่งซื้อ และอีเมลที่ใช้ตอนสั่ง เพื่อดูสถานะ (ไม่ต้องล็อกอิน)</p>
+  <div class="container" style="max-width:780px;padding:38px 20px 60px;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:2.6rem;line-height:1;">📦</div>
+      <h1 style="font-size:1.75rem;font-weight:800;margin:8px 0 4px;">ติดตามคำสั่งซื้อ</h1>
+      <p class="muted">กรอกเลขคำสั่งซื้อ + อีเมลที่ใช้ตอนสั่ง เพื่อดูสถานะ (ไม่ต้องล็อกอิน)</p>
+    </div>
     <div id="t-saved"></div>
     <div class="form-card">
-      <div class="field"><label>เลขคำสั่งซื้อ</label><input id="t-no" placeholder="เช่น KMXXXXXX"></div>
-      <div class="field"><label>อีเมล</label><input id="t-email" type="email" placeholder="อีเมลที่ใช้สั่งซื้อ"></div>
-      <button class="btn btn--primary btn--block" id="t-btn" style="margin-top:8px;">ดูสถานะคำสั่งซื้อ</button>
+      <div class="form-grid">
+        <div class="field"><label>เลขคำสั่งซื้อ</label><input id="t-no" placeholder="เช่น KMXXXXXX"></div>
+        <div class="field"><label>อีเมล</label><input id="t-email" type="email" placeholder="อีเมลที่ใช้สั่งซื้อ"></div>
+      </div>
+      <button class="btn btn--primary btn--block" id="t-btn" style="margin-top:6px;">ดูสถานะคำสั่งซื้อ</button>
     </div>
-    <div id="t-result" style="margin-top:20px;"></div>
+    <div id="t-result" style="margin-top:22px;"></div>
   </div>
 
   <div id="site-footer"></div>
