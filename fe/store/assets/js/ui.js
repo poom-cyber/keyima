@@ -114,7 +114,7 @@ function bindCardHover() {
     let i = 0, timer = null;
     const swap = n => { img.style.opacity = "0"; setTimeout(() => { i = n; img.src = imgs[i]; img.style.opacity = "1"; }, 240); };
     a.addEventListener("mouseenter", () => { clearInterval(timer); timer = setInterval(() => swap((i + 1) % imgs.length), 1500); });
-    a.addEventListener("mouseleave", () => { clearInterval(timer); swap(0); });
+    a.addEventListener("mouseleave", () => { clearInterval(timer); if (i !== 0) { i = 0; img.src = imgs[0]; } img.style.opacity = "1"; });
   });
 }
 

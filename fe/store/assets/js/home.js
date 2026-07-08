@@ -13,6 +13,7 @@ Storefront.boot(() => {
   const html = order.map(key => renderSection(key, all)).filter(Boolean).join("");
   document.getElementById("home-sections").innerHTML = html + viewAllHTML();
   bindAddButtons();
+  bindHRows();
 });
 
 /* ---------- HERO (เลือกได้หลายคอล → สไลด์อัตโนมัติ) ---------- */
@@ -50,7 +51,34 @@ function sectionHTML(title, link, inner) {
     </div>
   </section>`;
 }
-function grid(list) { return `<div class="hscroll">${list.map(productCard).join("")}</div>`; }
+function grid(list) {
+  return `<div class="hrow">
+    <button class="hrow-nav prev" type="button" aria-label="เลื่อนซ้าย">‹</button>
+    <div class="hscroll">${list.map(productCard).join("")}</div>
+    <button class="hrow-nav next" type="button" aria-label="เลื่อนขวา">›</button>
+  </div>`;
+}
+
+/* ผูกปุ่มลูกศรเลื่อนแถวสินค้า + ซ่อนปุ่มเมื่อสุดขอบ */
+function bindHRows() {
+  document.querySelectorAll(".hrow").forEach(row => {
+    if (row._bound) return; row._bound = true;
+    const sc = row.querySelector(".hscroll");
+    const prev = row.querySelector(".prev"), next = row.querySelector(".next");
+    if (!sc) return;
+    const step = () => Math.max(sc.clientWidth * 0.85, 240);
+    prev.onclick = () => sc.scrollBy({ left: -step(), behavior: "smooth" });
+    next.onclick = () => sc.scrollBy({ left: step(), behavior: "smooth" });
+    const update = () => {
+      const max = sc.scrollWidth - sc.clientWidth - 2;
+      prev.classList.toggle("hide", sc.scrollLeft <= 2);
+      next.classList.toggle("hide", sc.scrollLeft >= max);
+    };
+    sc.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  });
+}
 
 function renderSection(key, all) {
   if (key === "new") { const l = [...all].sort(byDateDesc).slice(0, 10); return l.length ? sectionHTML("🆕 สินค้ามาใหม่", "products?sort=new", grid(l)) : ""; }
