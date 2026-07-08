@@ -103,6 +103,7 @@
 
   /* forms grid */
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .set-card{background:#fff;border:1px solid var(--card-line);border-radius:16px;padding:20px;max-width:620px;margin-bottom:18px}
   .set-card h2{font:800 15px 'Noto Sans Thai';margin-bottom:14px}
 
@@ -130,7 +131,7 @@
     main{margin-left:0}
     #hamb{display:block}
     #overlay.on{display:block}
-    .grid2{grid-template-columns:1fr}
+    .grid2,.ov-grid{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -169,7 +170,8 @@
       <div><div style="font:800 15px 'Noto Sans Thai';color:var(--ink)">KEYIMA</div><div style="font-size:11px;color:var(--muted)">Admin Panel</div></div>
     </div>
     <div class="nav-group">เมนูหลัก</div>
-    <div class="nav-a active" data-view="products"><span class="ic">📦</span>สินค้า<span class="nav-badge" id="nb-prod">0</span></div>
+    <div class="nav-a active" data-view="overview"><span class="ic">🏠</span>ภาพรวม</div>
+    <div class="nav-a" data-view="products"><span class="ic">📦</span>สินค้า<span class="nav-badge" id="nb-prod">0</span></div>
     <div class="nav-a" data-view="orders"><span class="ic">🧾</span>ออเดอร์<span class="nav-badge" id="nb-order">0</span></div>
     <div class="nav-a" data-view="members"><span class="ic">👥</span>สมาชิก</div>
     <div class="nav-group">ระบบ</div>
@@ -185,11 +187,31 @@
   <main>
     <div class="topbar">
       <button id="hamb">☰</button>
-      <h1 id="sec-title">สินค้า</h1>
+      <h1 id="sec-title">ภาพรวม</h1>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="wrap view" data-view="overview">
+      <div class="stats">
+        <div class="stat"><div class="n" id="ov-pending" style="color:var(--red)">0</div><div class="l">รอตรวจสลิป</div></div>
+        <div class="stat"><div class="n" id="ov-today">0</div><div class="l">ออเดอร์วันนี้</div></div>
+        <div class="stat"><div class="n" id="ov-sales" style="color:var(--green)">฿0</div><div class="l">ยอดขาย (ชำระแล้ว)</div></div>
+        <div class="stat"><div class="n" id="ov-low" style="color:var(--blue)">0</div><div class="l">ใกล้หมด / หมด</div></div>
+      </div>
+      <div class="ov-grid">
+        <div class="card">
+          <div class="card-hd"><h2>รอตรวจสลิป (กดดูเพื่อยืนยัน)</h2></div>
+          <div style="overflow-x:auto"><table><thead><tr><th>เลข</th><th>ลูกค้า</th><th>ยอด</th><th></th></tr></thead><tbody id="ov-pend-body"></tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><h2>สินค้าใกล้หมด / หมด</h2></div>
+          <div style="overflow-x:auto"><table><thead><tr><th>สินค้า</th><th>สต็อก</th><th>สถานะ</th></tr></thead><tbody id="ov-low-body"></tbody></table></div>
+        </div>
+      </div>
     </div>
 
     <!-- PRODUCTS -->
-    <div class="wrap view" data-view="products">
+    <div class="wrap view hidden" data-view="products">
       <div class="stats">
         <div class="stat"><div class="n" id="st-total">0</div><div class="l">สินค้าทั้งหมด</div></div>
         <div class="stat"><div class="n" id="st-ready" style="color:var(--green)">0</div><div class="l">พร้อมส่ง</div></div>
@@ -340,6 +362,34 @@
   </div>
 </div>
 
+<!-- ORDER DETAIL MODAL -->
+<div class="ov" id="om">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="om-title">ออเดอร์</h3><button class="x" id="om-x">✕</button></div>
+    <div class="modal-bd">
+      <div id="om-meta" class="muted" style="font-size:12px;margin-bottom:12px"></div>
+      <div class="field"><label class="lbl">รายการสินค้า</label>
+        <div id="om-items" style="border:1px solid #eef0f2;border-radius:10px;padding:11px 13px;font-size:13px"></div>
+        <div id="om-totals" style="text-align:right;margin-top:8px;font-size:13px"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label class="lbl">ชื่อผู้รับ</label><input id="om-name" class="f"></div>
+        <div class="field"><label class="lbl">เบอร์โทร</label><input id="om-phone" class="f"></div>
+        <div class="field" style="grid-column:1/-1"><label class="lbl">ที่อยู่</label><input id="om-address" class="f"></div>
+        <div class="field"><label class="lbl">ตำบล/แขวง</label><input id="om-subdist" class="f"></div>
+        <div class="field"><label class="lbl">อำเภอ/เขต</label><input id="om-district" class="f"></div>
+        <div class="field"><label class="lbl">จังหวัด</label><input id="om-province" class="f"></div>
+        <div class="field"><label class="lbl">รหัสไปรษณีย์</label><input id="om-zip" class="f"></div>
+        <div class="field"><label class="lbl">สถานะ</label><select id="om-status" class="f"><option value="pending">รอตรวจสลิป</option><option value="paid">ชำระแล้ว</option><option value="packing">กำลังแพ็ก</option><option value="shipped">จัดส่งแล้ว</option><option value="delivered">ส่งสำเร็จ</option><option value="cancelled">ยกเลิก</option></select></div>
+        <div class="field"><label class="lbl">เลขพัสดุ (ใส่แล้วอีเมลแจ้งลูกค้า)</label><input id="om-tracking" class="f" placeholder="เช่น TH123..."></div>
+        <div class="field" style="grid-column:1/-1"><label class="lbl">หมายเหตุ</label><input id="om-note" class="f"></div>
+      </div>
+      <div id="om-slip-wrap" style="margin-top:4px"></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost btn-sm" id="om-cancel">ปิด</button><button class="btn btn-primary btn-sm" id="om-save">บันทึกออเดอร์</button></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -371,6 +421,7 @@ const API = {
   async upload(file){ const fd=new FormData(); fd.append("image",file); return this.req("POST","/api/upload",fd,true); },
   orders(){ return this.req("GET","/api/orders"); },
   setOrderStatus(no,status){ return this.req("PUT","/api/orders/"+encodeURIComponent(no),{status}); },
+  orderEdit(no,body){ return this.req("PUT","/api/orders/"+encodeURIComponent(no),body); },
   members(){ return this.req("GET","/api/members"); },
   audit(){ return this.req("GET","/api/audit"); },
   getSettings(){ return this.req("GET","/api/settings"); },
@@ -407,7 +458,7 @@ function bootApp(name){
   showApp();
   $("me-name").textContent=name||"แอดมิน";
   $("me-init").textContent=(name||"A").trim().charAt(0).toUpperCase();
-  loadProducts();
+  loadOverview();
 }
 $("logout").onclick=()=>{ API.clearToken(); location.reload(); };
 
@@ -419,6 +470,7 @@ document.querySelectorAll(".nav-a").forEach(a=>a.onclick=()=>{
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("hidden",s.dataset.view!==v));
   $("sec-title").textContent=a.textContent.replace(/\d+$/,"").trim();
   closeNav();
+  if(v==="overview") loadOverview();
   if(v==="orders") loadOrders();
   if(v==="members") loadMembers();
   if(v==="audit") loadAudit();
@@ -427,6 +479,28 @@ document.querySelectorAll(".nav-a").forEach(a=>a.onclick=()=>{
 $("hamb").onclick=()=>{ $("sidebar").classList.add("open"); $("overlay").classList.add("on"); };
 $("overlay").onclick=closeNav;
 function closeNav(){ $("sidebar").classList.remove("open"); $("overlay").classList.remove("on"); }
+
+/* ============ OVERVIEW ============ */
+async function loadOverview(){
+  try{
+    const [prods,ords]=await Promise.all([API.products(),API.orders()]);
+    PRODUCTS=prods; ORDERS=ords;
+    $("nb-prod").textContent=PRODUCTS.length;
+    const pend=ORDERS.filter(o=>o.status==="pending");
+    $("nb-order").textContent=pend.length;
+    $("ov-pending").textContent=pend.length;
+    const today=new Date().toISOString().slice(0,10);
+    $("ov-today").textContent=ORDERS.filter(o=>String(o.createdAt||"").slice(0,10)===today).length;
+    const sales=ORDERS.filter(o=>o.status!=="cancelled"&&o.status!=="pending").reduce((s,o)=>s+(parseInt(o.total)||0),0);
+    $("ov-sales").textContent=THB(sales);
+    const low=PRODUCTS.filter(p=>p.status==="soldout"||(p.stock??0)<=3);
+    $("ov-low").textContent=low.length;
+    $("ov-pend-body").innerHTML=pend.slice(0,8).map(o=>`<tr><td><strong>${esc(o.orderNo)}</strong></td><td>${esc(o.name||'-')}</td><td>${THB(o.total)}</td><td><button class="act" data-ovord="${esc(o.orderNo)}">ดู</button></td></tr>`).join("")||`<tr><td colspan="4" class="muted" style="text-align:center;padding:20px">ไม่มีรายการรอตรวจ</td></tr>`;
+    $("ov-pend-body").querySelectorAll("[data-ovord]").forEach(b=>b.onclick=()=>openOrder(ORDERS.find(x=>x.orderNo===b.dataset.ovord)));
+    $("ov-low-body").innerHTML=low.slice(0,10).map(p=>{const[l,c]=prodStatus(p);return `<tr><td>${esc((p.name||'').slice(0,40))}</td><td>${p.stock??0}</td><td><span class="pill ${c}">${l}</span></td></tr>`;}).join("")||`<tr><td colspan="3" class="muted" style="text-align:center;padding:20px">ครบทุกตัว</td></tr>`;
+    renderProducts();
+  }catch(e){ toast(e.message,"err"); }
+}
 
 /* ============ PRODUCTS ============ */
 let PRODUCTS=[], pPage=1, PER=12;
@@ -525,12 +599,36 @@ function renderOrders(){
       <td>${pay}${o.slip?`<br><a href="#" class="slip-link" data-slip="${esc(o.orderNo)}" style="color:var(--blue);font-size:12px">🧾 ดูสลิป</a>`:'<br><span class="muted" style="font-size:11px">— ไม่มีสลิป</span>'}</td>
       <td class="muted" style="font-size:12px">${date}</td>
       <td><span class="pill ${o.status==='cancelled'?'pill-out':o.status==='pending'?'pill-low':'pill-ready'}">${statusLabel(o.status)}</span></td>
-      <td><select class="f" style="padding:6px 8px;font-size:12.5px" data-order="${esc(o.orderNo)}">${["pending","paid","packing","shipped","delivered","cancelled"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${statusLabel(s)}</option>`).join("")}</select></td>
+      <td><div style="display:flex;gap:6px;align-items:center"><select class="f" style="padding:6px 8px;font-size:12.5px" data-order="${esc(o.orderNo)}">${["pending","paid","packing","shipped","delivered","cancelled"].map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${statusLabel(s)}</option>`).join("")}</select><button class="act" data-oview="${esc(o.orderNo)}">ดู</button></div></td>
     </tr>`;
   }).join("") || `<tr><td colspan="7" style="text-align:center;padding:34px" class="muted">ยังไม่มีออเดอร์</td></tr>`;
   $("o-body").querySelectorAll("[data-order]").forEach(sel=>sel.onchange=async()=>{ try{ await API.setOrderStatus(sel.dataset.order,sel.value); toast("อัปเดตสถานะแล้ว"); const o=ORDERS.find(x=>x.orderNo===sel.dataset.order); if(o)o.status=sel.value; }catch(e){ toast(e.message,"err"); } });
   $("o-body").querySelectorAll("[data-slip]").forEach(a=>a.onclick=e=>{ e.preventDefault(); const o=ORDERS.find(x=>x.orderNo===a.dataset.slip); showSlip(o); });
+  $("o-body").querySelectorAll("[data-oview]").forEach(b=>b.onclick=()=>openOrder(ORDERS.find(x=>x.orderNo===b.dataset.oview)));
 }
+
+/* ---- order detail modal ---- */
+let orderEditNo=null;
+function openOrder(o){ if(!o) return; orderEditNo=o.orderNo;
+  $("om-title").textContent="ออเดอร์ "+o.orderNo;
+  const date=o.createdAt?new Date(o.createdAt).toLocaleString("th-TH"):"-";
+  $("om-meta").innerHTML=`วันที่ ${esc(date)} · ชำระ: ${esc(o.payment||'-')} · อีเมล: ${esc(o.email||'-')}`;
+  const items=safeArr(o.items);
+  $("om-items").innerHTML=items.map(it=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:3px 0"><span>${esc(it.name||it.title||'-')}${it.opt?' ('+esc(it.opt)+')':''} × ${it.qty||1}</span><span style="white-space:nowrap">${THB((parseInt(it.price)||0)*(it.qty||1))}</span></div>`).join("")||'<span class="muted">— ไม่มีรายการ</span>';
+  $("om-totals").innerHTML=`ค่าส่ง ${THB(o.shipping)} · <strong>รวม ${THB(o.total)}</strong>`;
+  $("om-name").value=o.name||""; $("om-phone").value=o.phone||""; $("om-address").value=o.address||"";
+  $("om-subdist").value=o.subdist||""; $("om-district").value=o.district||""; $("om-province").value=o.province||""; $("om-zip").value=o.zip||"";
+  $("om-status").value=o.status||"pending"; $("om-tracking").value=o.tracking||""; $("om-note").value=o.note||"";
+  $("om-slip-wrap").innerHTML = o.slip ? `<button class="btn btn-ghost btn-sm" id="om-slipbtn">🧾 ดูสลิปการโอน</button>` : '<span class="muted" style="font-size:12px">— ไม่มีสลิป</span>';
+  if(o.slip){ $("om-slipbtn").onclick=()=>showSlip(o); }
+  $("om").classList.add("on");
+}
+$("om-x").onclick=$("om-cancel").onclick=()=>$("om").classList.remove("on");
+$("om").onclick=e=>{ if(e.target===$("om")) $("om").classList.remove("on"); };
+$("om-save").onclick=async()=>{ if(!orderEditNo) return;
+  const body={ name:$("om-name").value, phone:$("om-phone").value, address:$("om-address").value, subdist:$("om-subdist").value, district:$("om-district").value, province:$("om-province").value, zip:$("om-zip").value, status:$("om-status").value, tracking:$("om-tracking").value.trim(), note:$("om-note").value };
+  try{ await API.orderEdit(orderEditNo, body); toast("บันทึกออเดอร์แล้ว"+(body.tracking?" · แจ้งเลขพัสดุทางอีเมล":"")); $("om").classList.remove("on"); loadOrders(); }catch(e){ toast(e.message,"err"); }
+};
 ["o-search","o-stat"].forEach(id=>$(id).addEventListener("input",renderOrders));
 let slipOrder=null;
 function showSlip(o){ if(!o||!o.slip){ toast("ออเดอร์นี้ยังไม่มีสลิป","err"); return; } slipOrder=o; $("sm-title").textContent="สลิป · "+o.orderNo; $("sm-img").src=o.slip; $("sm").classList.add("on"); }
