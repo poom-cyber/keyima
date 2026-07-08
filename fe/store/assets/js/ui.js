@@ -13,7 +13,6 @@ function renderChrome(activePage) {
         <a href="/" class="${activePage === 'home' ? 'active' : ''}">หน้าแรก</a>
         <a href="products?cat=kuji" class="${activePage === 'kuji' ? 'active' : ''}">Ichiban Kuji</a>
         <a href="products?cat=pokemon" class="${activePage === 'pokemon' ? 'active' : ''}">การ์ดโปเกม่อน</a>
-        <a href="products?status=preorder" class="${activePage === 'preorder' ? 'active' : ''}">พรีออเดอร์</a>
       </nav>
       <div class="header-actions">
         <a href="products" class="icon-btn" aria-label="ค้นหา" title="ค้นหาสินค้า">🔍</a>
