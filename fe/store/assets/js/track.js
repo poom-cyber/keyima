@@ -68,6 +68,51 @@ async function lookup() {
         <div style="margin-top:12px;">
           ${(o.items || []).map(it => `<div class="muted" style="font-size:.85rem;padding:3px 0;">• ${it.name}${it.prize ? " (" + it.prize + ")" : ""} × ${it.qty}${it.ship ? " · " + it.ship : ""}</div>`).join("")}
         </div>
+        ${(!o.hasSlip && o.status === "pending") ? slipUploadHTML() : ""}
       </div>`;
+    if (!o.hasSlip && o.status === "pending") bindSlipUpload(o.orderNo, email);
   } catch (e) { res.innerHTML = `<div class="note">เกิดข้อผิดพลาด ลองใหม่อีกครั้ง</div>`; }
+}
+
+/* กล่องแนบสลิป (โชว์เฉพาะออเดอร์ที่ยังไม่มีสลิป + รอชำระ) */
+function slipUploadHTML() {
+  const line = (window.APP_CONFIG && window.APP_CONFIG.LINE_URL) || "";
+  return `<div style="margin-top:14px;padding:14px;border:1px dashed #d8453f;border-radius:12px;background:#fff7f6;">
+    <div style="font-weight:700;color:#d8453f;margin-bottom:2px;">ยังไม่ได้แนบสลิปการโอน</div>
+    <div class="muted" style="font-size:.85rem;margin-bottom:10px;">แนบสลิปที่นี่ เพื่อให้เรายืนยันการชำระเงินได้เร็วขึ้น</div>
+    <input id="slip-file" type="file" accept="image/*" style="display:block;width:100%;margin-bottom:6px;">
+    <div id="slip-prev" style="text-align:center;"></div>
+    <button class="btn btn--primary btn--block" id="slip-send" style="margin-top:8px;" disabled>อัปโหลดสลิป</button>
+    ${line ? `<a class="btn btn--ghost btn--block" href="${line}" target="_blank" rel="noopener" style="margin-top:8px;">💬 หรือส่งสลิปทาง LINE</a>` : ""}
+  </div>`;
+}
+
+function bindSlipUpload(no, email) {
+  const file = document.getElementById("slip-file");
+  const btn = document.getElementById("slip-send");
+  const prev = document.getElementById("slip-prev");
+  if (!file || !btn) return;
+  let data = "";
+  file.addEventListener("change", e => {
+    const f = e.target.files[0];
+    if (!f) { data = ""; btn.disabled = true; prev.innerHTML = ""; return; }
+    if (f.size > 2500000) { showToast("รูปใหญ่เกินไป (เกิน ~2MB)", "err"); file.value = ""; return; }
+    const rd = new FileReader();
+    rd.onload = () => { data = rd.result; btn.disabled = false; prev.innerHTML = `<img src="${data}" alt="slip" style="max-width:200px;border-radius:10px;margin:8px 0;">`; };
+    rd.readAsDataURL(f);
+  });
+  btn.addEventListener("click", async () => {
+    if (!data) return;
+    btn.disabled = true; btn.textContent = "กำลังอัปโหลด…";
+    try {
+      const r = await fetch(Storefront.base() + "/api/orders/track/slip", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ no, email, slip: data })
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) { showToast(j.message || "อัปโหลดไม่สำเร็จ", "err"); btn.disabled = false; btn.textContent = "อัปโหลดสลิป"; return; }
+      showToast("แนบสลิปเรียบร้อย ✓", "ok");
+      lookup();
+    } catch (e) { showToast("เกิดข้อผิดพลาด ลองใหม่", "err"); btn.disabled = false; btn.textContent = "อัปโหลดสลิป"; }
+  });
 }
