@@ -78,6 +78,9 @@ CREATE TABLE IF NOT EXISTS customers (
 CREATE TABLE IF NOT EXISTS settings ( key TEXT PRIMARY KEY, value TEXT );
 CREATE TABLE IF NOT EXISTS admins ( username TEXT PRIMARY KEY, passwordHash TEXT, role TEXT DEFAULT 'admin' );
 CREATE TABLE IF NOT EXISTS audit_log ( id INTEGER PRIMARY KEY AUTOINCREMENT, who TEXT, action TEXT, detail TEXT, at TEXT );
+-- เครื่องมือราคา (ส่วนตัว): เก็บ data.json / history.json ที่บอท Mercari ซิงค์เข้ามาทุกวัน
+-- ⚠️ มีต้นทุน (jp) + มาร์จิน — ห้ามหลุดออกทาง storefront API เด็ดขาด
+CREATE TABLE IF NOT EXISTS price_data ( key TEXT PRIMARY KEY, json TEXT, updatedAt TEXT );
 `);
 try { db.exec("ALTER TABLE orders ADD COLUMN slip TEXT"); } catch (e) { /* มีแล้ว */ }
 
@@ -169,9 +172,18 @@ const Admins = {
   get: u => db.prepare("SELECT * FROM admins WHERE username=?").get(u),
   setPassword: (u, h) => db.prepare("UPDATE admins SET passwordHash=? WHERE username=?").run(h, u)
 };
+
+// เครื่องมือราคา (ส่วนตัว) — บอทซิงค์ data.json/history.json มาเก็บที่นี่ทุกวัน
+// เก็บใน Turso => ไม่ต้อง redeploy รายวัน และไม่หายตอน Render free spin down (/tmp หาย)
+const PriceData = {
+  get: k => db.prepare("SELECT * FROM price_data WHERE key=?").get(k),
+  set: (k, json) => db.prepare(
+    "INSERT INTO price_data (key,json,updatedAt) VALUES (?,?,?) ON CONFLICT(key) DO UPDATE SET json=excluded.json, updatedAt=excluded.updatedAt"
+  ).run(String(k), String(json), new Date().toISOString())
+};
 const Audit = { log: (who, action, detail) => db.prepare("INSERT INTO audit_log (who,action,detail,at) VALUES (?,?,?,?)").run(who, action, JSON.stringify(detail||{}), new Date().toISOString()),
   all: (limit=200) => db.prepare("SELECT * FROM audit_log ORDER BY id DESC LIMIT ?").all(limit) };
 
 seed();
-module.exports = { db, Products, Orders, Customers, Settings, Admins, Audit };
+module.exports = { db, Products, Orders, Customers, Settings, Admins, Audit, PriceData };
 // fix: ca-certificates (Dockerfile) + libsql-safe transaction() for seed — no exec BEGIN/COMMIT

@@ -35,3 +35,7 @@ services:
         sync: false
       - key: ADMIN_PASS
         sync: false
+      # --- เครื่องมือราคา (ส่วนตัว) /price — บอท Mercari ใช้ token นี้ยิง data.json เข้ามาทุกวัน ---
+      # หน้า /price ล็อกด้วยบัญชีแอดมินเดิม (ตาราง admins) ไม่ต้องตั้งรหัสชุดใหม่
+      - key: PRICE_SYNC_TOKEN
+        generateValue: true

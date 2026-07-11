@@ -1,16 +1,18 @@
 /* be/server.js — บริการรวม (สำหรับ deploy บนเครื่องเดียว/Render ให้ SQLite แชร์ไฟล์ได้)
-   storefront (สาธารณะ) อยู่ที่ราก /   ·   admin อยู่ใต้ /admin
+   storefront (สาธารณะ) อยู่ที่ราก /   ·   admin อยู่ใต้ /admin   ·   เครื่องมือราคา (ส่วนตัว) อยู่ใต้ /price
    local dev ยังรันแยกได้ (node storefront-api/server.js + admin-api/server.js) */
 require("dotenv").config();
 const express = require("express");
 const storefront = require("./storefront-api/server");
 const admin = require("./admin-api/server");
+const priceTool = require("./price-tool/server");
 
 const app = express();
 app.set("trust proxy", 1);
 app.get("/healthz", (_q, res) => res.json({ ok: true, service: "keyima-combined" }));
-app.use("/admin", admin);   // /admin/api/... , /admin/uploads/... (API ล้วน — ไม่เสิร์ฟหน้า UI)
-app.use("/", storefront);   // /api/...
+app.use("/admin", admin);     // /admin/api/... , /admin/uploads/... (API ล้วน — ไม่เสิร์ฟหน้า UI)
+app.use("/price", priceTool); // เครื่องมือราคา (ส่วนตัว: ต้นทุน+มาร์จิน) — Basic Auth ด้วยบัญชี admins
+app.use("/", storefront);     // /api/...
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`KEYIMA backend (combined) : http://localhost:${PORT}  ·  storefront /  ·  admin /admin`));
+app.listen(PORT, () => console.log(`KEYIMA backend (combined) : http://localhost:${PORT}  ·  storefront /  ·  admin /admin  ·  price /price`));
