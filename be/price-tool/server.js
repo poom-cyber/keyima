@@ -19,6 +19,7 @@ const express = require("express");
 const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
 const rateLimit = require("express-rate-limit");
+const crypto = require("node:crypto");
 const { Admins, PriceData, Audit } = require("../../db/db");
 
 const app = express.Router();
@@ -64,6 +65,39 @@ function unauthorized(res) {
   return res.status(401).send("ต้องล็อกอินด้วยบัญชีแอดมินก่อนใช้งาน");
 }
 
+/* รับรหัสได้ 2 ทาง (ทางไหนผ่านก็เข้าได้):
+     1) KUJI_USERS (env)  = poom:รหัส,mint:รหัส   <- คุมเองได้เต็มที่ ใช้ฟอร์แมตเดียวกับฝั่ง Netlify
+     2) ตาราง admins (bcrypt) = บัญชีแอดมินร้านเดิม
+   เหตุที่ต้องมีทาง 1: ADMIN_USER/ADMIN_PASS ใช้แค่ตอน seed ครั้งแรก
+   ถ้า DB มีแอดมินอยู่ก่อนแล้ว การตั้ง env ทีหลังจะไม่เปลี่ยนรหัส -> ล็อกอินไม่เข้าแล้วงมหาสาเหตุ */
+function envUsers() {
+  const m = new Map();
+  for (const pair of (process.env.KUJI_USERS || "").split(",")) {
+    const s = pair.trim();
+    const i = s.indexOf(":");
+    if (i > 0) m.set(s.slice(0, i).trim(), s.slice(i + 1));
+  }
+  return m;
+}
+const ENV_USERS = envUsers();
+
+function checkPassword(username, password) {
+  // ทาง 1: env
+  const want = ENV_USERS.get(username);
+  if (want !== undefined && password.length === want.length &&
+      crypto.timingSafeEqual(Buffer.from(password), Buffer.from(want))) {
+    return { sub: username, role: "env" };
+  }
+  // ทาง 2: ตาราง admins (bcrypt)
+  const a = Admins.get(username);
+  // เรียก bcrypt เสมอแม้ไม่เจอ user -> ไม่ให้เดาจากเวลาตอบว่า username มีจริงไหม
+  const hash = (a && a.passwordHash) || "$2a$12$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidina";
+  let ok = false;
+  try { ok = bcrypt.compareSync(password || "", hash); } catch { ok = false; }
+  if (a && ok) return { sub: username, role: a.role };
+  return null;
+}
+
 app.use(loginLimiter, (req, res, next) => {
   const h = req.get("authorization") || "";
   const [scheme, encoded] = h.split(" ");
@@ -77,15 +111,12 @@ app.use(loginLimiter, (req, res, next) => {
   const username = decoded.slice(0, i);
   const password = decoded.slice(i + 1);
 
-  const a = Admins.get(username);
-  // เรียก bcrypt เสมอแม้ไม่เจอ user -> ไม่ให้เดาจากเวลาตอบว่า username มีจริงไหม
-  const hash = (a && a.passwordHash) || "$2a$12$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidina";
-  const ok = bcrypt.compareSync(password || "", hash);
-  if (!a || !ok) {
+  const who = checkPassword(username, password);
+  if (!who) {
     Audit.log(username || "?", "price_tool_login_fail", { ip: req.ip });
     return unauthorized(res);
   }
-  req.admin = { sub: username, role: a.role };
+  req.admin = who;
   next();
 });
 
